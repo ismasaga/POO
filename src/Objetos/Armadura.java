@@ -1,7 +1,7 @@
 package Objetos;
 
 /**
- * Created by efren on 18/10/15.
+ * Como la clase Arma pero aplicado a la armadura del personaje.
  */
 public class Armadura
 {

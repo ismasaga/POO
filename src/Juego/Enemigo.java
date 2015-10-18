@@ -1,7 +1,9 @@
 package Juego;
 
 /**
- * Created by efren on 18/10/15.
+ * Clase enemigo. Funciones:
+ * - Atacar y moverse.
+ * - Detectar proximidad del personaje.
  */
 public class Enemigo
 {
