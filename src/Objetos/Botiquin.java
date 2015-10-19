@@ -5,4 +5,5 @@ package Objetos;
  */
 public class Botiquin extends Objeto
 {
+
 }

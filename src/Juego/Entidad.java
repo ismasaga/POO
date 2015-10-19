@@ -23,7 +23,11 @@ public abstract class Entidad
      */
     private int puntosVida;
     /**
-     * Arma de la entidad.
+     * Vida maxima de la entidad
+     */
+    private int vidaMaxima;
+    /**
+     * Arma de la entidad. Permite atacar (arma.usar(enemigo)).
      */
     private Arma arma;
 
@@ -38,5 +42,8 @@ public abstract class Entidad
     {
         System.err.println("No implementado");
     }
+
+
+
 
 }
