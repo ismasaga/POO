@@ -6,7 +6,12 @@ package Juego;
  * -- "Mirar" llamaria a personaje.mirar();
  * -- "Atacar" llamaria a personaje.atacar(enemigo1);
  * - Albergará, como minimo, un mapa , un personaje y un array de enemigos.
+ * Esta clase fundamentalmente realiza:
+ * - Muestra la UI
+ * - Toma la entrada del usuario
+ * - Hace acciones (switch)
  */
 public class Juego
 {
+
 }

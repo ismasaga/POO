@@ -3,6 +3,7 @@ package Objetos;
 /**
  * Como la clase Arma pero aplicado a la armadura del personaje.
  */
-public class Armadura
+public class Armadura extends Objeto
 {
+
 }

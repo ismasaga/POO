@@ -5,6 +5,6 @@ package Juego;
  * - Atacar y moverse.
  * - Detectar proximidad del personaje.
  */
-public class Enemigo
+public class Enemigo extends Entidad
 {
 }
