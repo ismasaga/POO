@@ -6,6 +6,7 @@ El repositorio oficial de POO. Hay dos paquetes:
 -------------------------------------------------------------------------------
 
 En el paquete **Juego** se detallan las siguientes clases:
+* **Juego**:
 * **Enemigo**:
 * **Mapa**:
 * **Personaje**:
