@@ -2,6 +2,8 @@ package Juego;
 
 import Objetos.*;
 
+import java.util.Random;
+
 /**
  * Clase personaje. Es la clase que se encarga del personaje encarnado por el jugador.
  * Almacena:
@@ -42,9 +44,10 @@ public class Personaje
     private Celda celda;
     private Mochila mochila;
     private int rangoVision;
+    private int ataque;
 
 
-    public Personaje(int MAXIMO_VIDA, int puntosVida, int armadura, Celda celda, Mochila mochila, int rangoVision)
+    public Personaje(int MAXIMO_VIDA, int puntosVida, int armadura, Celda celda, Mochila mochila, int rangoVision,int ataque)
     {
         this.MAXIMO_VIDA = MAXIMO_VIDA > 0? MAXIMO_VIDA : 100;
         this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA)? puntosVida : this.MAXIMO_VIDA;
@@ -53,11 +56,8 @@ public class Personaje
         //TODO: calibrar estos valores
         mochila = new Mochila(100,10);
         this.rangoVision = (rangoVision > 0)? rangoVision : 2;
+        this.ataque = (ataque > 0) ? ataque : 0;
     }
-
-
-
-
 
     public int getPuntosVida()
     {
@@ -127,5 +127,17 @@ public class Personaje
         {
             this.rangoVision = rangoVision;
         }
+    }
+
+
+    public void atacar(Enemigo enemigo)
+    {
+        int coeficienteAtaque; //Previene que se sume vida al atacar
+        Random random = new Random();
+        int prob = (int) random.nextFloat();
+        if(prob > 0.25) //No es crítico
+            enemigo.setPuntosVida(enemigo.getPuntosVida() - (ataque - enemigo.getArmadura()));
+        else //Golpe critico
+            enemigo.setPuntosVida(enemigo.getPuntosVida() - (2*ataque - enemigo.getArmadura()));
     }
 }
