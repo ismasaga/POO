@@ -5,6 +5,15 @@ package Juego;
  * - Atacar y moverse.
  * - Detectar proximidad del personaje.
  */
-public class Enemigo extends Entidad
+public class Enemigo
 {
+    private int puntosVida;
+    private int ataque;
+    /**
+     * El daño se calcula como: daño = ataque - armadura
+     */
+    private int armadura;
+
+
+
 }
