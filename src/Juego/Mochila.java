@@ -30,4 +30,48 @@ public class Mochila
         arrayBinoculares = new ArrayList<>();
         arrayBotiquin = new ArrayList<>();
     }
+
+    public int getPesoMaximo()
+    {
+        return pesoMaximo;
+    }
+
+    public int getObjetosMaximos()
+    {
+        return objetosMaximos;
+    }
+
+    /**
+     * Se sustituye el setter por defecto por un método que añade un binocular a la lista.
+     * @param binocular Binocular a añadir
+     */
+    public void anadirBinocular(Binoculares binocular)
+    {
+        if(binocular != null)
+        {
+            arrayBinoculares.add(binocular);
+        }
+    }
+
+    //TODO: crear funciones para obtener un botiquin (identificandolo ¿unívocamente?)
+
+    public void anadirBotiquin(Botiquin botiquin)
+    {
+        if(botiquin != null)
+        {
+            arrayBotiquin.add(botiquin);
+        }
+    }
+
+    //TODO: implementar. Buscar una forma de detectar que botiquin se quiere eliminar.
+    public void quitarBotiquin(Botiquin botiquin)
+    {
+        System.err.println("No implementado");
+    }
+
+    //TODO: implementar. Buscar una forma de detectar que binocular se quiere eliminar.
+    public void quitarBinocular(Binoculares binocular)
+    {
+        System.err.println("No implementado");
+    }
 }
