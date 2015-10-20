@@ -32,28 +32,56 @@ import Objetos.*;
 
 public class Personaje
 {
-    private final int MAXIMO_VIDA = 100;
-
+    /**
+     * Constante de los puntos maximos de vida.
+     * Esta variable se incializa en el constructor.
+     */
+    private final int MAXIMO_VIDA;
     private int puntosVida;
     private int armadura;
     private Celda celda;
     private Mochila mochila;
     private int rangoVision;
 
+
+    public Personaje(int MAXIMO_VIDA, int puntosVida, int armadura, Celda celda, Mochila mochila, int rangoVision)
+    {
+        this.MAXIMO_VIDA = MAXIMO_VIDA > 0? MAXIMO_VIDA : 100;
+        this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA)? puntosVida : this.MAXIMO_VIDA;
+        this.armadura = armadura > 0 ? armadura : 5;
+        //TODO: asignar celda
+        //TODO: calibrar estos valores
+        mochila = new Mochila(100,10);
+        this.rangoVision = (rangoVision > 0)? rangoVision : 2;
+    }
+
+
+
+
+
     public int getPuntosVida()
     {
         return puntosVida;
     }
 
+    /**
+     * Asigna los puntos de vida.
+     * Para restar se introduce como parámetro un número negativo.
+     * @param puntosVida
+     */
     public void setPuntosVida(int puntosVida)
     {
         if(this.puntosVida + puntosVida > MAXIMO_VIDA)
         {
             this.puntosVida = MAXIMO_VIDA;
         }
+        else if (this.puntosVida + puntosVida < 0)
+        {
+            this.puntosVida = 0;
+        }
         else
         {
-            this.puntosVida = puntosVida + MAXIMO_VIDA;
+            this.puntosVida = this.puntosVida + puntosVida;
         }
     }
 
@@ -67,6 +95,7 @@ public class Personaje
         this.armadura = armadura;
     }
 
+    //TODO: evitar aliasing
     public Celda getCelda()
     {
         return celda;

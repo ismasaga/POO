@@ -10,10 +10,16 @@ import java.util.ArrayList;
  */
 public class Mochila
 {
+    //TODO: pueden ser final
     private int pesoMaximo;
     private int objetosMaximos;
     private ArrayList<Binoculares> arrayBinoculares;
     private ArrayList<Botiquin> arrayBotiquin;
+
+    //Hay que obtener el peso actual de la mochila
+    //Estos atributos no tienen setters, pues sus valores se calculan desde mochila.
+    private int pesoActual;
+    private int objetosActuales;
 
     /**
      * Constructor que crea una nueva mochila
@@ -29,6 +35,16 @@ public class Mochila
         //Esto previene que se acceda al arrayList antes de crear el objeto
         arrayBinoculares = new ArrayList<>();
         arrayBotiquin = new ArrayList<>();
+        this.pesoActual = 0;
+        this.objetosActuales = 0;
+    }
+
+    public int getPesoActual() {
+        return pesoActual;
+    }
+
+    public int getObjetosActuales() {
+        return objetosActuales;
     }
 
     public int getPesoMaximo()
@@ -47,9 +63,23 @@ public class Mochila
      */
     public void anadirBinocular(Binoculares binocular)
     {
+        if(getPesoActual() + binocular.getPeso() > this.getPesoMaximo())
+        {
+            //TODO: implementarlo bien en la UI.
+            System.err.println("Se ha sobrepasado el peso maximo");
+            return;
+        }
+        if(getObjetosActuales() + 1 > this.getObjetosMaximos())
+        {
+            //TODO: implementarlo bien en la UI
+            System.err.println("Se ha sobrepasado el numero de objetos maximo");
+            return;
+        }
         if(binocular != null)
         {
             arrayBinoculares.add(binocular);
+            pesoActual = pesoActual + binocular.getPeso();
+            objetosActuales = objetosActuales + 1;
         }
     }
 
@@ -57,9 +87,23 @@ public class Mochila
 
     public void anadirBotiquin(Botiquin botiquin)
     {
+        if(getPesoActual() + botiquin.getPeso() > this.getPesoMaximo())
+        {
+            //TODO: implementarlo bien en la UI.
+            System.err.println("Se ha sobrepasado el peso maximo");
+            return;
+        }
+        if(getObjetosActuales() + 1 > this.getObjetosMaximos())
+        {
+            //TODO: implementarlo bien en la UI
+            System.err.println("Se ha sobrepasado el numero de objetos maximo");
+            return;
+        }
         if(botiquin != null)
         {
             arrayBotiquin.add(botiquin);
+            pesoActual = pesoActual + botiquin.getPeso();
+            objetosActuales = objetosActuales + 1;
         }
     }
 
