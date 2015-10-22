@@ -19,6 +19,8 @@ public class Mapa {
     private ArrayList<ArrayList<Celda>> mapa;
 
     public Mapa(int ancho,int alto) {
+        this.alto = alto > 0 ? alto : 10;
+        this.ancho = ancho > 0 ? ancho : 10;
     }
 
     /**
@@ -28,6 +30,32 @@ public class Mapa {
     /**
      * O getMapa non será definido porque non queremos que se poida obter o mapa despois de que o programa sexa iniciado
      */
+
+    /**
+     * No se define setCelda, pues el contenido de las celdas se modifica con aliasing
+     */
+
+    /**
+     * Retorna la celda de la posición (i,j) en base 0 (0..9, por defecto en los valores del constructor de dos parametros)
+     *
+     * @param i Fila a obtener (ancho)
+     * @param j Columna a obtener (alto)
+     * @return Celda a obtener (null en caso de fallo)
+     */
+    public Celda getCelda(int i, int j)
+    {
+        if(i < ancho && j < alto && i >= 0 && j >= 0)
+        {
+            return mapa.get(i).get(j);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    //TODO: crear setBotiquin/eliminarBotiquin (si se cambian los nombres cambiarlos en Personaje, donde hay un error)
+
 
 
 }

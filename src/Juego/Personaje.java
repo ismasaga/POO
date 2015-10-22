@@ -142,16 +142,28 @@ public class Personaje
 
     public void tirarBinocular(Binoculares binocular)
     {
-        celda.addArrayBinoculares(binocular);
+        celda.setBinoculares(binocular);
         /*Se elimina porque el binocular procede del array de binoculares*/
         mochila.quitarBinocular(binocular);
     }
 
     public void cogerBinocular(Binoculares binocular)
     {
-        //TODO: eliminar de la celda.
+        celda.eliminarBinocular(binocular);
         /**El binocular procede de la celda*/
         mochila.anadirBinocular(binocular);
+    }
+
+    public void tirarBotiquin(Botiquin botiquin)
+    {
+        celda.setBotiquin(botiquin);
+        mochila.quitarBotiquin(botiquin);
+    }
+
+    public void cogerBotiquin(Botiquin botiquin)
+    {
+        celda.eliminarBotiquin(botiquin);
+        mochila.anadirBotiquin(botiquin);
     }
 
     public void ojearInventario()
@@ -183,8 +195,8 @@ public class Personaje
 
     public void mirar()
     {
-        ArrayList<Binoculares> arrayBin = celda.getArrayBinoculares();
-        ArrayList<Botiquin> arrayBot = celda.getArrayBotiquin();
+        ArrayList<Binoculares> arrayBin = celda.getBinoculares();
+        ArrayList<Botiquin> arrayBot = celda.getBotiquin();
 
         //TODO: implementar bien en la UI
         System.out.println("\n\n\n\n\n\n\n\n\n");
