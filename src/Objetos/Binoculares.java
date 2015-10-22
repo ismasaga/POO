@@ -15,13 +15,7 @@ public class Binoculares
     private int peso;
     private int espacio;
 
-    /**
-     * Constructor de binoculares. Inicializa los valores
-     *
-     * @param vision  Numero de casillas que aumenta la vision.
-     * @param peso    Peso del binocular
-     * @param espacio Espacio que ocupa en la mochila el binocular
-     */
+
     public Binoculares(int vision, int peso, int espacio)
     {
         //Se agrega un valor por defecto
