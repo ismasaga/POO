@@ -57,6 +57,16 @@ public class Mochila
         return objetosMaximos;
     }
 
+    public ArrayList<Binoculares> getArrayBinoculares()
+    {
+        return arrayBinoculares;
+    }
+
+    public ArrayList<Botiquin> getArrayBotiquin()
+    {
+        return arrayBotiquin;
+    }
+
     /**
      * Se sustituye el setter por defecto por un método que añade un binocular a la lista.
      * @param binocular Binocular a añadir
@@ -110,12 +120,13 @@ public class Mochila
     //TODO: implementar. Buscar una forma de detectar que botiquin se quiere eliminar.
     public void quitarBotiquin(Botiquin botiquin)
     {
-        System.err.println("No implementado");
+        /*Se pueden comparar referencias ya que el botiquin obtenido por parametro procede del array de mochilas*/
+        arrayBotiquin.remove(botiquin);
     }
 
     //TODO: implementar. Buscar una forma de detectar que binocular se quiere eliminar.
     public void quitarBinocular(Binoculares binocular)
     {
-        System.err.println("No implementado");
+        arrayBinoculares.remove(binocular);
     }
 }
