@@ -117,14 +117,12 @@ public class Mochila
         }
     }
 
-    //TODO: implementar. Buscar una forma de detectar que botiquin se quiere eliminar.
     public void quitarBotiquin(Botiquin botiquin)
     {
         /*Se pueden comparar referencias ya que el botiquin obtenido por parametro procede del array de mochilas*/
         arrayBotiquin.remove(botiquin);
     }
 
-    //TODO: implementar. Buscar una forma de detectar que binocular se quiere eliminar.
     public void quitarBinocular(Binoculares binocular)
     {
         arrayBinoculares.remove(binocular);
