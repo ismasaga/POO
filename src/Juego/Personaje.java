@@ -40,6 +40,9 @@ public class Personaje
     private int armadura;
     private Celda celda;
     private Mochila mochila;
+    /**
+     * Rango vision simboliza cuantas casillas se pueden ver aparte de la actual
+     */
     private int rangoVision;
     private int ataque;
     private int energia;
@@ -49,9 +52,9 @@ public class Personaje
         this.MAXIMO_VIDA = MAXIMO_VIDA > 0? MAXIMO_VIDA : 100;
         this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA)? puntosVida : this.MAXIMO_VIDA;
         this.armadura = armadura > 0 ? armadura : 5;
-        //TODO: asignar celda
         //TODO: calibrar estos valores
-        mochila = new Mochila(100,10);
+        this.celda = celda;
+        this.mochila = mochila;
         this.rangoVision = (rangoVision > 0)? rangoVision : 2;
         this.ataque = (ataque > 0) ? ataque : 0;
         this.energia = energia > 0 ? energia : 100;

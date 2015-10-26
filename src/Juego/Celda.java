@@ -13,6 +13,8 @@ public class Celda {
     private ArrayList<Botiquin> arrayBotiquin;
     private boolean transitable;
 
+    private Enemigo enemigo = null; //Las celdas contienen un enemigo (facilita la impresión)
+
     public Celda(boolean transitable) {
         this.transitable = transitable;
         arrayBinoculares = new ArrayList<>();
@@ -35,7 +37,42 @@ public class Celda {
         return arrayBinoculares;
     }
 
+    public ArrayList<Botiquin> getBotiquin()
+    {
+        return arrayBotiquin;
+    }
+
     public void eliminarBinocular(Binoculares binocular) {
         arrayBinoculares.remove(binocular);
+    }
+
+    public void setBotiquin(Botiquin botiquin)
+    {
+        arrayBotiquin.add(botiquin);
+    }
+
+    public void eliminarBotiquin(Botiquin botiquin)
+    {
+        arrayBotiquin.remove(botiquin);
+    }
+
+    public Enemigo getEnemigo()
+    {
+        return enemigo;
+    }
+
+    public void setEnemigo(Enemigo enemigo)
+    {
+        this.enemigo = enemigo;
+    }
+
+    public boolean isTransitable()
+    {
+        return transitable;
+    }
+
+    public void setTransitable(boolean transitable)
+    {
+        this.transitable = transitable;
     }
 }
