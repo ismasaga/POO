@@ -66,6 +66,14 @@ public class Celda {
         this.enemigo = enemigo;
     }
 
+    /**
+     * Elimina el enemigo de la celda
+     */
+    public void eliminarEnemigo()
+    {
+        this.enemigo = null;
+    }
+
     public boolean isTransitable()
     {
         return transitable;

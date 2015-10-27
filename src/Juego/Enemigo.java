@@ -8,6 +8,7 @@ package Juego;
 public class Enemigo
 {
 
+    private final int VIDA_MAXIMA;
     private int puntosVida;
     //TODO: ataque y armadura podrían ser final
     private int ataque;
@@ -16,11 +17,17 @@ public class Enemigo
      */
     private int armadura;
 
-    public Enemigo(int puntosVida, int ataque, int armadura)
+    public Enemigo(int VIDA_MAXIMA, int puntosVida, int ataque, int armadura)
     {
-        this.puntosVida = puntosVida > 0 ? puntosVida : 100;
+        this.VIDA_MAXIMA = VIDA_MAXIMA > 0 ? VIDA_MAXIMA : 100;
+        this.puntosVida = (puntosVida > 0 && puntosVida <= VIDA_MAXIMA) ? puntosVida : 100;
         this.ataque = ataque > 0 ? ataque : 4;
         this.armadura = armadura > 0 ? armadura : 2;
+    }
+
+    public int getAtaque()
+    {
+        return ataque;
     }
 
     public int getPuntosVida() {
@@ -28,6 +35,17 @@ public class Enemigo
     }
 
     public void setPuntosVida(int puntosVida) {
+        if(puntosVida < 0)
+        {
+            this.puntosVida = 0;
+            return;
+        }
+        if (puntosVida > VIDA_MAXIMA)
+        {
+            this.puntosVida = VIDA_MAXIMA;
+            return;
+        }
+        this.puntosVida = puntosVida;
     }
 
     public int getArmadura() {
