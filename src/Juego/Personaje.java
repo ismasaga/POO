@@ -191,27 +191,48 @@ public class Personaje
         }
     }
 
-    public void mover(Celda cel)
-    {
-       celda = cel;
+    /**
+     * Si el personaje no es encontrado(cosa teóricamente imposible) mete el personaje en la casilla
+     * 0,0 con el movimiento indicado en caso de que éste sea posible
+     * @param mapa
+     * @param num
+     * @param dir
+     */
+    public void mover(Mapa mapa,int num, char dir) {
+        boolean encontrado = false;
+        int j = 0,i = 0;
+        for (i = 0; i < mapa.getAlto(); i++) {
+            for (j = 0; j < mapa.getAncho(); j++) {
+                encontrado = mapa.getCelda(i,j).equals(this.getCelda());
+                if(encontrado)
+                    break;
+            }
+            if(encontrado)
+                break;
+        }
+        if(dir == 'u' && i-num >= 0)
+            celda = mapa.getCelda(i-num,j);
+        else if(dir == 'd' && i+num < mapa.getAlto())
+            celda = mapa.getCelda(i+num,j);
+        else if(dir == 'l' && j-num >= 0)
+            celda = mapa.getCelda(i,j-num);
+        else if(dir == 'r' && j+num < mapa.getAncho())
+            celda = mapa.getCelda(i,j-num);
+        else
+            System.out.println("ERRO, non podes mover tantas casillas nesa dirección");
     }
 
-    public void mirar()
-    {
+    public void mirar() {
         ArrayList<Binoculares> arrayBin = celda.getBinoculares();
         ArrayList<Botiquin> arrayBot = celda.getBotiquin();
 
-        //TODO: implementar bien en la UI
-        System.out.println("\n\n\n\n\n\n\n\n\n");
-        for (Binoculares bin : arrayBin)
-        {
+        for (Binoculares bin : arrayBin) {
             System.out.println("Binocular:\n");
             System.out.println("\tPeso: " + bin.getPeso() + "\n");
             System.out.println("\tEspacio: " + bin.getEspacio() + "\n");
             System.out.println("\tAumento de rango de vision: " + bin.getVision() + "\n");
         }
-        for (Botiquin bot : arrayBot)
-        {
+        for (Botiquin bot : arrayBot) {
             System.out.println("Botiquin:\n");
             System.out.println("\tPeso: " + bot.getPeso() + "\n");
             System.out.println("\tEspacio: " + bot.getEspacio() + "\n");

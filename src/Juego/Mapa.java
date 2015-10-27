@@ -44,6 +44,13 @@ public class Mapa {
     /**
      * No se define setCelda, pues el contenido de las celdas se modifica con aliasing
      */
+    public int getAncho() {
+        return ancho;
+    }
+
+    public int getAlto() {
+        return alto;
+    }
 
     /**
      * Retorna la celda de la posición (i,j) en base 0 (0..9, por defecto en los valores del constructor de dos parametros)

@@ -19,7 +19,7 @@ public class Binoculares
     public Binoculares(int vision, int peso, int espacio)
     {
         //Se agrega un valor por defecto
-        this.vision = vision > 0 ? this.vision : 1;
+        this.vision = vision > 0 ? vision : 1;
         this.peso = peso > 0 ? peso : 2;
         this.espacio = espacio > 0 ? espacio : 1;
     }
