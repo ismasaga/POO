@@ -11,14 +11,16 @@ import java.util.ArrayList;
 public class Celda {
     private ArrayList<Binoculares> arrayBinoculares;
     private ArrayList<Botiquin> arrayBotiquin;
+    private ArrayList<Enemigo> arrayEnemigos;
     private boolean transitable;
 
-    private Enemigo enemigo = null; //Las celdas contienen un enemigo (facilita la impresión)
+    //private Enemigo enemigo = null; //Las celdas contienen un enemigo (facilita la impresión)
 
     public Celda(boolean transitable) {
         this.transitable = transitable;
         arrayBinoculares = new ArrayList<>();
         arrayBotiquin = new ArrayList<>();
+        arrayEnemigos = new ArrayList<>();
     }
 
     /**
@@ -56,22 +58,30 @@ public class Celda {
         arrayBotiquin.remove(botiquin);
     }
 
-    public Enemigo getEnemigo()
-    {
-        return enemigo;
+    /**
+     * Devolve o primeiro enemigo que atopa no array, se non hay ningún devolve null
+     * @return Enemigo
+     */
+    public Enemigo getEnemigo() {
+        if(arrayEnemigos.isEmpty())
+            return null;
+        else
+            return arrayEnemigos.get(0);
     }
 
-    public void setEnemigo(Enemigo enemigo)
-    {
-        this.enemigo = enemigo;
+    public void setEnemigo(Enemigo enemigo) {
+        if(enemigo != null)
+            arrayEnemigos.add(enemigo);
+        else
+            System.out.println("ERROR insertando enemigo en la casilla");
     }
 
     /**
      * Elimina el enemigo de la celda
      */
-    public void eliminarEnemigo()
-    {
-        this.enemigo = null;
+    public void eliminarEnemigo(Enemigo enemigo) {
+        if(!arrayEnemigos.remove(enemigo))
+            System.out.println("ERROR eliminando enemigo");
     }
 
     public boolean isTransitable()

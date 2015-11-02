@@ -36,51 +36,62 @@ public class Main {
 
         mapa.getCelda(3,9).setEnemigo(new Enemigo(100,100,2,3));
 
-        Celda celdaActual = mapa.getCelda(5,5);
-        Personaje personaje = new Personaje(100,100,2,celdaActual,new Mochila(10,20),3,20,100,100);
-        mapa.imprimir(personaje);
         Scanner entradaEscaner = new Scanner (System.in);
+        Celda celdaActual = mapa.getCelda(5,5);
+        System.out.print("Introduzca el nombre del personaje : ");
+        sel = entradaEscaner.nextLine();
+        Personaje personaje = new Personaje(100,100,2,celdaActual,new Mochila(10,20),3,20,100,100,sel);
         do {
-            System.out.println("Personaje[Vida: " + personaje.getPuntosVida() + " Energia: " + personaje.getEnergia() + "]");
+            mapa.imprimir(personaje);
+            System.out.println(personaje.getNombre()+"[Vida: " + personaje.getPuntosVida() + " Energia: " + personaje.getEnergia() + "]");
             System.out.print(">");
             sel =  entradaEscaner.nextLine();
             cadeas = sel.split(" ");
             switch (cadeas[0]) {
                 case "ayuda":
-                    System.out.println("/*********************************************/");
+                    System.out.println("/**********************************************/");
                     System.out.println("/- Introduce 'terminar' para finalizar el juego/");
                     System.out.println("/- Introduce 'mover' seguido de un espacio y el/");
-                    System.out.println("/  número de casillas y dirección :           /");
-                    System.out.println("/  *r=derecha *l=izquierda *u=arriba *d=abajo /");
-                    System.out.println("/     ejemplo : 'mover 3u' = 'mover 3 arriba' /");
-                    System.out.println("/- Introduce 'atacar' para atacar a un enemigo");
-                    System.out.println("/  de una determinada posición");
-                    System.out.println("/- Introudce 'pasar' para pasar de turno y regenerar");
-                    System.out.println("/  tu energia");
-                    System.out.println("/- Introduce 'mirar' para obtener todos los objetos ");
-                    System.out.println("/  de tu casilla actual.");
-                    System.out.println("/*********************************************/");
+                    System.out.println("/  número de casillas y dirección :            /");
+                    System.out.println("/  *r=derecha *l=izquierda *u=arriba *d=abajo  /");
+                    System.out.println("/     ejemplo : 'mover 3u' = 'mover 3 arriba'  /");
+                    System.out.println("/- Introduce 'atacar' seguido de un espacio y  /");
+                    System.out.println("/  las casillas con la dirección(como mover)   /");
+                    System.out.println("/- Introudce 'pasar' para pasar de turno y     /");
+                    System.out.println("/  regenerar tu energia                        /");
+                    System.out.println("/- Introduce 'mirar' para obtener todos los    /");
+                    System.out.println("/  objetos de tu casilla actual.               /");
+                    System.out.println("/**********************************************/");
                     break;
                 case "mover":
-                    if(cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
-                        /*Hay que usar Character.getNumericValue porque en otro caso da valores incorrectos*/
-                        personaje.mover(mapa,Character.getNumericValue(cadeas[1].charAt(0)),cadeas[1].charAt(1));
+                    if(cadeas.length == 2 && cadeas[1].length() == 2)
+                        if(cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
+                            personaje.mover(mapa,Character.getNumericValue(cadeas[1].charAt(0)),cadeas[1].charAt(1));
+                        else
+                            System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                     else
-                        System.out.println("A opción seleccionada non existe, seleccione axuda para saber mais.");
+                        System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
+                    break;
                 case "mirar":
                     personaje.mirar();
                     break;
                 case "atacar":
-                    if(cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
-                        personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)), cadeas[1].charAt(1));
+                    if(cadeas.length == 2 && cadeas[1].length() == 2)
+                        if(cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
+                            personaje.atacar(mapa, cadeas[1].charAt(1));
+                        else
+                            System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
+                    else
+                        System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
+                    break;
                 case "pasar":
                     personaje.pasar();
+                    break;
                 case "terminar":
                     break;
                 default:
-                    System.out.println("A opción seleccionada non existe, seleccione axuda para saber mais.");
+                    System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
             }
-            mapa.imprimir(personaje);
         } while(!sel.equals("terminar"));
     }
 }

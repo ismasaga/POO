@@ -42,6 +42,7 @@ public class Personaje
     private int armadura;
     private Celda celda;
     private Mochila mochila;
+    private String nombre;
     /**
      * Rango vision simboliza cuantas casillas se pueden ver aparte de la actual
      */
@@ -50,8 +51,7 @@ public class Personaje
     private int energia;
 
 
-    public Personaje(int MAXIMO_VIDA, int puntosVida, int armadura, Celda celda, Mochila mochila, int rangoVision,int ataque,int energia,int MAXIMO_ENERGIA)
-    {
+    public Personaje(int MAXIMO_VIDA,int puntosVida,int armadura,Celda celda,Mochila mochila,int rangoVision,int ataque,int energia,int MAXIMO_ENERGIA,String nombre) {
         this.MAXIMO_VIDA = MAXIMO_VIDA > 0? MAXIMO_VIDA : 100;
         this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA)? puntosVida : this.MAXIMO_VIDA;
         this.armadura = armadura > 0 ? armadura : 5;
@@ -62,8 +62,26 @@ public class Personaje
         this.ataque = (ataque > 0) ? ataque : 0;
         this.MAXIMO_ENERGIA  = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
         this.energia = (energia > 0 && energia <= this.MAXIMO_ENERGIA) ? energia : 100;
+        setNombre(nombre);
+    }
 
-        //TODO:
+    /**
+     * Asigna el nombre al personaje
+     * @param nombre
+     */
+    public void setNombre(String nombre) {
+        if(nombre != null)
+            this.nombre = nombre;
+        else
+            System.out.println("ERROR asignando el nombre al personaje");
+    }
+
+    /**
+     * Retorna el nombre del personaje
+     * @return nombre
+     */
+    public String getNombre() {
+        return nombre;
     }
 
     public int getEnergia()
@@ -164,10 +182,9 @@ public class Personaje
      * Esta funcion sigue la misma estructura que mover. Dado un numero y direccion, ataca a un enemigo si existe (!= null)
      * Ej atacar 3u
      * @param mapa
-     * @param num
      * @param dir
      */
-    public void atacar(Mapa mapa,int num, char dir)
+    public void atacar(Mapa mapa, char dir)
     {
         /**
          * Energia requerida para atacar
@@ -200,24 +217,24 @@ public class Personaje
         }
 
         Celda celdaObtenida;
-        if(dir == 'u' && i-num >= 0 && mapa.getCelda(i-num,j).getEnemigo() != null)
+        if(dir == 'u' && i-1 >= 0 && mapa.getCelda(i,j).getEnemigo() != null)
         {
-            celdaObtenida = mapa.getCelda(i - num, j);
+            celdaObtenida = mapa.getCelda(i - 1, j);
             enemigo = celdaObtenida.getEnemigo();
         }
-        else if(dir == 'd' && i+num < mapa.getAlto() && mapa.getCelda(i+num,j).getEnemigo() != null)
+        else if(dir == 'd' && i+1 < mapa.getAlto() && mapa.getCelda(i+1,j).getEnemigo() != null)
         {
-            celdaObtenida = mapa.getCelda(i + num, j);
+            celdaObtenida = mapa.getCelda(i + 1, j);
             enemigo = celdaObtenida.getEnemigo();
         }
-        else if(dir == 'l' && j-num >= 0 && mapa.getCelda(i,j-num).getEnemigo() != null)
+        else if(dir == 'l' && j-1 >= 0 && mapa.getCelda(i,j-1).getEnemigo() != null)
         {
-            celdaObtenida = mapa.getCelda(i, j - num);
+            celdaObtenida = mapa.getCelda(i, j - 1);
             enemigo = celdaObtenida.getEnemigo();
         }
-        else if(dir == 'r' && j+num < 0 && mapa.getCelda(i,j+num).getEnemigo() != null)
+        else if(dir == 'r' && j+1 < 0 && mapa.getCelda(i,j+1).getEnemigo() != null)
         {
-            celdaObtenida = mapa.getCelda(i, j + num);
+            celdaObtenida = mapa.getCelda(i, j + 1);
             enemigo = celdaObtenida.getEnemigo();
         }
         else
@@ -242,10 +259,9 @@ public class Personaje
         }
         enemigo.setPuntosVida(enemigo.getPuntosVida() - ataqueEjecutado);
         System.out.println("El enemigo ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getPuntosVida());
-        if(enemigo.getPuntosVida() <= 0)
-        {
+        if(enemigo.getPuntosVida() <= 0) {
             System.out.println("El enemigo ha sido abatido.");
-            celdaObtenida.setEnemigo(null);
+            celdaObtenida.eliminarEnemigo(enemigo);
         }
     }
 
@@ -319,44 +335,54 @@ public class Personaje
         }
 
         if((this.getEnergia() - ENERGIA_REQUERIDA * num) < 0)
-        {
             System.out.println("No hay suficiente energia para mover tantas casillas.");
-        }
         else
-        {
             this.setEnergia((this.getEnergia() - ENERGIA_REQUERIDA * num));
-        }
 
         if(dir == 'u' && i-num >= 0)
-            celda = mapa.getCelda(i-num,j).isTransitable() ? mapa.getCelda(i-num,j) : mapa.getCelda(i,j);
+            if(mapa.getCelda(i-num,j).isTransitable())
+                celda = mapa.getCelda(i-num,j);
+            else
+                System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
         else if(dir == 'd' && i+num < mapa.getAlto())
-            celda = mapa.getCelda(i+num,j).isTransitable() ? mapa.getCelda(i+num,j) : mapa.getCelda(i,j);
+            if(mapa.getCelda(i+num,j).isTransitable())
+                celda = mapa.getCelda(i+num,j);
+            else
+                System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
         else if(dir == 'l' && j-num >= 0)
-            celda = mapa.getCelda(i,j-num).isTransitable() ? mapa.getCelda(i,j-num) : mapa.getCelda(i,j);
+            if(mapa.getCelda(i,j-num).isTransitable())
+                celda = mapa.getCelda(i,j-num);
+            else
+                System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
         else if(dir == 'r' && j+num < mapa.getAncho())
-            celda = mapa.getCelda(i,j+num).isTransitable() ? mapa.getCelda(i,j+num) : mapa.getCelda(i,j);
+            if(mapa.getCelda(i,j+num).isTransitable())
+                celda = mapa.getCelda(i,j+num);
+            else
+                System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
         else
-            System.out.println("ERRO, non podes mover tantas casillas nesa dirección");
+            System.out.println("ERROR, no puedes mover tantas casillas en esa dirección");
     }
 
     public void mirar() {
         ArrayList<Binoculares> arrayBin = celda.getBinoculares();
         ArrayList<Botiquin> arrayBot = celda.getBotiquin();
 
-        for (Binoculares bin : arrayBin) {
-            System.out.println("Binocular:\n");
-            System.out.println("\tPeso: " + bin.getPeso() + "\n");
-            System.out.println("\tEspacio: " + bin.getEspacio() + "\n");
-            System.out.println("\tAumento de rango de vision: " + bin.getVision() + "\n");
-        }
-        for (Botiquin bot : arrayBot) {
-            System.out.println("Botiquin:\n");
-            System.out.println("\tPeso: " + bot.getPeso() + "\n");
-            System.out.println("\tEspacio: " + bot.getEspacio() + "\n");
-            System.out.println("\tCuracion: " + bot.getCuracion() + "\n");
-        }
-        if (this.celda.getEnemigo() != null)
-        {
+        if (!arrayBin.isEmpty() && !arrayBot.isEmpty()) {
+            for (Binoculares bin : arrayBin) {
+                System.out.println("Binocular:\n");
+                System.out.println("\tPeso: " + bin.getPeso() + "\n");
+                System.out.println("\tEspacio: " + bin.getEspacio() + "\n");
+                System.out.println("\tAumento de rango de vision: " + bin.getVision() + "\n");
+            }
+            for (Botiquin bot : arrayBot) {
+                System.out.println("Botiquin:\n");
+                System.out.println("\tPeso: " + bot.getPeso() + "\n");
+                System.out.println("\tEspacio: " + bot.getEspacio() + "\n");
+                System.out.println("\tCuracion: " + bot.getCuracion() + "\n");
+            }
+        } else
+            System.out.println("No hay objetos en esta casilla");
+        if (this.celda.getEnemigo() != null) {
             Enemigo enemigo = this.celda.getEnemigo();
             System.out.println("Enemigo: ");
             System.out.println("Puntos de vida: " + enemigo.getPuntosVida() +

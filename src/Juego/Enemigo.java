@@ -55,7 +55,7 @@ public class Enemigo
     public void atacar(Personaje personaje)
     {
         int coeficienteAtaque; //Esta variable previene que un ataque sume puntos de vida (armadura > ataque)
-        coeficienteAtaque = (this.ataque - personaje.getArmadura() >= 0)? this.ataque - personaje.getArmadura() : 0;
+        coeficienteAtaque = (this.ataque - personaje.getArmadura() >= 0) ? this.ataque - personaje.getArmadura() : 0;
         personaje.setPuntosVida(personaje.getPuntosVida() - coeficienteAtaque);
     }
 }
