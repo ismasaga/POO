@@ -5,29 +5,16 @@ import Objetos.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Clase personaje. Es la clase que se encarga del personaje encarnado por el jugador.
- * Almacena:
- * <ul>
- *     <li>puntosVida: puntos de vida del personaje</li>
- *     <li>armadura: reducción de daño recibido por el personaje (calculado como daño = ataque - armadura)</li>
- *     <li>celda: objetos disponibles en la ubicación actual del personaje</li>
- *     <li>mochila: objetos en el inventario del personaje</li>
- *     <li>rangoVision: maximo de casillas visibles por el personaje</li>
- *     <li>energía: energía máxima para realizar operaciones</li> //TODO: avisar
- * </ul>
- * Posibles operaciones (metodos):
- * <ul>
- *     <li>atacar(Enemigo): ataca al enemigo pasado por parámetro</li>
- *     <li>mover(mapa,fila,columna)?: permite mover al personaje sobre el mapa cambiando la celda del personaje.. <i>en diagonal también</i></li>
- *     <li>cogerBotiquin(): coge un botiquín de la posición actual si lo hay</li>
- *     <li>cogerBinoculares(): coge un botiquín de la posición actual si lo hay</li>
- *     <li>mirar(Mapa): imprime la celda actual</li>
- *     <li>ojearInvetario(): recorre mochila imprimiendo todos sus contenidos</li>
- *     <li>tirarObjeto(Binocular|Botiquin): permite depositar un objeto en la celda actual</li>
- *     <li>Pasar(): acaba el turno y restaura la energia del personaje</li>
+/**Resumen. A destacar:
+ * puntosAtaque: representa el arma del personaje, sin nombre (no hace falta) y con una cantidad de puntos fija y
+ * predeterminada por el constructor.
  *
- * </ul>
+ * armadura: representa la armadura del persoaje, sin nombre (no hace falta) y con una cantidad de puntos fija y
+ * predeterminada por el constructor. La armadura disminuye el daño recibido (dañoRecb - armadura).
+ *
+ * MAXIMO_VIDA y MAXIMO_ENERGIA siguen la misma lógica que los dos atributos anteriores.
+ *
+ * El getter getCelda devuelve directamente la celda, pues se usa aliasing para modificarla desde otras clases (ídem setter).
  */
 
 public class Personaje
@@ -39,23 +26,19 @@ public class Personaje
     private final int MAXIMO_VIDA;
     private final int MAXIMO_ENERGIA;
     private int puntosVida;
-    private int armadura;
+    private final int armadura;
     private Celda celda;
     private Mochila mochila;
     private String nombre;
-    /**
-     * Rango vision simboliza cuantas casillas se pueden ver aparte de la actual
-     */
-    private int rangoVision;
-    private int ataque;
-    private int energia;
+    private int rangoVision; /**Casillas visibles por el personaje**/
+    private final int ataque;
+    private int energia; /**Energia actual**/
 
 
     public Personaje(int MAXIMO_VIDA,int puntosVida,int armadura,Celda celda,Mochila mochila,int rangoVision,int ataque,int energia,int MAXIMO_ENERGIA,String nombre) {
         this.MAXIMO_VIDA = MAXIMO_VIDA > 0? MAXIMO_VIDA : 100;
         this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA)? puntosVida : this.MAXIMO_VIDA;
         this.armadura = armadura > 0 ? armadura : 5;
-        //TODO: calibrar estos valores
         this.celda = celda;
         this.mochila = mochila;
         this.rangoVision = (rangoVision > 0)? rangoVision : 2;
@@ -69,14 +52,13 @@ public class Personaje
         this.MAXIMO_VIDA = MAXIMO_VIDA > 0? MAXIMO_VIDA : 100;
         this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA)? puntosVida : this.MAXIMO_VIDA;
         this.armadura = armadura > 0 ? armadura : 5;
-        //TODO: calibrar estos valores
         this.celda = celda;
         this.mochila = mochila;
         this.rangoVision = (rangoVision > 0)? rangoVision : 2;
         this.ataque = (ataque > 0) ? ataque : 0;
         this.MAXIMO_ENERGIA  = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
         this.energia = (energia > 0 && energia <= this.MAXIMO_ENERGIA) ? energia : 100;
-        setNombre("the punisher");
+        setNombre("The Punisher");
     }
 
     /**
@@ -88,6 +70,16 @@ public class Personaje
             this.nombre = nombre;
         else
             System.out.println("ERROR asignando el nombre al personaje");
+    }
+
+    public int getMAXIMO_VIDA()
+    {
+        return MAXIMO_VIDA;
+    }
+
+    public int getMAXIMO_ENERGIA()
+    {
+        return MAXIMO_ENERGIA;
     }
 
     /**
@@ -117,6 +109,11 @@ public class Personaje
         {
             this.energia = energia;
         }
+    }
+
+    public int getAtaque()
+    {
+        return ataque;
     }
 
     public int getPuntosVida()
@@ -152,12 +149,7 @@ public class Personaje
         return armadura;
     }
 
-    public void setArmadura(int armadura)
-    {
-        this.armadura = armadura;
-    }
 
-    //TODO: evitar aliasing
     public Celda getCelda()
     {
         return celda;
@@ -203,7 +195,7 @@ public class Personaje
         /**
          * Energia requerida para atacar
          */
-        final int ENERGIA_REQUERIDA = 50;
+        final int ENERGIA_REQUERIDA = 20;
         Enemigo enemigo = null;
         /*Obtenemos la posicion actual del personaje*/
         boolean encontrado = false;
@@ -231,7 +223,7 @@ public class Personaje
         }
 
         Celda celdaObtenida;
-        if(dir == 'u' && i-1 >= 0 && mapa.getCelda(i,j).getEnemigo() != null)
+        if(dir == 'u' && i-1 >= 0 && mapa.getCelda(i-1,j).getEnemigo() != null)
         {
             celdaObtenida = mapa.getCelda(i - 1, j);
             enemigo = celdaObtenida.getEnemigo();
@@ -246,7 +238,7 @@ public class Personaje
             celdaObtenida = mapa.getCelda(i, j - 1);
             enemigo = celdaObtenida.getEnemigo();
         }
-        else if(dir == 'r' && j+1 < 0 && mapa.getCelda(i,j+1).getEnemigo() != null)
+        else if(dir == 'r' && j+1 < mapa.getAncho() && mapa.getCelda(i,j+1).getEnemigo() != null)
         {
             celdaObtenida = mapa.getCelda(i, j + 1);
             enemigo = celdaObtenida.getEnemigo();
@@ -255,6 +247,8 @@ public class Personaje
         {
             //Si el enemigo no existe se sale de la ejecucion
             System.out.println("El enemigo no existe");
+            //Retornamos la energia
+            this.setEnergia(this.getEnergia() + ENERGIA_REQUERIDA);
             return;
         }
         int coeficienteAtaque; //Previene que se sume vida al atacar
@@ -331,6 +325,18 @@ public class Personaje
     }
 
     /**
+     * Esta implementación de mover permite desplazar al personaje a cualquier casilla de manera horizontal y vertical
+     * (menos a las no transitables). Sin embargo, esta función es llamada con num = 1 por lo que sólo permite mover a
+     * las casillas adyacentes.
+     *
+     * Se ha decantado por un modelo más simple que el propuesto de ejemplo de introducir el comando mover
+     * (y atacar, que sigue el mismo patrón). En lugar de numerar a las filas por un número y a las columnas por una
+     * letra (o viceversa), se indica si se desea mover arriba, abajo, izquierda o derecha. Esto evita un problema:
+     * <ul>
+     *     <li>Si tenemos un mapa muy grande (pongamos por caso 1000x1000), la numeración de las casillas sería engorrosa.
+     *     (¿mover 756zrt?), esto implicaría numerar las casiilas  a priori y mostrar dicho número/letras al usuario.</li>
+     * </ul>
+     *
      * Si el personaje no es encontrado(cosa teóricamente imposible) mete el personaje en la casilla
      * 0,0 con el movimiento indicado en caso de que éste sea posible
      * @param mapa
@@ -352,8 +358,13 @@ public class Personaje
                 break;
         }
 
+        /**Si se realiza un movimiento incorrecto hay que rellenar la energia**/
+
         if((this.getEnergia() - ENERGIA_REQUERIDA * num) < 0)
+        {
             System.out.println("No hay suficiente energia para mover tantas casillas.");
+            return;
+        }
         else
             this.setEnergia((this.getEnergia() - ENERGIA_REQUERIDA * num));
 
@@ -361,24 +372,39 @@ public class Personaje
             if(mapa.getCelda(i-num,j).isTransitable())
                 celda = mapa.getCelda(i-num,j);
             else
+            {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
+                this.setEnergia((this.getEnergia() + ENERGIA_REQUERIDA * num));
+            }
         else if(dir == 'd' && i+num < mapa.getAlto())
             if(mapa.getCelda(i+num,j).isTransitable())
                 celda = mapa.getCelda(i+num,j);
             else
+            {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
+                this.setEnergia((this.getEnergia() + ENERGIA_REQUERIDA * num));
+            }
         else if(dir == 'l' && j-num >= 0)
             if(mapa.getCelda(i,j-num).isTransitable())
                 celda = mapa.getCelda(i,j-num);
             else
+            {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
+                this.setEnergia((this.getEnergia() + ENERGIA_REQUERIDA * num));
+            }
         else if(dir == 'r' && j+num < mapa.getAncho())
             if(mapa.getCelda(i,j+num).isTransitable())
                 celda = mapa.getCelda(i,j+num);
             else
+            {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
+                this.setEnergia((this.getEnergia() + ENERGIA_REQUERIDA * num));
+            }
         else
+        {
             System.out.println("ERROR, no puedes mover tantas casillas en esa dirección");
+            this.setEnergia((this.getEnergia() + ENERGIA_REQUERIDA * num));
+        }
     }
 
     public void mirar() {

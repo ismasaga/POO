@@ -3,7 +3,12 @@ package Objetos;
 import Juego.Personaje;
 
 /**
- * Created by efren on 19/10/15.
+ * Implementa un binocular
+ *
+ * A destacar
+ *
+ * Vision, peso y espacio son final pues no se pueden modificar mediante mecánicas del juego esos valores (en este caso
+ * no tendría sentido).
  */
 public class Binoculares
 {
@@ -11,9 +16,9 @@ public class Binoculares
     /**
      * Aumento en el rango de vision del binocular. El rango de vision del personaje se calcularia como: rangoVision = vision + rangoPorDefecto
      */
-    private int vision;
-    private int peso;
-    private int espacio;
+    private final int vision;
+    private final int peso;
+    private final int espacio;
 
 
     public Binoculares(int vision, int peso, int espacio)

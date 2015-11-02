@@ -7,14 +7,22 @@ import java.util.ArrayList;
 
 /**
  * Clase mochila. Esta clase gestiona el almacenamiento de los objetos del jugador.
+ *
+ *  A destacar:
+ *
+ * Los setters de arrayBinoculares y arrayBotiquin son anadirBinocular y anadirBotiquin pues los botiquines y binoculares
+ *  es mejor añadirlos uno a uno y evitar un aliasing innecesario.
+ *
+ * pesoMaximo y objetosMaximos son final (constantes) pues en esta versión no hay manera de modificar el peso de la mochila
  */
 public class Mochila
 {
-    //TODO: pueden ser final
-    private int pesoMaximo;
-    private int objetosMaximos;
+    private final int pesoMaximo;
+    private final int objetosMaximos;
     private ArrayList<Binoculares> arrayBinoculares;
     private ArrayList<Botiquin> arrayBotiquin;
+
+
 
     //Hay que obtener el peso actual de la mochila
     //Estos atributos no tienen setters, pues sus valores se calculan desde mochila.
@@ -39,6 +47,15 @@ public class Mochila
         this.objetosActuales = 0;
     }
 
+    public void setPesoActual(int pesoActual)
+    {
+        this.pesoActual = pesoActual >= 0 ? pesoActual : 0;
+    }
+
+    public void setObjetosActuales(int objetosActuales)
+    {
+        this.objetosActuales = objetosActuales >= 0 ? objetosActuales : 0;
+    }
     public int getPesoActual() {
         return pesoActual;
     }

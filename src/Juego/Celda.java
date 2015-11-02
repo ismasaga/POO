@@ -6,6 +6,10 @@ import java.util.ArrayList;
 /**
  * Os set tanto de arrayBinoculares como de arrayBotiquin non son definidos porque non precisamos pasarlle
  * o array completo en ningún momento e chegamos o acordo de que non o imos facer
+ *
+ * A destacar:
+ *
+ * Los setters de celda añaden elementos uno a uno y son setEnemigo, setBinoculares y setBotiquin
  */
 
 public class Celda {

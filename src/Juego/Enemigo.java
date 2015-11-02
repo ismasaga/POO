@@ -4,19 +4,24 @@ package Juego;
  * Clase enemigo. Funciones:
  * - Atacar y moverse.
  * - Detectar proximidad del personaje.
+ *
+ * A destacar:
+ *
+ * VIDA_MAXIMA, ataque y armadura son constantes pues no hay manera de modificarlos (con elementos
+ * del juego )en esta versión.
  */
 public class Enemigo
 {
-
     private final int VIDA_MAXIMA;
     private int puntosVida;
     //TODO: ataque y armadura podrían ser final
-    private int ataque;
+    private final int ataque;
     /**
      * El daño se calcula como: daño = ataque - armadura
      */
-    private int armadura;
+    private final int armadura;
     private String nombre;
+
 
     public Enemigo(int VIDA_MAXIMA, int puntosVida, int ataque, int armadura, String nombre)
     {
@@ -34,6 +39,11 @@ public class Enemigo
         this.ataque = ataque > 0 ? ataque : 4;
         this.armadura = armadura > 0 ? armadura : 2;
         setNombre("desconocido");
+    }
+
+    public int getVIDA_MAXIMA()
+    {
+        return VIDA_MAXIMA;
     }
 
     public int getAtaque()

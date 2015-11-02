@@ -5,6 +5,10 @@ import Objetos.Botiquin;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Nota: los atributos final no necesitan (ni permiten) setter pues sólo se pueden inicializar en el constructor
+ * de su respectiva clase.
+ */
 public class Main {
 
     public static void main(String[] args) {
@@ -13,10 +17,14 @@ public class Main {
         Scanner entradaEscaner;
 
         entradaEscaner = new Scanner (System.in);
+        sel = "A Perouta"; /** Nombre del mapa**/
+        /*
         System.out.print("Introduzca el nombre del mapa : ");
         sel = entradaEscaner.nextLine();
+        */
 
         Mapa mapa = new Mapa(10,10,sel);
+        System.out.println(mapa.getDescripcion());
         mapa.getCelda(0,0).setBotiquin(new Botiquin(1,2,3));
         mapa.getCelda(9,0).setEnemigo(new Enemigo(100,100,2,3));
 
@@ -35,7 +43,7 @@ public class Main {
         mapa.getCelda(1,6).setTransitable(false);
         mapa.getCelda(7,6).setBinoculares(new Binoculares(2,3,4));
 
-        mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,2,3,"enemyger"));
+        mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,2,3,"Enemyger"));
 
         mapa.getCelda(1,8).setBinoculares(new Binoculares(2,3,4));
 
@@ -46,6 +54,9 @@ public class Main {
         sel = entradaEscaner.nextLine();
         Personaje personaje = new Personaje(100,100,2,celdaActual,new Mochila(10,20),3,20,100,100,sel);
         do {
+            /**
+             * Si se acaba la energía no se hace nada (ni imprimir)
+             **/
             mapa.imprimir(personaje);
             System.out.println(personaje.getNombre()+"[Vida: " + personaje.getPuntosVida() + " Energia: " + personaje.getEnergia() + "]");
             System.out.print(">");
@@ -55,8 +66,8 @@ public class Main {
                 case "ayuda":
                     System.out.println("/**********************************************/");
                     System.out.println("/- Introduce 'terminar' para finalizar el juego/");
-                    System.out.println("/- Introduce 'mover' seguido de un espacio y el/");
-                    System.out.println("/  número de casillas y dirección :            /");
+                    System.out.println("/- Introduce 'mover' seguido de un espacio y la/");
+                    System.out.println("/  dirección :            /");
                     System.out.println("/  *r=derecha *l=izquierda *u=arriba *d=abajo  /");
                     System.out.println("/     ejemplo : 'mover 3u' = 'mover 3 arriba'  /");
                     System.out.println("/- Introduce 'atacar' seguido de un espacio y  /");
@@ -70,9 +81,9 @@ public class Main {
                     System.out.println("/**********************************************/");
                     break;
                 case "mover":
-                    if(cadeas.length == 2 && cadeas[1].length() == 2)
-                        if(cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
-                            personaje.mover(mapa,Character.getNumericValue(cadeas[1].charAt(0)),cadeas[1].charAt(1));
+                    if(cadeas.length == 2 && cadeas[1].length() == 1)
+                        if(cadeas[1].charAt(0) == 'r' || cadeas[1].charAt(0) == 'l' || cadeas[1].charAt(0) == 'u' || cadeas[1].charAt(0) == 'd')
+                            personaje.mover(mapa,1,cadeas[1].charAt(0));
                         else
                             System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                     else

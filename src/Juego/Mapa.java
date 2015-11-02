@@ -123,12 +123,11 @@ public class Mapa {
         }
     }
 
-    //TODO: crear setBotiquin/eliminarBotiquin (si se cambian los nombres cambiarlos en Personaje, donde hay un error)
 
     /**
      * Imprime el mapa en la posicion del personaje pasado por parametro
      * Leyenda
-     * B: binocular //TODO: quitar?
+     * B: binocular
      * V: botiquin
      * E: enemigo
      * T: situación del personaje
@@ -181,9 +180,7 @@ public class Mapa {
                     System.out.print(imprimir);
                     continue;
                 }
-                /**
-                 * TODO: eliminar los objetos?
-                 */
+                /*
                 if (mapa.get(fila).get(columna).getBinoculares().size() > 0)
                     imprimir = imprimir + "B";
                 else
@@ -192,10 +189,11 @@ public class Mapa {
                     imprimir = imprimir + "V";
                 else
                     imprimir = imprimir + " ";
+                    */
                 if (mapa.get(fila).get(columna).getEnemigo() != null)
-                    imprimir = imprimir + "E";
+                    imprimir = imprimir + " E ";
                 else
-                    imprimir = imprimir + " ";
+                    imprimir = imprimir + "   ";
 
                 System.out.print(imprimir);
                 System.out.print("|");

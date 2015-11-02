@@ -3,13 +3,16 @@ package Objetos;
 import Juego.Personaje;
 
 /**
- * Created by efren on 19/10/15.
+ * Implementa la clase botiquín
+ *
+ * Vision, peso y espacio son final pues no se pueden modificar mediante mecánicas del juego esos valores (en este caso
+ * no tendría sentido).
  */
 public class Botiquin
 {
-    private int curacion;
-    private int peso;
-    private int espacio;
+    private final int curacion;
+    private final int peso;
+    private final int espacio;
 
     public Botiquin(int curacion, int peso, int espacio)
     {
