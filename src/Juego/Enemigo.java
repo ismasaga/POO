@@ -16,6 +16,16 @@ public class Enemigo
      * El daño se calcula como: daño = ataque - armadura
      */
     private int armadura;
+    private String nombre;
+
+    public Enemigo(int VIDA_MAXIMA, int puntosVida, int ataque, int armadura, String nombre)
+    {
+        this.VIDA_MAXIMA = VIDA_MAXIMA > 0 ? VIDA_MAXIMA : 100;
+        this.puntosVida = (puntosVida > 0 && puntosVida <= VIDA_MAXIMA) ? puntosVida : 100;
+        this.ataque = ataque > 0 ? ataque : 4;
+        this.armadura = armadura > 0 ? armadura : 2;
+        setNombre(nombre);
+    }
 
     public Enemigo(int VIDA_MAXIMA, int puntosVida, int ataque, int armadura)
     {
@@ -23,6 +33,7 @@ public class Enemigo
         this.puntosVida = (puntosVida > 0 && puntosVida <= VIDA_MAXIMA) ? puntosVida : 100;
         this.ataque = ataque > 0 ? ataque : 4;
         this.armadura = armadura > 0 ? armadura : 2;
+        setNombre("desconocido");
     }
 
     public int getAtaque()
@@ -57,5 +68,24 @@ public class Enemigo
         int coeficienteAtaque; //Esta variable previene que un ataque sume puntos de vida (armadura > ataque)
         coeficienteAtaque = (this.ataque - personaje.getArmadura() >= 0) ? this.ataque - personaje.getArmadura() : 0;
         personaje.setPuntosVida(personaje.getPuntosVida() - coeficienteAtaque);
+    }
+
+    /**
+     * Asigna nombre al enemigo
+     * @param nombre
+     */
+    public void setNombre(String nombre) {
+        if(nombre != null)
+            this.nombre = nombre;
+        else
+            System.out.println("ERROR asignando nombre al enemigo");
+    }
+
+    /**
+     * Devuelve el nombre del enemigo, en caso de que no fuese definido devolvería null
+     * @return nombre
+     */
+    public String getNombre() {
+        return nombre;
     }
 }

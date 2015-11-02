@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 public class Mapa {
 
-    private int ancho;
-    private int alto;
+    private int ancho,alto;
+    private String nombre;
 
     /**
      * Para comparar esta celda con la celda del personaje (o del enemigo), se debe usar aliasing; es decir, <strong>
@@ -18,6 +18,21 @@ public class Mapa {
      * </strong>
      */
     private ArrayList<ArrayList<Celda>> mapa = new ArrayList<ArrayList<Celda>>();
+
+    public Mapa(int ancho,int alto,String nombre) {
+        this.alto = alto > 0 ? alto : 10;
+        this.ancho = ancho > 0 ? ancho : 10;
+        for (int i = 0; i < alto; i++)
+        {
+            ArrayList<Celda> arrayC = new ArrayList<>();
+            for (int j = 0; j < ancho; j++)
+            {
+                arrayC.add(new Celda(true));
+            }
+            mapa.add(arrayC);
+        }
+        setNombre(nombre);
+    }
 
     public Mapa(int ancho,int alto) {
         this.alto = alto > 0 ? alto : 10;
@@ -31,6 +46,7 @@ public class Mapa {
             }
             mapa.add(arrayC);
         }
+        setNombre("desconocido");
     }
 
     /**
@@ -42,8 +58,40 @@ public class Mapa {
      */
 
     /**
-     * No se define setCelda, pues el contenido de las celdas se modifica con aliasing
+     * Devuelve un String que incluye el nombre del mapa y sus dimensiones
+     * @return
      */
+    public String getDescripcion() {
+        return "Esta jugando en el mapa "+getNombre()+" que cuenta con "+getAlto()+" filas y "+getAncho()+" columnas";
+    }
+
+    /**
+     * El método setDescripción no será definido porque hemos decidido no hacerlo asi
+     */
+
+    /**
+     * Asigna nome o mapa
+     * @param nombre
+     */
+    public void setNombre(String nombre) {
+        if(nombre != null)
+            this.nombre = nombre;
+        else
+            System.out.println("ERROR asignando nombre al mapa");
+    }
+
+    /**
+     * Devolve o nome do mapa, no caso de que non fose definido, devolvería null
+     * @return nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * setAncho y setAlto no serán definidos ya que no queremos que puedan ser cambiados tras ser definidos
+     */
+
     public int getAncho() {
         return ancho;
     }
@@ -51,6 +99,10 @@ public class Mapa {
     public int getAlto() {
         return alto;
     }
+
+    /**
+     * No se define setCelda, pues el contenido de las celdas se modifica con aliasing
+     */
 
     /**
      * Retorna la celda de la posición (i,j) en base 0 (0..9, por defecto en los valores del constructor de dos parametros)
@@ -152,5 +204,21 @@ public class Mapa {
         }
     }
 
-
+    /**
+     * Devuelve false hasta que el mapa no contenga mas enemigos, en cuyo caso devolverá true
+     * @return boolean
+     */
+    public boolean moreEnemies() {
+        boolean res = false;
+        for(int i = 0;i < getAlto();i++) {
+            for (int j = 0; j < getAncho(); j++)
+                if (mapa.get(i).get(j).getEnemigo() != null) {
+                    res = true;
+                    break;
+                }
+            if(res)
+                break;
+        }
+        return res;
+    }
 }

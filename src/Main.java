@@ -10,19 +10,24 @@ public class Main {
     public static void main(String[] args) {
         String sel;
         String[] cadeas;
+        Scanner entradaEscaner;
 
-        Mapa mapa = new Mapa(10,10);
+        entradaEscaner = new Scanner (System.in);
+        System.out.print("Introduzca el nombre del mapa : ");
+        sel = entradaEscaner.nextLine();
+
+        Mapa mapa = new Mapa(10,10,sel);
         mapa.getCelda(0,0).setBotiquin(new Botiquin(1,2,3));
         mapa.getCelda(9,0).setEnemigo(new Enemigo(100,100,2,3));
 
         mapa.getCelda(1,1).setBinoculares(new Binoculares(2,3,4));
         mapa.getCelda(6,1).setBotiquin(new Botiquin(1, 2, 3));
 
-        mapa.getCelda(1,2).setEnemigo(new Enemigo(100,100,2,3));
+        mapa.getCelda(1,2).setEnemigo(new Enemigo(100,100,2,3,"Fulgensio"));
         mapa.getCelda(5,2).setTransitable(false);
 
         mapa.getCelda(3,3).setTransitable(false);
-        mapa.getCelda(7,3).setEnemigo(new Enemigo(100,100,2,3));
+        mapa.getCelda(7,3).setEnemigo(new Enemigo(100,100,2,3,"Erundino"));
 
         mapa.getCelda(4,5).setBotiquin(new Botiquin(1, 2, 3));
         mapa.getCelda(6,5).setTransitable(false);
@@ -30,13 +35,12 @@ public class Main {
         mapa.getCelda(1,6).setTransitable(false);
         mapa.getCelda(7,6).setBinoculares(new Binoculares(2,3,4));
 
-        mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,2,3));
+        mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,2,3,"enemyger"));
 
         mapa.getCelda(1,8).setBinoculares(new Binoculares(2,3,4));
 
         mapa.getCelda(3,9).setEnemigo(new Enemigo(100,100,2,3));
 
-        Scanner entradaEscaner = new Scanner (System.in);
         Celda celdaActual = mapa.getCelda(5,5);
         System.out.print("Introduzca el nombre del personaje : ");
         sel = entradaEscaner.nextLine();
@@ -61,6 +65,8 @@ public class Main {
                     System.out.println("/  regenerar tu energia                        /");
                     System.out.println("/- Introduce 'mirar' para obtener todos los    /");
                     System.out.println("/  objetos de tu casilla actual.               /");
+                    System.out.println("/- Introduce descripcion para ver a descripción/");
+                    System.out.println("/  del mapa(su nombre y dimensiones)           /");
                     System.out.println("/**********************************************/");
                     break;
                 case "mover":
@@ -76,9 +82,9 @@ public class Main {
                     personaje.mirar();
                     break;
                 case "atacar":
-                    if(cadeas.length == 2 && cadeas[1].length() == 2)
-                        if(cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
-                            personaje.atacar(mapa, cadeas[1].charAt(1));
+                    if(cadeas.length == 2 && cadeas[1].length() == 1)
+                        if(cadeas[1].charAt(0) == 'r' || cadeas[1].charAt(0) == 'l' || cadeas[1].charAt(0) == 'u' || cadeas[1].charAt(0) == 'd')
+                            personaje.atacar(mapa, cadeas[1].charAt(0));
                         else
                             System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                     else
@@ -88,6 +94,9 @@ public class Main {
                     personaje.pasar();
                     break;
                 case "terminar":
+                    break;
+                case "descripcion":
+                    System.out.println(mapa.getDescripcion());
                     break;
                 default:
                     System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");

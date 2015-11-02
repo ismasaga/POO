@@ -65,6 +65,20 @@ public class Personaje
         setNombre(nombre);
     }
 
+    public Personaje(int MAXIMO_VIDA,int puntosVida,int armadura,Celda celda,Mochila mochila,int rangoVision,int ataque,int energia,int MAXIMO_ENERGIA) {
+        this.MAXIMO_VIDA = MAXIMO_VIDA > 0? MAXIMO_VIDA : 100;
+        this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA)? puntosVida : this.MAXIMO_VIDA;
+        this.armadura = armadura > 0 ? armadura : 5;
+        //TODO: calibrar estos valores
+        this.celda = celda;
+        this.mochila = mochila;
+        this.rangoVision = (rangoVision > 0)? rangoVision : 2;
+        this.ataque = (ataque > 0) ? ataque : 0;
+        this.MAXIMO_ENERGIA  = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
+        this.energia = (energia > 0 && energia <= this.MAXIMO_ENERGIA) ? energia : 100;
+        setNombre("the punisher");
+    }
+
     /**
      * Asigna el nombre al personaje
      * @param nombre
@@ -258,10 +272,14 @@ public class Personaje
             System.out.println("CR1T 1N Y0U8 F4C3");
         }
         enemigo.setPuntosVida(enemigo.getPuntosVida() - ataqueEjecutado);
-        System.out.println("El enemigo ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getPuntosVida());
+        System.out.println("El enemigo "+enemigo.getNombre()+" ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getPuntosVida());
         if(enemigo.getPuntosVida() <= 0) {
-            System.out.println("El enemigo ha sido abatido.");
+            System.out.println("El enemigo "+enemigo.getNombre()+" ha sido abatido.");
             celdaObtenida.eliminarEnemigo(enemigo);
+            if(!mapa.moreEnemies()) {
+                System.out.println("No hay mas enemigos, enhorabuena, has ganado la partida");
+                System.exit(0);
+            }
         }
     }
 
@@ -367,7 +385,8 @@ public class Personaje
         ArrayList<Binoculares> arrayBin = celda.getBinoculares();
         ArrayList<Botiquin> arrayBot = celda.getBotiquin();
 
-        if (!arrayBin.isEmpty() && !arrayBot.isEmpty()) {
+        //System.out.println(arrayBin.isEmpty()+","+arrayBot.isEmpty());
+        if (!arrayBin.isEmpty() || !arrayBot.isEmpty()) {
             for (Binoculares bin : arrayBin) {
                 System.out.println("Binocular:\n");
                 System.out.println("\tPeso: " + bin.getPeso() + "\n");

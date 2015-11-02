@@ -11,6 +11,20 @@ public class Botiquin
     private int peso;
     private int espacio;
 
+    public Botiquin(int curacion, int peso, int espacio)
+    {
+        this.curacion = curacion > 0 ? curacion : 10;
+        this.peso = peso > 0 ? peso : 2;
+        this.espacio = espacio > 0 ? espacio : 1;
+    }
+
+    public Botiquin(int curacion)
+    {
+        this.curacion = curacion > 0 ? curacion : 10;
+        this.peso = 2;
+        this.espacio = 1;
+    }
+
     public int getCuracion()
     {
         return curacion;
@@ -24,13 +38,6 @@ public class Botiquin
     public int getEspacio()
     {
         return espacio;
-    }
-
-    public Botiquin(int curacion, int peso, int espacio)
-    {
-        this.curacion = curacion > 0 ? curacion : 10;
-        this.peso = peso > 0 ? peso : 2;
-        this.espacio = espacio > 0 ? espacio : 1;
     }
 
     //TODO: implementar constructor por defecto

@@ -24,6 +24,14 @@ public class Binoculares
         this.espacio = espacio > 0 ? espacio : 1;
     }
 
+    public Binoculares(int vision)
+    {
+        //Se agrega un valor por defecto
+        this.vision = vision > 0 ? vision : 1;
+        this.peso = 2;
+        this.espacio = 1;
+    }
+
     //TODO: añadir un constructor por defecto con el binocular mas comun
 
 
