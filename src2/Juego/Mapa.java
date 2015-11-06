@@ -6,10 +6,16 @@ import java.util.ArrayList;
 /**
  * Clase Mapa. Realiza las siguientes funciones:
  * - Imprime los limites del mapa, las casillas visibles y los enemigos visibles y las casillas transitables.
+ *
+ * Consideraciones:
+ *
+ * ancho y alto son constantes pues no se puede modificar una vez creado el mapa.
+ *
+ * Set mapa no es definido para no modificar el mapa una vez inciado (idem getter, aliasing).
  */
 public class Mapa {
 
-    private int ancho,alto;
+    private final int ancho,alto;
     private String nombre;
 
     /**
