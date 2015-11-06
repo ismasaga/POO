@@ -1,5 +1,5 @@
 #ignora todo lo que no sea src, .gitignore y el readme
 /*
-!src/
+!src2/
 !README.md
 !.gitignore
