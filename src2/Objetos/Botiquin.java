@@ -13,9 +13,13 @@ public class Botiquin
     private final int curacion;
     private final int peso;
     private final int espacio;
+    private String descripcion;
+    private String nombre;
 
-    public Botiquin(int curacion, int peso, int espacio)
+    public Botiquin(String nombre, String descripcion, int curacion, int peso, int espacio)
     {
+        setNombre(nombre);
+        setDescripcion(descripcion);
         this.curacion = curacion > 0 ? curacion : 10;
         this.peso = peso > 0 ? peso : 2;
         this.espacio = espacio > 0 ? espacio : 1;
@@ -23,9 +27,27 @@ public class Botiquin
 
     public Botiquin(int curacion)
     {
+        setNombre("default");
+        setDescripcion("null");
         this.curacion = curacion > 0 ? curacion : 10;
         this.peso = 2;
         this.espacio = 1;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = new String(nombre);
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = new String(descripcion);
     }
 
     public int getCuracion()
@@ -42,8 +64,6 @@ public class Botiquin
     {
         return espacio;
     }
-
-    //TODO: implementar constructor por defecto
 
     public void usar(Personaje personaje)
     {

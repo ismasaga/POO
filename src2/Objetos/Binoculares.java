@@ -12,18 +12,21 @@ import Juego.Personaje;
  */
 public class Binoculares
 {
-    //TODO: pueden ser final.
     /**
      * Aumento en el rango de vision del binocular. El rango de vision del personaje se calcularia como: rangoVision = vision + rangoPorDefecto
      */
     private final int vision;
     private final int peso;
     private final int espacio;
+    private String descripcion;
+    private String nombre;
 
 
-    public Binoculares(int vision, int peso, int espacio)
+    public Binoculares(String nombre, String descripcion, int vision, int peso, int espacio)
     {
         //Se agrega un valor por defecto
+        setNombre(nombre);
+        setDescripcion(descripcion);
         this.vision = vision > 0 ? vision : 1;
         this.peso = peso > 0 ? peso : 2;
         this.espacio = espacio > 0 ? espacio : 1;
@@ -32,13 +35,28 @@ public class Binoculares
     public Binoculares(int vision)
     {
         //Se agrega un valor por defecto
+        setNombre("default");
+        setDescripcion("null");
         this.vision = vision > 0 ? vision : 1;
         this.peso = 2;
         this.espacio = 1;
     }
 
-    //TODO: añadir un constructor por defecto con el binocular mas comun
+    public String getNombre() {
+        return nombre;
+    }
 
+    public void setNombre(String nombre) {
+        this.nombre = new String(nombre);
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = new String(descripcion);
+    }
 
     //No se implementan setters, pues los valores del binocular no cambia durante su existencia.
     public int getVision()

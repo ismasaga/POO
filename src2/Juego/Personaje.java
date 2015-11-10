@@ -131,6 +131,132 @@ public class Personaje
         return ataque;
     }
 
+
+    /**
+     * Devuelve la armadura, en caso de que no este equipada devolverá null
+     * @return Armadura
+     */
+    public Armadura getArmadura() {
+        return armadura;
+    }
+
+    /**
+     * Asigna armadura al personaje
+     * @param armadura
+     */
+    public void setArmadura(Armadura armadura) {
+        if(armadura != null)
+            this.armadura = armadura;
+        else
+            System.out.println("ERROR asignando armadura al personaje");
+    }
+
+    /**
+     * Devuelve un arraylist de las armas que lleva equipadas el personaje
+     * ATENCION : si no lleva ninguna devuelve el conjunto pero vacio
+     * @return conjuntoArmas
+     */
+    /* Este metodo es muerte. Si quieres desequipar el arma de mano izquierda no se puede.*/
+    public ArrayList<Arma> getArmas() {
+        ArrayList<Arma> conjuntoArmas = new ArrayList<>();
+        if(armaDer != null)
+            conjuntoArmas.add(armaDer);
+        if(armaIzq != null)
+            conjuntoArmas.add(armaIzq);
+        if(armaDosM != null)
+            conjuntoArmas.add(armaDosM);
+        return conjuntoArmas;
+    }
+
+    public Arma getArmaDer() {
+        return armaDer;
+    }
+
+    public Arma getArmaIzq() {
+        return armaIzq;
+    }
+
+    public Arma getArmaDosM() {
+        return armaDosM;
+    }
+
+    /**
+     * Este método equipa las armas al personaje dado un array de ellas(1 de dos manos o 2 de una mano).
+     * ATENCIÓN : si se usa éste método se eliminarán las armas que el personaje lla portaba
+     * ATENCIÓN : si se usa para mandar solo una arma de una mano ésta quedará equipada en la mano derecha.
+     * ATENCIÓN : en caso de ser dos armas a una mano la primera irá a la mano derecha.
+     * @param armas
+     */
+    public void setArmas(ArrayList<Arma> armas) {
+        if(armas != null) {
+            if(armas.size() == 1) {
+                if(armas.get(0).isDosManos()) {
+                    armaDosM = armas.get(0);
+                    armaDer = null;
+                    armaIzq = null;
+                } else {
+                    armaDer = armas.get(0);
+                    armaDosM = null;
+                }
+            } else if(armas.size() == 2) {
+                if(armas.get(0).isDosManos() || armas.get(1).isDosManos())
+                    System.out.println("ERROR, quieres equipar dos armas pero una de ellas es a dos manos(El personaje solo tiene dos manos)");
+                else {
+                    armaDer = armas.get(0);
+                    armaIzq = armas.get(1);
+                    armaDosM = null;
+                }
+            } else
+                System.out.println("ERROR en el número de armas que quieres equipar al personaje");
+        } else
+            System.out.println("ERROR asignando las armas al personaje");
+    }
+
+    /**
+     * Este método equipa el arma en la mano derecha
+     */
+    public void setArmaDer(Arma armaDer) {
+        if(armaDer != null)
+            if(armaDer.isDosManos())
+                System.out.println("ERROR, el arma es de dos manos");
+            else {
+                this.armaDer = armaDer;
+                this.armaDosM = null;
+            }
+        else
+            System.out.println("ERROR en el arma que intentas equipar en la mano derecha");
+    }
+
+    /**
+     * Este método equipa el arma en la mano izquierda
+     */
+    public void setArmaIzq(Arma armaIzq) {
+        if(armaIzq != null)
+            if(armaIzq.isDosManos())
+                System.out.println("ERROR, el arma es de dos manos");
+            else {
+                this.armaIzq = armaIzq;
+                this.armaDosM = null;
+            }
+        else
+            System.out.println("ERROR en el arma que intentas equipar en la mano izquierda");
+    }
+
+    /**
+     * Este método equipa el arma de dos manos
+     */
+    public void setArmaDosM(Arma armaDosM) {
+        if(armaDosM != null)
+            if(!armaDosM.isDosManos())
+                System.out.println("ERROR, el arma es de una mano");
+            else {
+                this.armaDosM = armaDosM;
+                this.armaDer = null;
+                this.armaIzq = null;
+            }
+        else
+            System.out.println("ERROR en el arma de dos manos que intentas equipar");
+    }
     public int getPuntosVida()
     {
         return puntosVida;
@@ -317,9 +443,13 @@ public class Personaje
         ArrayList<Binoculares> arrayBin = mochila.getArrayBinoculares();
         ArrayList<Botiquin> arrayBot = mochila.getArrayBotiquin();
         System.out.println("\n\n\n\n\n\n\n\n\n");
+        System.out.println("Capacidad restante: " + mochila.getObjetosActuales() + " objetos");
+        System.out.println("Peso restante: " + mochila.getPesoActual() + " kilogramos");
         for (Binoculares bin : arrayBin)
         {
             System.out.println("Binocular:\n");
+            System.out.println("\tNombre: " + bin.getNombre());
+            System.out.println("\tDescripcion " + bin.getDescripcion());
             System.out.println("\tPeso: " + bin.getPeso() + "\n");
             System.out.println("\tEspacio: " + bin.getEspacio() + "\n");
             System.out.println("\tAumento de rango de vision: " + bin.getVision() + "\n");
@@ -327,6 +457,8 @@ public class Personaje
         for (Botiquin bot : arrayBot)
         {
             System.out.println("Botiquin:\n");
+            System.out.println("\tNombre: " + bot.getNombre());
+            System.out.println("\tDescripcion " + bot.getDescripcion());
             System.out.println("\tPeso: " + bot.getPeso() + "\n");
             System.out.println("\tEspacio: " + bot.getEspacio() + "\n");
             System.out.println("\tCuracion: " + bot.getCuracion() + "\n");
@@ -382,7 +514,7 @@ public class Personaje
             else
             {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
-                this.setEnergia((this.getEnergia() + ENERGIA_REQUERIDA * num));
+                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
             }
         else if(dir == 'd' && i+num < mapa.getAlto())
             if(mapa.getCelda(i+num,j).isTransitable())
@@ -390,7 +522,7 @@ public class Personaje
             else
             {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
-                this.setEnergia((this.getEnergia() + ENERGIA_REQUERIDA * num));
+                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
             }
         else if(dir == 'l' && j-num >= 0)
             if(mapa.getCelda(i,j-num).isTransitable())
@@ -398,7 +530,7 @@ public class Personaje
             else
             {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
-                this.setEnergia((this.getEnergia() + ENERGIA_REQUERIDA * num));
+                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
             }
         else if(dir == 'r' && j+num < mapa.getAncho())
             if(mapa.getCelda(i,j+num).isTransitable())
@@ -406,12 +538,12 @@ public class Personaje
             else
             {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
-                this.setEnergia((this.getEnergia() + ENERGIA_REQUERIDA * num));
+                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
             }
         else
         {
             System.out.println("ERROR, no puedes mover tantas casillas en esa dirección");
-            this.setEnergia((this.getEnergia() + ENERGIA_REQUERIDA * num));
+            this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
         }
     }
 
@@ -458,118 +590,5 @@ public class Personaje
         if(getPuntosVida() <= 0)
             muerto = true;
         return muerto;
-    }
-
-    /**
-     * Devuelve la armadura, en caso de que no este equipada devolverá null
-     * @return Armadura
-     */
-    public Armadura getArmadura() {
-        return armadura;
-    }
-
-    /**
-     * Asigna armadura al personaje
-     * @param armadura
-     */
-    public void setArmadura(Armadura armadura) {
-        if(armadura != null)
-            this.armadura = armadura;
-        else
-            System.out.println("ERROR asignando armadura al personaje");
-    }
-
-    /**
-     * Devuelve un arraylist de las armas que lleva equipadas el personaje
-     * ATENCION : si no lleva ninguna devuelve el conjunto pero vacio
-     * @return conjuntoArmas
-     */
-    public ArrayList<Arma> getArmas() {
-        ArrayList<Arma> conjuntoArmas = new ArrayList<>();
-        if(armaDer != null)
-            conjuntoArmas.add(armaDer);
-        if(armaIzq != null)
-            conjuntoArmas.add(armaIzq);
-        if(armaDosM != null)
-            conjuntoArmas.add(armaDosM);
-        return conjuntoArmas;
-    }
-
-    /**
-     * Este método equipa las armas al personaje dado un array de ellas(1 de dos manos o 2 de una mano).
-     * ATENCIÓN : si se usa éste método se eliminarán las armas que el personaje lla portaba
-     * ATENCIÓN : si se usa para mandar solo una arma de una mano ésta quedará equipada en la mano derecha.
-     * ATENCIÓN : en caso de ser dos armas a una mano la primera irá a la mano derecha.
-     * @param armas
-     */
-    public void setArmas(ArrayList<Arma> armas) {
-        if(armas != null) {
-            if(armas.size() == 1) {
-                if(armas.get(0).isDosManos()) {
-                    armaDosM = armas.get(0);
-                    armaDer = null;
-                    armaIzq = null;
-                } else {
-                    armaDer = armas.get(0);
-                    armaDosM = null;
-                }
-            } else if(armas.size() == 2) {
-                if(armas.get(0).isDosManos() || armas.get(1).isDosManos())
-                    System.out.println("ERROR, quieres equipar dos armas pero una de ellas es a dos manos(El personaje solo tiene dos manos)");
-                else {
-                    armaDer = armas.get(0);
-                    armaIzq = armas.get(1);
-                    armaDosM = null;
-                }
-            } else
-                System.out.println("ERROR en el número de armas que quieres equipar al personaje");
-        } else
-            System.out.println("ERROR asignando las armas al personaje");
-    }
-
-    /**
-     * Este método equipa el arma en la mano derecha
-     */
-    public void setArmaDer(Arma armaDer) {
-        if(armaDer != null)
-            if(armaDer.isDosManos())
-                System.out.println("ERROR, el arma es de dos manos");
-            else {
-                this.armaDer = armaDer;
-                this.armaDosM = null;
-            }
-        else
-            System.out.println("ERROR en el arma que intentas equipar en la mano derecha");
-    }
-
-    /**
-     * Este método equipa el arma en la mano izquierda
-     */
-    public void setArmaIzq(Arma armaIzq) {
-        if(armaIzq != null)
-            if(armaIzq.isDosManos())
-                System.out.println("ERROR, el arma es de dos manos");
-            else {
-                this.armaIzq = armaIzq;
-                this.armaDosM = null;
-            }
-        else
-            System.out.println("ERROR en el arma que intentas equipar en la mano izquierda");
-    }
-
-    /**
-     * Este método equipa el arma de dos manos
-     */
-    public void setArmaDosM(Arma armaDosM) {
-        if(armaDosM != null)
-            if(!armaDosM.isDosManos())
-                System.out.println("ERROR, el arma es de una mano");
-            else {
-                this.armaDosM = armaDosM;
-                this.armaDer = null;
-                this.armaIzq = null;
-            }
-        else
-            System.out.println("ERROR en el arma de dos manos que intentas equipar");
     }
 }

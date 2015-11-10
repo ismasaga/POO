@@ -1,5 +1,7 @@
 package Juego;
 
+import Objetos.Arma;
+import Objetos.Armadura;
 import Objetos.Binoculares;
 import Objetos.Botiquin;
 
@@ -14,6 +16,8 @@ import java.util.ArrayList;
  *  es mejor añadirlos uno a uno y evitar un aliasing innecesario.
  *
  * pesoMaximo y objetosMaximos son final (constantes) pues en esta versión no hay manera de modificar el peso de la mochila
+ *
+ * La mochila puede almacenar un conjunto de armaduras y armas
  */
 public class Mochila
 {
@@ -21,6 +25,8 @@ public class Mochila
     private final int objetosMaximos;
     private ArrayList<Binoculares> arrayBinoculares;
     private ArrayList<Botiquin> arrayBotiquin;
+    private ArrayList<Arma> arrayArmas;
+    private ArrayList<Armadura> arrayArmaduras;
 
 
 
@@ -43,6 +49,7 @@ public class Mochila
         //Esto previene que se acceda al arrayList antes de crear el objeto
         arrayBinoculares = new ArrayList<>();
         arrayBotiquin = new ArrayList<>();
+        arrayArmas = new ArrayList<>();
         this.pesoActual = 0;
         this.objetosActuales = 0;
     }
@@ -85,6 +92,28 @@ public class Mochila
     }
 
     /**
+     * Añade un arma a la mochila
+     * @param arma
+     */
+    public void anadirArma (Arma arma)
+    {
+        arrayArmas.add(arma);
+        this.setPesoActual(this.getPesoActual() + arma.getPeso());
+        this.setObjetosActuales(this.getObjetosActuales() + 1);
+    }
+
+    /**
+     * Añade una armadura a la mochila
+     * @param armadura
+     */
+    public void anadirArmadura (Armadura armadura)
+    {
+        arrayArmaduras.add(armadura);
+        this.setPesoActual(this.getPesoActual() + 1);
+        this.setObjetosActuales(this.getObjetosActuales() + armadura.getPeso());
+    }
+
+    /**
      * Se sustituye el setter por defecto por un método que añade un binocular a la lista.
      * @param binocular Binocular a añadir
      */
@@ -92,7 +121,6 @@ public class Mochila
     {
         if(getPesoActual() + binocular.getPeso() > this.getPesoMaximo())
         {
-            //TODO: implementarlo bien en la UI.
             System.err.println("Se ha sobrepasado el peso maximo");
             return;
         }
@@ -143,5 +171,76 @@ public class Mochila
     public void quitarBinocular(Binoculares binocular)
     {
         arrayBinoculares.remove(binocular);
+    }
+
+    /**
+     * Para equipar una arma se hace "equipar ASDFASDF derecha/izquierda"
+     * @param personaje Personaje a equipar
+     * @param nombreArma Nombre del arma a equipar
+     * @param mano Mano a equipar si no es de dos manos (izquierda,derecha)
+     */
+    public void equiparArma(Personaje personaje, String nombreArma, String mano)
+    {
+        for(Arma arma : arrayArmas)
+        {
+            if(arma.getNombre().equals(nombreArma))
+            {
+                if(arma.isDosManos())
+                {
+                    personaje.setArmaDosM(arma);
+                    personaje.setArmaIzq(null);
+                    personaje.setArmaDer(null);
+                    return;
+                }
+                else if(mano.equals("derecha"))
+                {
+                    personaje.setArmaDer(arma);
+                    personaje.setArmaDosM(null);
+                    return;
+                }
+                else if(mano.equals("izquierda"))
+                {
+                    personaje.setArmaIzq(arma);
+                    personaje.setArmaDosM(null);
+                    return;
+                }
+                else
+                {
+                    System.out.println("Mano mal escrita");
+                }
+            }
+        }
+    }
+
+    public void equiparArmadura(Personaje personaje, String nombreArmadura)
+    {
+        //TODO: implementar
+    }
+
+    /**
+     * Desequipa el arma de la mano seleccionada. Si el arma detectada es de dos manos se ignora la mano.
+     */
+    public void desequiparArma(Personaje personaje, String mano)
+    {
+        if(personaje.getArmas().get(0) != null) {
+            if (personaje.getArmaDosM() != null){
+                arrayArmas.add(personaje.getArmas().get(0));
+                personaje.setArmaDosM(null);
+            }
+            else if (mano.equals("derecha"))
+            {
+                arrayArmas.add(personaje.getArmaDer());
+                personaje.setArmaDer(null);
+            }
+            else if (mano.equals("izquierda"))
+            {
+                arrayArmas.add(personaje.getArmaIzq());
+                personaje.setArmaIzq(null);
+            }
+            else
+            {
+                System.out.println("Mano mal escrita");
+            }
+        }
     }
 }
