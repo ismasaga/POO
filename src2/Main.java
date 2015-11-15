@@ -21,25 +21,26 @@ public class Main {
         System.out.print("Introduzca el nombre del mapa : ");
         sel = entradaEscaner.nextLine();
         */
-
-        Arma armaMala = new Arma("pistolita",false,20);
-        Arma armaBuena = new Arma("pistolón",false,40);
+        Arma armaMala = new Arma("pistolita","pistola pequeña",false,20,1,1);
+        Arma armaBuena = new Arma("pistolón","pistola grande",false,40,2,2);
         ArrayList<Arma> armas = new ArrayList<>();
         armas.add(armaBuena);
         armas.add(armaMala);
-        Arma armaMasBuena = new Arma("bazoka",true,80);
+
+        Arma armaMasBuena = new Arma("bazoka","lanzamisiles 2.0",true,80,1,1);
         ArrayList<Arma> armas2 = new ArrayList<>();
         armas2.add(armaMasBuena);
-        Armadura armaduraVida = new Armadura("armadura de vida",10,0,3);
-        Armadura armaduraEnergy = new Armadura("armadura de energia",0,10,3);
+        Armadura armaduraVida = new Armadura("armadura curadora","armadura de vida",10,0,3,5,5);
+        Armadura armaduraEnergy = new Armadura("armadura rapida","armadura de energia",0,10,3,4,4);
 
-        Mapa mapa = new Mapa(10,10,sel);
+        Mapa mapa = new Mapa(9,10,sel);
         System.out.println(mapa.getDescripcion());
-        mapa.getCelda(0,0).setBotiquin(new Botiquin(1,2,3));
-        mapa.getCelda(9,0).setEnemigo(new Enemigo(100,100,armaMala,null,armaduraEnergy,"desconocido"));
 
-        mapa.getCelda(1,1).setBinoculares(new Binoculares(2,3,4));
-        mapa.getCelda(6,1).setBotiquin(new Botiquin(1, 2, 3));
+        mapa.getCelda(0,0).setBotiquin(new Botiquin("botiquin_grande", "botiquin mas grande que tu cabeza", 1, 2, 3));
+        mapa.getCelda(5,0).setEnemigo(new Enemigo(100, 100, armaMala, null, armaduraEnergy, "desconocido"));
+
+        mapa.getCelda(1,1).setBinoculares(new Binoculares("binoculares","mira a lo lejos",2, 3, 4));
+        mapa.getCelda(6,1).setBotiquin(new Botiquin("botiquin_grande","botiquin mas grande que tu cabeza", 1, 2, 3));
 
         mapa.getCelda(1,2).setEnemigo(new Enemigo(100,100,armaBuena,null,armaduraEnergy,"Fulgensio"));
         mapa.getCelda(5,2).setTransitable(false);
@@ -47,17 +48,17 @@ public class Main {
         mapa.getCelda(3,3).setTransitable(false);
         mapa.getCelda(7,3).setEnemigo(new Enemigo(100,100,armas,armaduraVida));
 
-        mapa.getCelda(4,5).setBotiquin(new Botiquin(1, 2, 3));
+        mapa.getCelda(4,5).setBotiquin(new Botiquin("botiquin","asf",1, 2, 3));
         mapa.getCelda(6,5).setTransitable(false);
 
         mapa.getCelda(1,6).setTransitable(false);
-        mapa.getCelda(7,6).setBinoculares(new Binoculares(2,3,4));
+        mapa.getCelda(7,6).setBinoculares(new Binoculares("binocular","asf",2,3,4));
 
         mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,null,armaBuena,armaduraEnergy,"Enemyger"));
 
-        mapa.getCelda(1,8).setBinoculares(new Binoculares(2,3,4));
+        mapa.getCelda(1,8).setBinoculares(new Binoculares("binocular","asdfx2",2,3,4));
 
-        mapa.getCelda(3,9).setEnemigo(new Enemigo(100,100,armas,armaduraEnergy));
+        mapa.getCelda(3,3).setEnemigo(new Enemigo(100,100,armas,armaduraEnergy));
 
         Celda celdaActual = mapa.getCelda(5,5);
         System.out.print("Introduzca el nombre del personaje : ");
@@ -100,12 +101,12 @@ public class Main {
                         System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                     break;
                 case "mirar":
-                    personaje.mirar();
+                    personaje.mirar(mapa,1,"u",null);
                     break;
                 case "atacar":
                     if(cadeas.length == 2 && cadeas[1].length() == 1)
                         if(cadeas[1].charAt(0) == 'r' || cadeas[1].charAt(0) == 'l' || cadeas[1].charAt(0) == 'u' || cadeas[1].charAt(0) == 'd')
-                            personaje.atacar(mapa, cadeas[1].charAt(0));
+                            personaje.atacar(mapa, cadeas[1].charAt(0),null); //Por defecto ataca a todos
                         else
                             System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                     else

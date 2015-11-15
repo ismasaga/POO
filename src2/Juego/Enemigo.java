@@ -221,4 +221,25 @@ public class Enemigo
         else
             System.out.println("ERROR en el arma de dos manos que intentas equipar");
     }
+
+    /**
+     * Imprime informacion sobre el enemigo
+     */
+    public void info()
+    {
+        System.out.println("Enemigo: ");
+        System.out.println("Nombre" + getNombre() +
+                "\nPuntos de vida: " + getPuntosVida() +
+                "\nPuntos de ataque: " + getAtaque() +
+                "\nPuntos de armadura: " + getArmadura());
+        if(!getArmas().isEmpty()) //Si el enemigo tiene armas
+        {
+            for(Arma arma : getArmas())
+            {
+            }
+        }
+
+
+
+    }
 }

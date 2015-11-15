@@ -147,21 +147,11 @@ public class Mapa {
          */
         int i = 0;
         int j = 0;
-        boolean encontrado = false; //Hay que hacer un doble break para salir de los dos fors
-        for (i = 0; i < this.alto; i++)
-        {
-            for (j = 0; j < this.ancho; j++)
-            {
-                encontrado = mapa.get(i).get(j).equals(personaje.getCelda());
-                if(encontrado)
-                {
-                    /**Hemos obtenido la posicion del personaje**/
-                    break;
-                }
-            }
-            if(encontrado)
-                break;
-        }
+        int[] array = new int[2];
+        array = posicionPersonaje(personaje);
+        i = array[0];
+        j = array[1];
+
         for (int fila = 0; fila < alto; fila++)
         {
             for (int columna = 0; columna < ancho; columna++)
@@ -186,7 +176,6 @@ public class Mapa {
                     System.out.print(imprimir);
                     continue;
                 }
-                /*
                 if (mapa.get(fila).get(columna).getBinoculares().size() > 0)
                     imprimir = imprimir + "B";
                 else
@@ -195,11 +184,10 @@ public class Mapa {
                     imprimir = imprimir + "V";
                 else
                     imprimir = imprimir + " ";
-                    */
                 if (mapa.get(fila).get(columna).getEnemigo() != null)
-                    imprimir = imprimir + " E ";
+                    imprimir = imprimir + "E";
                 else
-                    imprimir = imprimir + "   ";
+                    imprimir = imprimir + " ";
 
                 System.out.print(imprimir);
                 System.out.print("|");
@@ -224,5 +212,34 @@ public class Mapa {
                 break;
         }
         return res;
+    }
+
+    /**
+     * Devuelve la posicion actual del personaje
+     * @return int[0] = alto, int[1] = ancho
+     */
+    public int[] posicionPersonaje(Personaje personaje)
+    {
+        int i = 0;
+        int j = 0;
+        boolean encontrado = false;
+        int[] array = new int[2];
+        for (i = 0; i < this.alto; i++)
+        {
+            for (j = 0; j < this.ancho; j++)
+            {
+                encontrado = mapa.get(i).get(j).equals(personaje.getCelda());
+                if(encontrado)
+                {
+                    /**Hemos obtenido la posicion del personaje**/
+                    break;
+                }
+            }
+            if(encontrado)
+                break;
+        }
+        array[0] = i;
+        array[1] = j;
+        return array;
     }
 }

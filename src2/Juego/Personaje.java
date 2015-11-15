@@ -2,7 +2,10 @@ package Juego;
 
 import Objetos.*;
 
+import java.awt.geom.Point2D;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**Resumen. A destacar:
@@ -322,16 +325,18 @@ public class Personaje
     /**
      * Esta funcion sigue la misma estructura que mover. Dado un numero y direccion, ataca a un enemigo si existe (!= null)
      * Ej atacar 3u
+     * Ahora tambien permite atacar a un enemigo concreto
+     * Ej atacar 3u Ambrosio
      * @param mapa
      * @param dir
      */
-    public void atacar(Mapa mapa, char dir)
+    public void atacar(Mapa mapa, char dir, String nombre)
     {
         /**
          * Energia requerida para atacar
          */
         final int ENERGIA_REQUERIDA = 20;
-        Enemigo enemigo = null;
+        ArrayList<Enemigo> enemigos = null;
         /*Obtenemos la posicion actual del personaje*/
         boolean encontrado = false;
         int j = 0,i = 0;
@@ -361,22 +366,22 @@ public class Personaje
         if(dir == 'u' && i-1 >= 0 && mapa.getCelda(i-1,j).getEnemigo() != null)
         {
             celdaObtenida = mapa.getCelda(i - 1, j);
-            enemigo = celdaObtenida.getEnemigo();
+            enemigos = celdaObtenida.getEnemigo();
         }
         else if(dir == 'd' && i+1 < mapa.getAlto() && mapa.getCelda(i+1,j).getEnemigo() != null)
         {
             celdaObtenida = mapa.getCelda(i + 1, j);
-            enemigo = celdaObtenida.getEnemigo();
+            enemigos = celdaObtenida.getEnemigo();
         }
         else if(dir == 'l' && j-1 >= 0 && mapa.getCelda(i,j-1).getEnemigo() != null)
         {
             celdaObtenida = mapa.getCelda(i, j - 1);
-            enemigo = celdaObtenida.getEnemigo();
+            enemigos = celdaObtenida.getEnemigo();
         }
         else if(dir == 'r' && j+1 < mapa.getAncho() && mapa.getCelda(i,j+1).getEnemigo() != null)
         {
             celdaObtenida = mapa.getCelda(i, j + 1);
-            enemigo = celdaObtenida.getEnemigo();
+            enemigos = celdaObtenida.getEnemigo();
         }
         else
         {
@@ -391,23 +396,69 @@ public class Personaje
 
         float prob = random.nextFloat();
         int ataqueEjecutado;
-        if (prob > 0.25) //No es crítico
+
+        if(nombre == null) //Se ataca a todos los enemigos de la celda
         {
-            ataqueEjecutado = (getAtaque() - enemigo.getArmadura().getDefensa());
+            for (Enemigo enemigo : enemigos)
+            {
+                //Ahora hay que dividir el daño del personaje entre todos los enemigos
+                if (prob > 0.25) //No es crítico
+                {
+                    ataqueEjecutado = (getAtaque() / enemigos.size() - enemigo.getArmadura().getDefensa());
+                } else //Golpe critico
+                {
+                    ataqueEjecutado = (2 * (getAtaque() / enemigos.size()) - enemigo.getArmadura().getDefensa());
+                    System.out.println("CR1T 1N Y0U8 F4C3");
+                }
+                if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
+                {
+                    ataqueEjecutado = 0;
+                }
+                enemigo.setPuntosVida(enemigo.getPuntosVida() - ataqueEjecutado);
+                System.out.println("El enemigo " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getPuntosVida());
+                if (enemigo.getPuntosVida() <= 0)
+                {
+                    System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
+                    celdaObtenida.eliminarEnemigo(enemigo);
+                    if (!mapa.moreEnemies())
+                    {
+                        System.out.println("No hay mas enemigos, enhorabuena, has ganado la partida");
+                        System.exit(0);
+                    }
+                }
+            }
         }
-        else //Golpe critico
+        else //Se ha especificado un nombre
         {
-            ataqueEjecutado = (2 * getAtaque() - enemigo.getArmadura().getDefensa());
-            System.out.println("CR1T 1N Y0U8 F4C3");
-        }
-        enemigo.setPuntosVida(enemigo.getPuntosVida() - ataqueEjecutado);
-        System.out.println("El enemigo "+enemigo.getNombre()+" ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getPuntosVida());
-        if(enemigo.getPuntosVida() <= 0) {
-            System.out.println("El enemigo "+enemigo.getNombre()+" ha sido abatido.");
-            celdaObtenida.eliminarEnemigo(enemigo);
-            if(!mapa.moreEnemies()) {
-                System.out.println("No hay mas enemigos, enhorabuena, has ganado la partida");
-                System.exit(0);
+            for (Enemigo enemigo : enemigos)
+            {
+                if (enemigo.getNombre().equals(nombre)) //Se ha encontrado el enemigo
+                {
+                    if (prob > 0.25) //No es crítico
+                    {
+                        ataqueEjecutado = (getAtaque() - enemigo.getArmadura().getDefensa());
+                    } else //Golpe critico
+                    {
+                        ataqueEjecutado = (2 * (getAtaque()) - enemigo.getArmadura().getDefensa());
+                        System.out.println("CR1T 1N Y0U8 F4C3");
+                    }
+                    if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
+                    {
+                        ataqueEjecutado = 0;
+                    }
+                    enemigo.setPuntosVida(enemigo.getPuntosVida() - ataqueEjecutado);
+                    System.out.println("El enemigo " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getPuntosVida());
+                    if (enemigo.getPuntosVida() <= 0)
+                    {
+                        System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
+                        celdaObtenida.eliminarEnemigo(enemigo);
+                        if (!mapa.moreEnemies())
+                        {
+                            System.out.println("No hay mas enemigos, enhorabuena, has ganado la partida");
+                            System.exit(0);
+                        }
+                    }
+                }
             }
         }
     }
@@ -547,32 +598,84 @@ public class Personaje
         }
     }
 
-    public void mirar() {
-        ArrayList<Binoculares> arrayBin = celda.getBinoculares();
-        ArrayList<Botiquin> arrayBot = celda.getBotiquin();
+    /**
+     * Mira la celda especificada por la posicion y la direccion. Si se especifica un objeto solo imprime informacion sobre ese objeto
+     *
+     * @param posicion Posicion a mirar. Si es null se mira la actual.
+     * @param direccion Direccion a mirar.
+     * @param objeto Objeto a mirar. Si es null se listan todos
+     */
+    //TODO: probar objeto
+    public void mirar(Mapa mapa, Integer posicion, String direccion, String objeto) {
+        ArrayList<Binoculares> arrayBin;
+        ArrayList<Botiquin> arrayBot;
+        Celda celda;
+        int[] array = new int[2];
+        //Si esta fuera del rango de vision
+        array = mapa.posicionPersonaje(this);
+        int i = array[0];
+        int j = array[1];
 
-        //System.out.println(arrayBin.isEmpty()+","+arrayBot.isEmpty());
+        celda = mapa.getCelda(i,j);
+        if(posicion != null)
+        {
+            int celdaI = direccion.equals("u") ? i - posicion : i;
+            celdaI = direccion.equals("d") ? i + posicion : celdaI;
+            int celdaJ = (direccion.equals("l") ? j - posicion : j);
+            celdaJ = (direccion.equals("r") ? j + posicion : celdaJ);
+            //If importado de mapa
+            if (( celdaI >= i - getRangoVision() &&
+                    celdaI <= i + getRangoVision() &&
+                    celdaJ >= j - getRangoVision() &&
+                    celdaJ <= j + getRangoVision()))
+            {
+               celda = mapa.getCelda(celdaI,celdaJ);
+                System.out.println("Got celda: " + celdaI + "," + celdaJ + "!=null " + (celda!=null));
+            }
+        }
+
+        arrayBin = celda.getBinoculares();
+        arrayBot = celda.getBotiquin();
+        System.out.println("Tamaño botiquin: " + arrayBot.size());
+
+        //Hay una serie de ifs que controlan si se imprime un objeto.
+        //Si no se proporciona objeto se imprimen todos
+        //Si se proporciona solo se imprime aquel que tenga el mismo nombre
         if (!arrayBin.isEmpty() || !arrayBot.isEmpty()) {
             for (Binoculares bin : arrayBin) {
-                System.out.println("Binocular:\n");
-                System.out.println("\tPeso: " + bin.getPeso() + "\n");
-                System.out.println("\tEspacio: " + bin.getEspacio() + "\n");
-                System.out.println("\tAumento de rango de vision: " + bin.getVision() + "\n");
+                if(objeto == null || (objeto.equals(bin.getNombre())))
+                    bin.info();
             }
             for (Botiquin bot : arrayBot) {
-                System.out.println("Botiquin:\n");
-                System.out.println("\tPeso: " + bot.getPeso() + "\n");
-                System.out.println("\tEspacio: " + bot.getEspacio() + "\n");
-                System.out.println("\tCuracion: " + bot.getCuracion() + "\n");
+                if(objeto == null || (objeto.equals(bot.getNombre())))
+                    bot.info();
             }
-        } else
-            System.out.println("No hay objetos en esta casilla");
+        }
         if (this.celda.getEnemigo() != null) {
-            Enemigo enemigo = this.celda.getEnemigo();
-            System.out.println("Enemigo: ");
-            System.out.println("Puntos de vida: " + enemigo.getPuntosVida() +
-                        "\nPuntos de ataque: " + enemigo.getAtaque() +
-                        "\nPuntos de armadura: " + enemigo.getArmadura());
+            ArrayList<Enemigo> enemigos = this.celda.getEnemigo();
+            for(Enemigo enemigo : enemigos)
+            {
+                if(objeto == null || (objeto.equals(enemigo.getNombre())))
+                    enemigo.info();
+            }
+        }
+        if(this.celda.getArmaduras() != null)
+        {
+            ArrayList<Armadura> armaduras = this.celda.getArmaduras();
+            for(Armadura armadura : armaduras)
+            {
+               if(objeto == null || (objeto.equals(armadura.getNombre())))
+                   armadura.info();
+            }
+        }
+        if(this.celda.getArma() != null)
+        {
+            ArrayList<Arma> armas = this.celda.getArma();
+            for(Arma arma : armas)
+            {
+                if(objeto == null || (objeto.equals(arma.getNombre())))
+                    arma.info();
+            }
         }
     }
 

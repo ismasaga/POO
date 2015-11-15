@@ -70,5 +70,18 @@ public class Botiquin
         personaje.setPuntosVida(personaje.getPuntosVida() + curacion);
     }
 
+    /**
+     * Imprime informacion sobre el binocular
+     */
+    public void info()
+    {
+        System.out.println("Botiquin:\n");
+        System.out.println("\tPeso: " + getPeso() + "\n");
+        System.out.println("\tEspacio: " + getEspacio() + "\n");
+        System.out.println("\tCuracion: " + getCuracion() + "\n");
+        System.out.println("\tNombre:" + getNombre());
+        System.out.println("\tDescripcion:" + getDescripcion());
+    }
+
 
 }

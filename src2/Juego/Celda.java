@@ -16,15 +16,17 @@ public class Celda {
     private ArrayList<Binoculares> arrayBinoculares;
     private ArrayList<Botiquin> arrayBotiquin;
     private ArrayList<Enemigo> arrayEnemigos;
+    private ArrayList<Arma> arrayArma;
+    private ArrayList<Armadura> arrayArmadura;
     private boolean transitable;
-
-    //private Enemigo enemigo = null; //Las celdas contienen un enemigo (facilita la impresión)
 
     public Celda(boolean transitable) {
         this.transitable = transitable;
         arrayBinoculares = new ArrayList<>();
         arrayBotiquin = new ArrayList<>();
         arrayEnemigos = new ArrayList<>();
+        arrayArma = new ArrayList<>();
+        arrayArmadura = new ArrayList<>();
     }
 
     /**
@@ -63,14 +65,14 @@ public class Celda {
     }
 
     /**
-     * Devolve o primeiro enemigo que atopa no array, se non hay ningún devolve null
+     * Devolve todos os inimigos da celda.
      * @return Enemigo
      */
-    public Enemigo getEnemigo() {
+    public ArrayList<Enemigo> getEnemigo() {
         if(arrayEnemigos.isEmpty())
             return null;
         else
-            return arrayEnemigos.get(0);
+            return arrayEnemigos; //Necesitamos el aliasing
     }
 
     public void setEnemigo(Enemigo enemigo) {
@@ -78,6 +80,38 @@ public class Celda {
             arrayEnemigos.add(enemigo);
         else
             System.out.println("ERROR insertando enemigo en la casilla");
+    }
+
+    public void setArma(Arma arma)
+    {
+        if(arma != null)
+            arrayArma.add(arma);
+        else
+            System.out.println("ERROR insertando arma en la casilla");
+    }
+
+    public ArrayList<Arma> getArma()
+    {
+        if(arrayArma.isEmpty())
+            return null;
+        else
+            return arrayArma; //Necesitamos el aliasing
+    }
+
+    public void setArmadura(Armadura armadura)
+    {
+        if(armadura != null)
+            arrayArmadura.add(armadura);
+        else
+            System.out.println("ERROR insertando armadura en la casilla");
+    }
+
+    public ArrayList<Armadura> getArmaduras()
+    {
+        if(arrayArmadura.isEmpty())
+            return null;
+        else
+            return arrayArmadura; //Necesitamos el aliasing
     }
 
     /**
