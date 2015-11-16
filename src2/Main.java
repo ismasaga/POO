@@ -101,7 +101,22 @@ public class Main {
                         System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                     break;
                 case "mirar":
-                    personaje.mirar(mapa,1,"u",null);
+                    if(cadeas.length == 2)
+                    {
+                        if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
+                        {
+                            if(Character.isDigit(cadeas[1].charAt(0)))
+                            personaje.mirar(mapa,(int)cadeas[1].charAt(0),cadeas[1].charAt(1) + "",null);
+                        }
+                    }
+                    else if(cadeas.length == 3)
+                    {
+                        if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
+                        {
+                            if(Character.isDigit(cadeas[1].charAt(0)))
+                                personaje.mirar(mapa,(int)cadeas[1].charAt(0),cadeas[1].charAt(1) + "",cadeas[2]);
+                        }
+                    }
                     break;
                 case "atacar":
                     if(cadeas.length == 2 && cadeas[1].length() == 1)
@@ -120,6 +135,11 @@ public class Main {
                 case "descripcion":
                     System.out.println(mapa.getDescripcion());
                     break;
+                case "usar":
+                    if(cadeas.length == 2)
+                        personaje.usarBotiquin(cadeas[1]);
+                    break;
+
                 default:
                     System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
             }

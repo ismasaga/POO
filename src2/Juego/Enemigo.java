@@ -1,7 +1,7 @@
 package Juego;
 
-import Objetos.Arma;
-import Objetos.Armadura;
+import Objetos.*;
+import Juego.*;
 
 import java.util.ArrayList;
 
@@ -26,6 +26,7 @@ public class Enemigo
      * El daño se calcula como: daño = ataque - armadura
      */
     private Armadura armadura;
+    private Mochila mochila;
     private String nombre;
 
 
@@ -85,7 +86,6 @@ public class Enemigo
         }
         this.puntosVida = puntosVida;
     }
-
 
     public void atacar(Personaje personaje)
     {
@@ -236,10 +236,57 @@ public class Enemigo
         {
             for(Arma arma : getArmas())
             {
+                arma.info();
             }
         }
+    }
 
-
-
+    /**
+     * Suelta todos los objetos del enemigo en la celda actual (pasada por parametro)
+     * @param celda Celda actual
+     */
+    public void soltarObjetos(Celda celda)
+    {
+        for(Arma arma : this.getArmas())
+        {
+            if(arma != null)
+                celda.setArma(arma);
+            armaDer = null;
+            armaIzq = null;
+            armaDosM = null;
+        }
+        if(getArmadura() != null)
+        {
+            celda.setArmadura(getArmadura());
+            armadura = null;
+        }
+        for(Arma arma : mochila.getArrayArmas())
+        {
+            if(arma != null)
+                celda.setArma(arma);
+        }
+        mochila.setArrayArmaduras(null); //Se marca para eliminacion
+        for(Armadura armadura : mochila.getArrayArmaduras())
+        {
+            if(armadura != null)
+                celda.setArmadura(armadura);
+        }
+        mochila.setArrayArmaduras(null);
+        for(Binoculares bin : mochila.getArrayBinoculares())
+        {
+            if(bin != null)
+            {
+                celda.setBinoculares(bin);
+                mochila.getArrayBinoculares().remove(bin);
+            }
+        }
+        for(Botiquin bot : mochila.getArrayBotiquin())
+        {
+            if(bot != null)
+            {
+                celda.setBotiquin(bot);
+                mochila.getArrayBotiquin().remove(bot);
+            }
+        }
     }
 }

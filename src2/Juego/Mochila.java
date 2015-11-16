@@ -54,6 +54,29 @@ public class Mochila
         this.objetosActuales = 0;
     }
 
+
+
+    public ArrayList<Arma> getArrayArmas()
+    {
+        return arrayArmas;
+    }
+
+    public void setArrayArmas(ArrayList<Arma> arrayArmas)
+    {
+        if(arrayArmas != null)
+            this.arrayArmas = arrayArmas;
+    }
+
+    public ArrayList<Armadura> getArrayArmaduras()
+    {
+        return arrayArmaduras;
+    }
+
+    public void setArrayArmaduras(ArrayList<Armadura> arrayArmaduras)
+    {
+        this.arrayArmaduras = arrayArmaduras;
+    }
+
     public void setPesoActual(int pesoActual)
     {
         this.pesoActual = pesoActual >= 0 ? pesoActual : 0;
@@ -138,19 +161,32 @@ public class Mochila
         }
     }
 
-    //TODO: crear funciones para obtener un botiquin (identificandolo ¿unívocamente?)
+    /**
+     * Retorna un botiquin por su nombre: botiquin_grande, botiquin_pequeño
+     * @param nombre Nombre del botiquin a buscar.
+     * @return Botiquin encontrado o null si no encuentra.
+     */
+    public Botiquin getBotiquin(String nombre)
+    {
+        for(Botiquin botiquin : arrayBotiquin)
+        {
+            if(botiquin.getNombre().equals(nombre))
+            {
+                return botiquin;
+            }
+        }
+        return null;
+    }
 
     public void anadirBotiquin(Botiquin botiquin)
     {
         if(getPesoActual() + botiquin.getPeso() > this.getPesoMaximo())
         {
-            //TODO: implementarlo bien en la UI.
             System.err.println("Se ha sobrepasado el peso maximo");
             return;
         }
         if(getObjetosActuales() + 1 > this.getObjetosMaximos())
         {
-            //TODO: implementarlo bien en la UI
             System.err.println("Se ha sobrepasado el numero de objetos maximo");
             return;
         }
@@ -173,49 +209,7 @@ public class Mochila
         arrayBinoculares.remove(binocular);
     }
 
-    /**
-     * Para equipar una arma se hace "equipar ASDFASDF derecha/izquierda"
-     * @param personaje Personaje a equipar
-     * @param nombreArma Nombre del arma a equipar
-     * @param mano Mano a equipar si no es de dos manos (izquierda,derecha)
-     */
-    public void equiparArma(Personaje personaje, String nombreArma, String mano)
-    {
-        for(Arma arma : arrayArmas)
-        {
-            if(arma.getNombre().equals(nombreArma))
-            {
-                if(arma.isDosManos())
-                {
-                    personaje.setArmaDosM(arma);
-                    personaje.setArmaIzq(null);
-                    personaje.setArmaDer(null);
-                    return;
-                }
-                else if(mano.equals("derecha"))
-                {
-                    personaje.setArmaDer(arma);
-                    personaje.setArmaDosM(null);
-                    return;
-                }
-                else if(mano.equals("izquierda"))
-                {
-                    personaje.setArmaIzq(arma);
-                    personaje.setArmaDosM(null);
-                    return;
-                }
-                else
-                {
-                    System.out.println("Mano mal escrita");
-                }
-            }
-        }
-    }
 
-    public void equiparArmadura(Personaje personaje, String nombreArmadura)
-    {
-        //TODO: implementar
-    }
 
     /**
      * Desequipa el arma de la mano seleccionada. Si el arma detectada es de dos manos se ignora la mano.

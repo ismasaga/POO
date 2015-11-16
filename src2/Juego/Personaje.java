@@ -40,6 +40,7 @@ public class Personaje
     private Arma armaIzq;
     private Arma armaDosM;
     private Armadura armadura;
+    private Binoculares binocular = null;
 
 
     public Personaje(int MAXIMO_VIDA,int puntosVida,Armadura armadura,Celda celda,Mochila mochila,int rangoVision,Arma armaIzq,Arma armaDer,int energia,int MAXIMO_ENERGIA,String nombre) {
@@ -419,6 +420,7 @@ public class Personaje
                 if (enemigo.getPuntosVida() <= 0)
                 {
                     System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
+                    enemigo.soltarObjetos(celdaObtenida);
                     celdaObtenida.eliminarEnemigo(enemigo);
                     if (!mapa.moreEnemies())
                     {
@@ -693,5 +695,91 @@ public class Personaje
         if(getPuntosVida() <= 0)
             muerto = true;
         return muerto;
+    }
+
+    /**
+     * Para equipar una arma se hace "equipar ASDFASDF derecha/izquierda"
+     * @param personaje Personaje a equipar
+     * @param nombreArma Nombre del arma a equipar
+     * @param mano Mano a equipar si no es de dos manos (izquierda,derecha)
+     */
+    public void equiparArma(Personaje personaje, String nombreArma, String mano)
+    {
+        for(Arma arma : mochila.getArrayArmas())
+        {
+            if(arma.getNombre().equals(nombreArma))
+            {
+                if(arma.isDosManos())
+                {
+                    if(personaje.getArmaDosM() != null)
+                        mochila.anadirArma(personaje.getArmaDosM());
+                    personaje.setArmaDosM(arma);
+                    if(personaje.getArmaDer() != null)
+                        mochila.anadirArma(personaje.getArmaDer());
+                    if(personaje.getArmaIzq() != null)
+                        mochila.anadirArma(personaje.getArmaIzq());
+                    personaje.setArmaIzq(null);
+                    personaje.setArmaDer(null);
+                    return;
+                }
+                else if(mano.equals("derecha"))
+                {
+                    if(personaje.getArmaDer() != null)
+                        mochila.anadirArma(personaje.getArmaDer());
+                    if(personaje.getArmaDosM() != null)
+                        mochila.anadirArma(personaje.getArmaDosM());
+                    personaje.setArmaDer(arma);
+                    personaje.setArmaDosM(null);
+                    return;
+                }
+                else if(mano.equals("izquierda"))
+                {
+                    if(personaje.getArmaIzq() != null)
+                        mochila.anadirArma(personaje.getArmaIzq());
+                    if(personaje.getArmaDosM() != null)
+                        mochila.anadirArma(personaje.getArmaDosM());
+                    personaje.setArmaIzq(arma);
+                    personaje.setArmaDosM(null);
+                    return;
+                }
+                else
+                {
+                    System.out.println("Mano mal escrita");
+                }
+            }
+        }
+    }
+
+    public void equiparArmadura(Personaje personaje, String nombreArmadura)
+    {
+        for(Armadura armadura : mochila.getArrayArmaduras())
+        {
+            if(armadura.getNombre().equals(nombreArmadura))
+            {
+                mochila.anadirArmadura(armadura);
+                personaje.setArmadura(personaje.getArmadura());
+            }
+        }
+    }
+
+    public void usarBotiquin(String nombre)
+    {
+        Botiquin botiquin = mochila.getBotiquin(nombre);
+        if(botiquin == null)
+        {
+            System.out.println("No hay ese botiquin");
+            return;
+        }
+        botiquin.usar(this);
+        mochila.quitarBotiquin(botiquin);
+    }
+
+    public void equiparBinocular(Binoculares binocular)
+    {
+        if(this.binocular != null)
+        {
+            mochila.anadirBinocular(this.binocular);
+            this.binocular = binocular;
+        }
     }
 }
