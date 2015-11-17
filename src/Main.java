@@ -1,6 +1,7 @@
 import Juego.*;
 import Objetos.*;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,17 +12,32 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        String sel;
+        String sel, linea;
         String[] cadeas;
         Scanner entradaEscaner;
 
-        entradaEscaner = new Scanner (System.in);
+        try {
+            BufferedReader bf = new BufferedReader(new FileReader(new File("src2/Juego/mapa.csv")));
+            try {
+                while ((linea = bf.readLine()) != null) {
+                    System.out.println(linea);
+                }
+            } catch (IOException ex) {
+                System.out.println("ERROR leyendo el fichero");
+                System.exit(1);
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("ERROR abriendo el fichero " + ex);
+            System.exit(1);
+        }
+
+        /*entradaEscaner = new Scanner (System.in);
         sel = "A Perouta"; /** Nombre del mapa**/
         /*
         System.out.print("Introduzca el nombre del mapa : ");
         sel = entradaEscaner.nextLine();
         */
-        Arma armaMala = new Arma("pistolita","pistola pequeña",false,20,1,1);
+        /*Arma armaMala = new Arma("pistolita","pistola pequeña",false,20,1,1);
         Arma armaBuena = new Arma("pistolón","pistola grande",false,40,2,2);
         ArrayList<Arma> armas = new ArrayList<>();
         armas.add(armaBuena);
@@ -68,15 +84,15 @@ public class Main {
             /**
              * Si se acaba la energía no se hace nada (ni imprimir)
              **/
-            mapa.imprimir(personaje);
+            /*mapa.imprimir(personaje);
             System.out.println(personaje.getNombre()+"[Vida: " + personaje.getPuntosVida() + " Energia: " + personaje.getEnergia() + "]");
             System.out.print(">");
             sel =  entradaEscaner.nextLine();
             cadeas = sel.split(" ");
             switch (cadeas[0]) {
                 case "ayuda":
-                    System.out.println("/**********************************************/");
-                    System.out.println("/- Introduce 'terminar' para finalizar el juego/");
+                    //System.out.println("/**********************************************///");
+                    /*System.out.println("/- Introduce 'terminar' para finalizar el juego/");
                     System.out.println("/- Introduce 'mover' seguido de un espacio y la/");
                     System.out.println("/  dirección :                                 /");
                     System.out.println("/  *r=derecha *l=izquierda *u=arriba *d=abajo  /");
@@ -89,8 +105,8 @@ public class Main {
                     System.out.println("/  objetos de tu casilla actual.               /");
                     System.out.println("/- Introduce descripcion para ver a descripción/");
                     System.out.println("/  del mapa(su nombre y dimensiones)           /");
-                    System.out.println("/**********************************************/");
-                    break;
+                    //System.out.println("/**********************************************///");
+                    /*break;
                 case "mover":
                     if(cadeas.length == 2 && cadeas[1].length() == 1)
                         if(cadeas[1].charAt(0) == 'r' || cadeas[1].charAt(0) == 'l' || cadeas[1].charAt(0) == 'u' || cadeas[1].charAt(0) == 'd')
@@ -143,6 +159,6 @@ public class Main {
                 default:
                     System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
             }
-        } while(!sel.equals("terminar"));
+        } while(!sel.equals("terminar"));*/
     }
 }
