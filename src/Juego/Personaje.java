@@ -776,10 +776,12 @@ public class Personaje
 
     public void equiparBinocular(Binoculares binocular)
     {
-        if(this.binocular != null)
+        if(this.binocular != null && binocular != null)
         {
-            mochila.anadirBinocular(this.binocular);
+            this.binocular.disipar(this);
             this.binocular = binocular;
+            mochila.anadirBinocular(this.binocular);
+            binocular.usar(this);
         }
     }
 }

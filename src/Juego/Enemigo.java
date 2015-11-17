@@ -3,7 +3,9 @@ package Juego;
 import Objetos.*;
 import Juego.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Clase enemigo. Funciones:
@@ -28,6 +30,7 @@ public class Enemigo
     private Armadura armadura;
     private Mochila mochila;
     private String nombre;
+    private final int rangoVision = 3;
 
 
     public Enemigo(int VIDA_MAXIMA, int puntosVida,Arma armaIzq,Arma armaDer,Armadura armadura, String nombre)
@@ -47,6 +50,11 @@ public class Enemigo
         setArmas(armas);
         setArmadura(armadura);
         setNombre("desconocido");
+    }
+
+    public int getRangoVision()
+    {
+        return rangoVision;
     }
 
     public int getVIDA_MAXIMA()
@@ -92,6 +100,7 @@ public class Enemigo
         int coeficienteAtaque; //Esta variable previene que un ataque sume puntos de vida (armadura > ataque)
         coeficienteAtaque = (getAtaque() - personaje.getArmadura().getDefensa() >= 0) ? getAtaque() - personaje.getArmadura().getDefensa() : 0;
         personaje.setPuntosVida(personaje.getPuntosVida() - coeficienteAtaque);
+        System.out.println(personaje.getNombre() + " atacado con" + coeficienteAtaque + " puntos de daño");
     }
 
     /**
@@ -286,6 +295,67 @@ public class Enemigo
             {
                 celda.setBotiquin(bot);
                 mochila.getArrayBotiquin().remove(bot);
+            }
+        }
+    }
+
+
+    /**
+     * Implementa la inteligencia artificial del enemigo.
+     *
+     * Se deberia iterar sobre 'all' el mapa aplicando este metodo a cada enemigo
+     * @param mapa Mapa sobre el que mover
+     * @param iE Fila actual del enemigo
+     * @param jE Columna actual del enemigo
+     * @param personaje Personaje al que atacar
+     */
+    public void mover(Mapa mapa,int iE, int jE, Personaje personaje)
+    {
+        Random numero = new Random();
+
+        int numeroMovimientos = numero.nextInt(3);
+        int direccion;
+        int iPersonaje = mapa.posicionPersonaje(personaje)[0];
+        int jPersonaje = mapa.posicionPersonaje(personaje)[1];
+        int iEnemigo = iE;
+        int jEnemigo = jE;
+        for (int i = 0; i < numeroMovimientos; i++)
+        {
+            if ((iPersonaje >= iEnemigo - getRangoVision() &&
+                    iPersonaje <= iEnemigo + getRangoVision() &&
+                    jPersonaje >= jEnemigo - getRangoVision() &&
+                    jPersonaje <= jEnemigo + getRangoVision()))
+            {
+
+                atacar(personaje);
+                return;
+            }
+            else
+            {
+                mapa.getCelda(iEnemigo, jEnemigo).getEnemigo().remove(this);
+                direccion = numero.nextInt(3);
+                switch (direccion)
+                {
+                    case 0: //Mueve abajo
+                        if (iEnemigo + 1 < mapa.getAlto())
+                            iEnemigo += 1;
+                        break;
+                    case 1: //Mueve arriba
+                        if (iEnemigo - 1 >= 0)
+                            iEnemigo -= 1;
+                        break;
+                    case 2: //Mueve derecha
+                        if (jEnemigo + 1 < mapa.getAncho())
+                            jEnemigo += 1;
+                        break;
+                    case 3: //Mueve izquierda
+                        if (jEnemigo - 1 < mapa.getAncho())
+                            jEnemigo -= 1;
+                        break;
+                    default:
+                        System.err.println("Incapaz de mover el enemigo" + this.getNombre());
+                }
+                mapa.getCelda(iEnemigo,jEnemigo).getEnemigo().add(this);
             }
         }
     }
