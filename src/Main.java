@@ -14,30 +14,66 @@ public class Main {
     public static void main(String[] args) {
         String sel, linea;
         String[] cadeas;
+        BufferedReader buffer;
         Scanner entradaEscaner;
+        int[] tamano = new int[2];
+        Mapa mapa;
 
         try {
-            BufferedReader bf = new BufferedReader(new FileReader(new File("src2/Juego/mapa.csv")));
+            buffer = new BufferedReader(new FileReader(new File("src/Juego/mapa.csv")));
             try {
-                while ((linea = bf.readLine()) != null) {
-                    System.out.println(linea);
+                while ((linea = buffer.readLine()) != null) {
+                    if(linea.length() != 0 && linea.charAt(0) != '#') {
+                        cadeas = linea.split(",");
+                        if(tamano[0] < Integer.parseInt(cadeas[0]))
+                            tamano[0] = Integer.parseInt(cadeas[0]);
+                        if(tamano[1] < Integer.parseInt(cadeas[1]))
+                            tamano[1] = Integer.parseInt(cadeas[1]);
+                    }
                 }
+                buffer.close();
             } catch (IOException ex) {
-                System.out.println("ERROR leyendo el fichero");
+                System.out.println("ERROR leyendo el fichero : "+ex);
                 System.exit(1);
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("ERROR abriendo el fichero " + ex);
+            System.out.println("ERROR abriendo el fichero : "+ex);
             System.exit(1);
         }
 
-        /*entradaEscaner = new Scanner (System.in);
+        entradaEscaner = new Scanner (System.in);
         sel = "A Perouta"; /** Nombre del mapa**/
         /*
         System.out.print("Introduzca el nombre del mapa : ");
         sel = entradaEscaner.nextLine();
         */
-        /*Arma armaMala = new Arma("pistolita","pistola pequeña",false,20,1,1);
+        mapa = new Mapa(tamano[0],tamano[1],sel);
+
+        try {
+            buffer = new BufferedReader(new FileReader(new File("src/Juego/mapa.csv")));
+            try {
+                while ((linea = buffer.readLine()) != null) {
+                    if(linea.length() != 0 && linea.charAt(0) != '#') {
+                        cadeas = linea.split(",");
+                        int[] tam = new int[2];
+                        tam[0] = Integer.parseInt(cadeas[0]);
+                        tam[1] = Integer.parseInt(cadeas[1]);
+                        System.out.println("O resultado foi : " + tam[0] + " e mais : " + tam[1]);
+                        /*for(String cad : cadeas) {
+                        }*/
+                    }
+                }
+                buffer.close();
+            } catch (IOException ex) {
+                System.out.println("ERROR leyendo el fichero");
+                System.exit(1);
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("ERROR abriendo el fichero");
+            System.exit(1);
+        }
+
+        Arma armaMala = new Arma("pistolita","pistola pequeña",false,20,1,1);
         Arma armaBuena = new Arma("pistolón","pistola grande",false,40,2,2);
         ArrayList<Arma> armas = new ArrayList<>();
         armas.add(armaBuena);
@@ -49,7 +85,6 @@ public class Main {
         Armadura armaduraVida = new Armadura("armadura curadora","armadura de vida",10,0,3,5,5);
         Armadura armaduraEnergy = new Armadura("armadura rapida","armadura de energia",0,10,3,4,4);
 
-        Mapa mapa = new Mapa(9,10,sel);
         System.out.println(mapa.getDescripcion());
 
         mapa.getCelda(0,0).setBotiquin(new Botiquin("botiquin_grande", "botiquin mas grande que tu cabeza", 1, 2, 3));
@@ -84,15 +119,15 @@ public class Main {
             /**
              * Si se acaba la energía no se hace nada (ni imprimir)
              **/
-            /*mapa.imprimir(personaje);
+            mapa.imprimir(personaje);
             System.out.println(personaje.getNombre()+"[Vida: " + personaje.getPuntosVida() + " Energia: " + personaje.getEnergia() + "]");
             System.out.print(">");
             sel =  entradaEscaner.nextLine();
             cadeas = sel.split(" ");
             switch (cadeas[0]) {
                 case "ayuda":
-                    //System.out.println("/**********************************************///");
-                    /*System.out.println("/- Introduce 'terminar' para finalizar el juego/");
+                    System.out.println("/**********************************************/");
+                    System.out.println("/- Introduce 'terminar' para finalizar el juego/");
                     System.out.println("/- Introduce 'mover' seguido de un espacio y la/");
                     System.out.println("/  dirección :                                 /");
                     System.out.println("/  *r=derecha *l=izquierda *u=arriba *d=abajo  /");
@@ -105,8 +140,8 @@ public class Main {
                     System.out.println("/  objetos de tu casilla actual.               /");
                     System.out.println("/- Introduce descripcion para ver a descripción/");
                     System.out.println("/  del mapa(su nombre y dimensiones)           /");
-                    //System.out.println("/**********************************************///");
-                    /*break;
+                    System.out.println("/**********************************************/");
+                    break;
                 case "mover":
                     if(cadeas.length == 2 && cadeas[1].length() == 1)
                         if(cadeas[1].charAt(0) == 'r' || cadeas[1].charAt(0) == 'l' || cadeas[1].charAt(0) == 'u' || cadeas[1].charAt(0) == 'd')
@@ -159,6 +194,6 @@ public class Main {
                 default:
                     System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
             }
-        } while(!sel.equals("terminar"));*/
+        } while(!sel.equals("terminar"));
     }
 }
