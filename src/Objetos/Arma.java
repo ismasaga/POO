@@ -7,6 +7,7 @@ public class Arma {
     private int dano;
     private int peso;
     private int espacio;
+    private int alcance;
 
     public Arma() {
         setNombre("desconocida");
@@ -15,6 +16,7 @@ public class Arma {
         setDosManos(true);
         setPeso(1);
         setEspacio(1);
+        setAlcance(1);
     }
 
     public Arma(String nombre,String descripcion, boolean dosManos,int dano, int peso, int espacio) {
@@ -24,6 +26,42 @@ public class Arma {
         setDosManos(dosManos);
         setPeso(peso);
         setEspacio(espacio);
+        setAlcance(1);
+    }
+
+    /**
+     * Constructor para armas parseadas de archivo
+     */
+    public Arma(String nombre, String descripcion, int dano, int alcance, int manos, int peso) {
+        setNombre(nombre);
+        setDescripcion(descripcion);
+        setDano(dano);
+        setAlcance(alcance);
+        if(manos == 1)
+            setDosManos(false);
+        else if(manos == 2)
+            setDosManos(true);
+        else
+            System.out.println("ERROR definiendo de cuántas manos és le arma");
+        setPeso(peso);
+        setEspacio(1);
+    }
+
+    /**
+     * Devuelve alcance del arma
+     */
+    public int getAlcance() {
+        return alcance;
+    }
+
+    /**
+     * Asigna alcance a la arma
+     */
+    public void setAlcance(int alcance) {
+        if(alcance < 0)
+            this.alcance = 0;
+        else
+            this.alcance = alcance;
     }
 
     public int getEspacio()
@@ -44,28 +82,53 @@ public class Arma {
         this.peso = peso > 0 ? peso : 1;
     }
 
+    /**
+     * Devuelve la descripcion del arma
+     */
     public String getDescripcion() {
         return descripcion;
     }
 
+    /**
+     * Asigna la descripcion del arma
+     */
     public void setDescripcion(String descripcion) {
-        this.descripcion = new String(descripcion);
+        if(descripcion != null)
+            this.descripcion = new String(descripcion);
+        else
+            System.out.println("ERROR asignando la descripcion al arma");
     }
 
+    /**
+     * Devuleve true si el arma es a dos manos y false en caso contrario
+     */
     public boolean isDosManos() {
         return dosManos;
     }
 
+    /**
+     * Asigna el valor booleano a la variable dosManos
+     * IMPORTANTE : meter true en caso de que el arma sea de dos manos y false en caso contrario
+     */
     public void setDosManos(boolean dosManos) {
         this.dosManos = dosManos;
     }
 
+    /**
+     * Devuelve el nombre del arma
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Asigna nombre al arma
+     */
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        if(nombre != null)
+            this.nombre = nombre;
+        else
+            System.out.println("ERROR asignando nombre al arma");
     }
 
     /**
@@ -76,8 +139,14 @@ public class Arma {
         return dano;
     }
 
+    /**
+     * Asigna los puntos de daño al arma
+     */
     public void setDano(int dano) {
-        this.dano = dano;
+        if(dano < 0)
+            this.dano = 0;
+        else
+            this.dano = dano;
     }
 
     /**

@@ -25,7 +25,7 @@ public class Mapa {
      */
     private ArrayList<ArrayList<Celda>> mapa = new ArrayList<ArrayList<Celda>>();
 
-    public Mapa(int ancho,int alto,String nombre) {
+    public Mapa(int alto,int ancho,String nombre) {
         this.alto = alto > 0 ? alto : 10;
         this.ancho = ancho > 0 ? ancho : 10;
         for (int i = 0; i < alto; i++)
@@ -33,14 +33,14 @@ public class Mapa {
             ArrayList<Celda> arrayC = new ArrayList<>();
             for (int j = 0; j < ancho; j++)
             {
-                arrayC.add(new Celda(true));
+                arrayC.add(new Celda(false));
             }
             mapa.add(arrayC);
         }
         setNombre(nombre);
     }
 
-    public Mapa(int ancho,int alto) {
+    public Mapa(int alto,int ancho) {
         this.alto = alto > 0 ? alto : 10;
         this.ancho = ancho > 0 ? ancho : 10;
         for (int i = 0; i < alto; i++)
@@ -48,7 +48,7 @@ public class Mapa {
             ArrayList<Celda> arrayC = new ArrayList<>();
             for (int j = 0; j < ancho; j++)
             {
-                arrayC.add(new Celda(true));
+                arrayC.add(new Celda(false));
             }
             mapa.add(arrayC);
         }
@@ -119,7 +119,7 @@ public class Mapa {
      */
     public Celda getCelda(int i, int j)
     {
-        if(i < ancho && j < alto && i >= 0 && j >= 0)
+        if(i < alto && j < ancho && i >= 0 && j >= 0)
         {
             return mapa.get(i).get(j);
         }

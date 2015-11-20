@@ -40,7 +40,7 @@ public class Personaje
     private Arma armaIzq;
     private Arma armaDosM;
     private Armadura armadura;
-    private Binoculares binocular = null;
+    private Binoculares binocular;
 
 
     public Personaje(int MAXIMO_VIDA,int puntosVida,Armadura armadura,Celda celda,Mochila mochila,int rangoVision,Arma armaIzq,Arma armaDer,int energia,int MAXIMO_ENERGIA,String nombre) {
@@ -55,6 +55,28 @@ public class Personaje
         this.MAXIMO_ENERGIA  = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
         this.energia = (energia > 0 && energia <= this.MAXIMO_ENERGIA) ? energia : 100;
         setNombre(nombre);
+        binocular = null;
+    }
+
+    /**
+     * Constructor para archivo parseado
+     * @param celda
+     * @param nombre
+     * @param puntosVida
+     * @param MAXIMO_ENERGIA
+     */
+    public Personaje(Celda celda, String nombre,int puntosVida,int MAXIMO_ENERGIA) {
+        this.MAXIMO_VIDA = puntosVida > 0 ? puntosVida : 100;
+        setPuntosVida(puntosVida);
+        setArmadura(new Armadura());
+        setCelda(celda);
+        setMochila(new Mochila(20,5));
+        setRangoVision(2);
+        armaDer = armaIzq = armaDosM = null;
+        this.MAXIMO_ENERGIA  = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
+        setEnergia(this.MAXIMO_ENERGIA);
+        setNombre(nombre);
+        binocular = null;
     }
 
     public Personaje(int MAXIMO_VIDA,int puntosVida,Armadura armadura,Celda celda,Mochila mochila,int rangoVision,ArrayList<Arma> armas,int energia,int MAXIMO_ENERGIA,String nombre) {
@@ -68,6 +90,7 @@ public class Personaje
         this.MAXIMO_ENERGIA  = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
         this.energia = (energia > 0 && energia <= this.MAXIMO_ENERGIA) ? energia : 100;
         setNombre(nombre);
+        binocular = null;
     }
 
     /**
@@ -294,9 +317,15 @@ public class Personaje
         return celda;
     }
 
-    public void setCelda(Celda celda)
-    {
-        this.celda = celda;
+    /**
+     * Asigna unha celda á persoaxe
+     * @param celda
+     */
+    public void setCelda(Celda celda) {
+        if(celda != null)
+            this.celda = celda;
+        else
+            System.out.println("ERROR asignando celda al personaje");
     }
 
     public Mochila getMochila()
@@ -304,9 +333,15 @@ public class Personaje
         return mochila;
     }
 
-    public void setMochila(Mochila mochila)
-    {
-        this.mochila = mochila;
+    /**
+     * Asigna unha mochila á persoaxe
+     * @param mochila
+     */
+    public void setMochila(Mochila mochila) {
+        if(mochila != null)
+            this.mochila = mochila;
+        else
+            System.out.println("ERROR asignando la mochila al personaje");
     }
 
     public int getRangoVision()

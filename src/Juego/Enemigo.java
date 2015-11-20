@@ -1,9 +1,7 @@
 package Juego;
 
 import Objetos.*;
-import Juego.*;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,7 +18,9 @@ import java.util.Random;
 public class Enemigo
 {
     private final int VIDA_MAXIMA;
+    private final int ENERGIA_MAXIMA;
     private int puntosVida;
+    private int energia;
     private Arma armaDer;
     private Arma armaIzq;
     private Arma armaDosM;
@@ -30,26 +30,45 @@ public class Enemigo
     private Armadura armadura;
     private Mochila mochila;
     private String nombre;
-    private final int rangoVision = 3;
+    private final int rangoVision;
 
 
     public Enemigo(int VIDA_MAXIMA, int puntosVida,Arma armaIzq,Arma armaDer,Armadura armadura, String nombre)
     {
         this.VIDA_MAXIMA = VIDA_MAXIMA > 0 ? VIDA_MAXIMA : 100;
+        this.ENERGIA_MAXIMA = 100;
         this.puntosVida = (puntosVida > 0 && puntosVida <= VIDA_MAXIMA) ? puntosVida : 100;
         setArmaDer(armaDer);
         setArmaIzq(armaIzq);
         setArmadura(armadura);
         setNombre(nombre);
+        rangoVision = 3;
+        mochila = new Mochila(20,5);
     }
 
     public Enemigo(int VIDA_MAXIMA, int puntosVida,ArrayList<Arma> armas, Armadura armadura)
     {
         this.VIDA_MAXIMA = VIDA_MAXIMA > 0 ? VIDA_MAXIMA : 100;
+        this.ENERGIA_MAXIMA = 100;
         this.puntosVida = (puntosVida > 0 && puntosVida <= VIDA_MAXIMA) ? puntosVida : 100;
         setArmas(armas);
         setArmadura(armadura);
         setNombre("desconocido");
+        rangoVision = 3;
+        mochila = new Mochila(20,5);
+    }
+
+    /**
+     * Constructor para o parseado dos archivos
+     */
+    public Enemigo(String nombre,int puntosVida,int energia) {
+        this.VIDA_MAXIMA = puntosVida > 0 ? puntosVida : 100;
+        this.ENERGIA_MAXIMA = energia > 0 ? energia : 100;
+        setPuntosVida(puntosVida);
+        armaDer = armaDosM = armaIzq = null;
+        setNombre(nombre);
+        rangoVision = 3;
+        mochila = new Mochila(20,5);
     }
 
     public int getRangoVision()
@@ -95,6 +114,26 @@ public class Enemigo
         this.puntosVida = puntosVida;
     }
 
+    /**
+     * Retorna a enerxia do enemigo
+     * @return enerxia no momento da chamada
+     */
+    public int getEnergia() {
+        return energia;
+    }
+
+    /**
+     * Asigna energia al enemigo
+     */
+    public void setEnergia(int energia) {
+        if(energia < 0)
+            this.energia = 0;
+        else if(energia > ENERGIA_MAXIMA)
+            this.energia = ENERGIA_MAXIMA;
+        else
+            this.energia = energia;
+    }
+
     public void atacar(Personaje personaje)
     {
         int coeficienteAtaque; //Esta variable previene que un ataque sume puntos de vida (armadura > ataque)
@@ -132,7 +171,6 @@ public class Enemigo
 
     /**
      * Asigna armadura al enemigo
-     * @param armadura
      */
     public void setArmadura(Armadura armadura) {
         if(armadura != null)
@@ -162,7 +200,6 @@ public class Enemigo
      * ATENCIÓN : si se usa éste método se eliminarán las armas que el enemigo lla portaba
      * ATENCIÓN : si se usa para mandar solo una arma de una mano ésta quedará equipada en la mano derecha.
      * ATENCIÓN : en caso de ser dos armas a una mano la primera irá a la mano derecha.
-     * @param armas
      */
     public void setArmas(ArrayList<Arma> armas) {
         if(armas != null) {

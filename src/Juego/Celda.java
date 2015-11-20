@@ -30,11 +30,13 @@ public class Celda {
     }
 
     /**
-     * Engade un binocular a celda
-     * @param binocular
+     * Anhade un binocular a la celda
      */
     public void setBinoculares(Binoculares binocular) {
-        arrayBinoculares.add(binocular);
+        if(binocular != null)
+            arrayBinoculares.add(binocular);
+        else
+            System.out.println("ERROR asignando binocular a la celda");
     }
 
     /**

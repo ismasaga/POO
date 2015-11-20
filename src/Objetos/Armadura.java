@@ -27,14 +27,34 @@ public class Armadura {
         setEspacio(espacio);
     }
 
-    public int getEspacio()
-    {
+    /**
+     * Constructor para armaduras parseadas de archivo
+     */
+    public Armadura(String nombre, String descripcion, int defensa, int incrVida, int incrEnergia, int peso) {
+        setNombre(nombre);
+        setDescripcion(descripcion);
+        setDefensa(defensa);
+        setIncrVida(incrVida);
+        setIncrEnergia(incrEnergia);
+        setPeso(peso);
+        setEspacio(1);
+    }
+
+    /**
+     * Devolve o espacio que ocupa a armadura
+     */
+    public int getEspacio() {
         return espacio;
     }
 
-    public void setEspacio(int espacio)
-    {
-        this.espacio = espacio;
+    /**
+     * Asigna o espacio que ocupa a armadura
+     */
+    public void setEspacio(int espacio) {
+        if(espacio < 0)
+            this.espacio = 0;
+        else
+            this.espacio = espacio;
     }
 
     public int getPeso() {
@@ -42,23 +62,41 @@ public class Armadura {
     }
 
     public void setPeso(int peso) {
-        this.peso = peso > 0 ? peso : 1;
+        this.peso = peso;
     }
 
+    /**
+     * Devuelve la descripcion de la armadura
+     */
     public String getDescripcion() {
         return descripcion;
     }
 
+    /**
+     * Asigna descripcion a la armadura
+     */
     public void setDescripcion(String descripcion) {
-        this.descripcion = new String(descripcion);
+        if(descripcion != null)
+            this.descripcion = new String(descripcion);
+        else
+            System.out.println("ERROR asignando descripcion a la armadura");
     }
 
+    /**
+     * Devolve o nome da armadura
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Asigna nome a armadura
+     */
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        if(nombre != null)
+            this.nombre = nombre;
+        else
+            System.out.println("ERROR asignando nombre a la armadura");
     }
 
     public int getIncrVida() {
@@ -77,12 +115,21 @@ public class Armadura {
         this.incrEnergia = incrEnergia;
     }
 
+    /**
+     * Devuelve los puntos de defensa que proporciona la armadura
+     */
     public int getDefensa() {
         return defensa;
     }
 
+    /**
+     * Asigna los puntos de defensa que tiene la armadura
+     */
     public void setDefensa(int defensa) {
-        this.defensa = defensa;
+        if(defensa < 0)
+            this.defensa = 0;
+        else
+            this.defensa = defensa;
     }
 
     /**

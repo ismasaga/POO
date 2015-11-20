@@ -42,20 +42,43 @@ public class Binoculares
         this.espacio = 1;
     }
 
+    /**
+     * Constructor para objetos parseados de archivo
+     */
+    public Binoculares(String nombre, String descripcion, int vision, int peso) {
+        setNombre(nombre);
+        setDescripcion(descripcion);
+        this.vision = vision > 0 ? vision : 1;
+        this.peso = peso > 0 ? peso : 2;
+        this.espacio = 1;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Asigna nombre al binocular
+     */
     public void setNombre(String nombre) {
-        this.nombre = new String(nombre);
+        if(nombre != null)
+            this.nombre = new String(nombre);
+        else
+            System.out.println("ERROR asignando nombre al binocular");
     }
 
     public String getDescripcion() {
         return descripcion;
     }
 
+    /**
+     * Asigna descripcion al binocular
+     */
     public void setDescripcion(String descripcion) {
-        this.descripcion = new String(descripcion);
+        if(descripcion != null)
+            this.descripcion = new String(descripcion);
+        else
+            System.out.println("ERROR asignando descripcion al binocular");
     }
 
     //No se implementan setters, pues los valores del binocular no cambia durante su existencia.

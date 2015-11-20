@@ -27,9 +27,8 @@ public class Mochila
     private ArrayList<Botiquin> arrayBotiquin;
     private ArrayList<Arma> arrayArmas;
     private ArrayList<Armadura> arrayArmaduras;
-
-
-
+    private String nombre;
+    private String descripcion;
     //Hay que obtener el peso actual de la mochila
     //Estos atributos no tienen setters, pues sus valores se calculan desde mochila.
     private int pesoActual;
@@ -38,8 +37,6 @@ public class Mochila
     /**
      * Constructor que crea una nueva mochila
      * Se supone que, cuando se crea la mochila (al principio), esta esta vacía
-     * @param pesoMaximo Peso maximo de la mochila
-     * @param objetosMaximos Objetos maximosde la mochila
      */
     public Mochila(int pesoMaximo,int objetosMaximos)
     {
@@ -54,7 +51,57 @@ public class Mochila
         this.objetosActuales = 0;
     }
 
+    //# mochila: celda, portador, tipo, nombre, descripcion, capacidad (num objetos), peso max (kg).
 
+    /**
+     * Constructor para objetos parseados de archivo
+     */
+    public Mochila(String nombre,String descripcion,int objetosMaximos,int pesoMaximo) {
+        setNombre(nombre);
+        setDescripcion(descripcion);
+        this.pesoMaximo = pesoMaximo > 0 ? pesoMaximo : 20;
+        this.objetosMaximos = objetosMaximos > 0 ?  objetosMaximos : 5;
+        //Esto previene que se acceda al arrayList antes de crear el objeto
+        arrayBinoculares = new ArrayList<>();
+        arrayBotiquin = new ArrayList<>();
+        arrayArmas = new ArrayList<>();
+        this.pesoActual = 0;
+        this.objetosActuales = 0;
+    }
+
+    /**
+     * Devuelve el nombre de la mochila
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Asigna nombre a la mochila
+     */
+    public void setNombre(String nombre) {
+        if(nombre != null)
+            this.nombre = nombre;
+        else
+            System.out.println("ERROR asignando nombre a la mochila");
+    }
+
+    /**
+     * Devuelve la descripcion de la mochila
+     */
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    /**
+     * Asigna descripcion a la mochila
+     */
+    public void setDescripcion(String descripcion) {
+        if(descripcion != null)
+            this.descripcion = descripcion;
+        else
+            System.out.println("ERROR asignando descripcion a la mochila");
+    }
 
     public ArrayList<Arma> getArrayArmas()
     {
@@ -116,13 +163,14 @@ public class Mochila
 
     /**
      * Añade un arma a la mochila
-     * @param arma
      */
-    public void anadirArma (Arma arma)
-    {
-        arrayArmas.add(arma);
-        this.setPesoActual(this.getPesoActual() + arma.getPeso());
-        this.setObjetosActuales(this.getObjetosActuales() + 1);
+    public void anadirArma (Arma arma) {
+        if(arma != null) {
+            arrayArmas.add(arma);
+            this.setPesoActual(this.getPesoActual() + arma.getPeso());
+            this.setObjetosActuales(this.getObjetosActuales() + 1);
+        } else
+            System.out.println("ERROR insertando arma en la mochila");
     }
 
     /**
