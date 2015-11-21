@@ -113,8 +113,8 @@ public class Mapa {
     /**
      * Retorna la celda de la posición (i,j) en base 0 (0..9, por defecto en los valores del constructor de dos parametros)
      *
-     * @param i Fila a obtener (ancho)
-     * @param j Columna a obtener (alto)
+     * @param i Fila a obtener (alto)
+     * @param j Columna a obtener (ancho)
      * @return Celda a obtener (null en caso de fallo)
      */
     public Celda getCelda(int i, int j)

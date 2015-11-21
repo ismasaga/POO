@@ -374,25 +374,34 @@ public class Enemigo
                 switch (direccion)
                 {
                     case 0: //Mueve abajo
-                        if (iEnemigo + 1 < mapa.getAlto())
+                        if (iEnemigo + 1 < mapa.getAlto() && mapa.getCelda(iEnemigo+1,jEnemigo).isTransitable())
                             iEnemigo += 1;
                         break;
                     case 1: //Mueve arriba
-                        if (iEnemigo - 1 >= 0)
+                        if (iEnemigo - 1 >= 0 && mapa.getCelda(iEnemigo-1,jEnemigo).isTransitable())
                             iEnemigo -= 1;
                         break;
                     case 2: //Mueve derecha
-                        if (jEnemigo + 1 < mapa.getAncho())
+                        if (jEnemigo + 1 < mapa.getAncho() && mapa.getCelda(iEnemigo,jEnemigo+1).isTransitable())
                             jEnemigo += 1;
                         break;
                     case 3: //Mueve izquierda
-                        if (jEnemigo - 1 < mapa.getAncho())
+                        if (jEnemigo - 1 < mapa.getAncho() && mapa.getCelda(iEnemigo,jEnemigo-1).isTransitable())
                             jEnemigo -= 1;
                         break;
                     default:
                         System.err.println("Incapaz de mover el enemigo" + this.getNombre());
                 }
-                mapa.getCelda(iEnemigo,jEnemigo).getEnemigo().add(this);
+                mapa.getCelda(iEnemigo,jEnemigo).setEnemigo(this);
+            }
+            if ((iPersonaje >= iEnemigo - getRangoVision() &&
+                    iPersonaje <= iEnemigo + getRangoVision() &&
+                    jPersonaje >= jEnemigo - getRangoVision() &&
+                    jPersonaje <= jEnemigo + getRangoVision()))
+            {
+
+                atacar(personaje);
+                return;
             }
         }
     }

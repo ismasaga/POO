@@ -686,26 +686,26 @@ public class Personaje
                     bot.info();
             }
         }
-        if (this.celda.getEnemigo() != null) {
-            ArrayList<Enemigo> enemigos = this.celda.getEnemigo();
+        if (celda.getEnemigo() != null) {
+            ArrayList<Enemigo> enemigos = celda.getEnemigo();
             for(Enemigo enemigo : enemigos)
             {
                 if(objeto == null || (objeto.equals(enemigo.getNombre())))
                     enemigo.info();
             }
         }
-        if(this.celda.getArmaduras() != null)
+        if(celda.getArmaduras() != null)
         {
-            ArrayList<Armadura> armaduras = this.celda.getArmaduras();
+            ArrayList<Armadura> armaduras = celda.getArmaduras();
             for(Armadura armadura : armaduras)
             {
                if(objeto == null || (objeto.equals(armadura.getNombre())))
                    armadura.info();
             }
         }
-        if(this.celda.getArma() != null)
+        if(celda.getArma() != null)
         {
-            ArrayList<Arma> armas = this.celda.getArma();
+            ArrayList<Arma> armas = celda.getArma();
             for(Arma arma : armas)
             {
                 if(objeto == null || (objeto.equals(arma.getNombre())))
@@ -714,9 +714,36 @@ public class Personaje
         }
     }
 
-    public void pasar()
+    public void pasar(Mapa mapa,Personaje personaje)
     {
         this.energia = MAXIMO_ENERGIA;
+        ArrayList<Enemigo> arrayEnemigos = new ArrayList<>();
+        ArrayList<Integer[]> arrayPos = new ArrayList<>();
+        for (int i = 0; i < mapa.getAlto(); i++)
+        {
+            for (int j = 0; j < mapa.getAncho(); j++)
+            {
+                Celda celda = mapa.getCelda(i,j);
+                if(celda.getEnemigo() != null)
+                {
+                    for (Enemigo enemigo : celda.getEnemigo())
+                    {
+                        if(enemigo != null)
+                        {
+                            arrayEnemigos.add(enemigo);
+                            Integer[] pos = new Integer[2];
+                            pos[0] = i;
+                            pos[1] = j;
+                            arrayPos.add(pos);
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < arrayEnemigos.size(); i++)
+        {
+            arrayEnemigos.get(i).mover(mapa,arrayPos.get(i)[0],arrayPos.get(i)[1],personaje);
+        }
     }
 
     /**
