@@ -277,6 +277,11 @@ public class Main {
             /**
              * Si se acaba la energía no se hace nada (ni imprimir)
              **/
+            if(personaje.getPuntosVida() == 0)
+            {
+                System.out.println("Has muerto pringao.");
+                System.exit(0);
+            }
             mapa.imprimir(personaje);
             System.out.println(personaje.getNombre()+"[Vida: " + personaje.getPuntosVida() + " Energia: " + personaje.getEnergia() + "]");
             System.out.print(">");
@@ -356,6 +361,22 @@ public class Main {
                     personaje.cogerArmadura(cadeas[1]);
                     personaje.cogerBinocular(cadeas[1]);
                     personaje.cogerBotiquin(cadeas[1]);
+                    break;
+                case "desequipar":
+                    if(cadeas[1].equals("arma"))
+                        personaje.desequiparArma(cadeas[2]);
+                    break;
+                case "equipar":
+                    if(cadeas.length == 3)
+                    {
+                        if (cadeas[1].equals("arma"))
+                            personaje.equiparArma(cadeas[2], "");
+                    }
+                    else if (cadeas.length == 4)
+                    {
+                        if (cadeas[1].equals("arma"))
+                            personaje.equiparArma(cadeas[2],cadeas[3]);
+                    }
                     break;
                 case "usar":
                     if(cadeas.length == 2)

@@ -265,8 +265,6 @@ public class Personaje
                 this.armaIzq = armaIzq;
                 this.armaDosM = null;
             }
-        else
-            System.out.println("ERROR en el arma que intentas equipar en la mano izquierda");
     }
 
     /**
@@ -896,58 +894,6 @@ public class Personaje
         return muerto;
     }
 
-    /**
-     * Para equipar una arma se hace "equipar ASDFASDF derecha/izquierda"
-     * @param personaje Personaje a equipar
-     * @param nombreArma Nombre del arma a equipar
-     * @param mano Mano a equipar si no es de dos manos (izquierda,derecha)
-     */
-    public void equiparArma(Personaje personaje, String nombreArma, String mano)
-    {
-        for(Arma arma : mochila.getArrayArmas())
-        {
-            if(arma.getNombre().equals(nombreArma))
-            {
-                if(arma.isDosManos())
-                {
-                    if(personaje.getArmaDosM() != null)
-                        mochila.anadirArma(personaje.getArmaDosM());
-                    personaje.setArmaDosM(arma);
-                    if(personaje.getArmaDer() != null)
-                        mochila.anadirArma(personaje.getArmaDer());
-                    if(personaje.getArmaIzq() != null)
-                        mochila.anadirArma(personaje.getArmaIzq());
-                    personaje.setArmaIzq(null);
-                    personaje.setArmaDer(null);
-                    return;
-                }
-                else if(mano.equals("derecha"))
-                {
-                    if(personaje.getArmaDer() != null)
-                        mochila.anadirArma(personaje.getArmaDer());
-                    if(personaje.getArmaDosM() != null)
-                        mochila.anadirArma(personaje.getArmaDosM());
-                    personaje.setArmaDer(arma);
-                    personaje.setArmaDosM(null);
-                    return;
-                }
-                else if(mano.equals("izquierda"))
-                {
-                    if(personaje.getArmaIzq() != null)
-                        mochila.anadirArma(personaje.getArmaIzq());
-                    if(personaje.getArmaDosM() != null)
-                        mochila.anadirArma(personaje.getArmaDosM());
-                    personaje.setArmaIzq(arma);
-                    personaje.setArmaDosM(null);
-                    return;
-                }
-                else
-                {
-                    System.out.println("Mano mal escrita");
-                }
-            }
-        }
-    }
 
     public void equiparArmadura(Personaje personaje, String nombreArmadura)
     {
@@ -1017,27 +963,81 @@ public class Personaje
         /**
      * Desequipa el arma de la mano seleccionada. Si el arma detectada es de dos manos se ignora la mano.
      */
-    public void desequiparArma(Personaje personaje, String mano)
+    public void desequiparArma(String mano)
     {
-        if(personaje.getArmas().get(0) != null) {
-            if (personaje.getArmaDosM() != null){
-                mochila.anadirArma(personaje.getArmas().get(0));
-                personaje.setArmaDosM(null);
+        if(getArmas().size() > 0) {
+            if (getArmaDosM() != null){
+                mochila.anadirArma(getArmas().get(0));
+                setArmaDosM(null);
+                return;
             }
             else if (mano.equals("derecha"))
             {
-                mochila.anadirArma(personaje.getArmaDer());
-                personaje.setArmaDer(null);
+                if(getArmaDer() != null)
+                    mochila.anadirArma(getArmaDer());
+                setArmaDer(null);
             }
             else if (mano.equals("izquierda"))
             {
-                mochila.anadirArma(personaje.getArmaIzq());
-                personaje.setArmaIzq(null);
+                if(getArmaIzq() != null)
+                    mochila.anadirArma(getArmaIzq());
+                setArmaIzq(null);
             }
             else
             {
                 System.out.println("Mano mal escrita");
             }
+        }
+    }
+
+    /**
+     * Recorre la mochila buscando un arma que coincida con el nombre
+     * @param nombre: nombre del arma a equipar
+     * @param mano: mano en la que equipar el arma
+     */
+    public void equiparArma (String nombre,String mano)
+    {
+        Arma armaEscogida = null;
+        for(Arma arma : mochila.getArrayArmas())
+        {
+            if(arma.getNombre().equals(nombre))
+            {
+                armaEscogida = arma;
+                if(arma.isDosManos())
+                {
+                    if(getArmaDosM() != null)
+                    {
+                        desequiparArma("");
+                    }
+                    else
+                    {
+                        desequiparArma("derecha");
+                        desequiparArma("izquierda");
+                    }
+                    setArmaDosM(arma);
+                }
+                else
+                {
+                    if(mano.equals("derecha"))
+                    {
+                        desequiparArma("derecha");
+                        setArmaDer(arma);
+                    }
+                    else if(mano.equals("izquierda"))
+                    {
+                        desequiparArma("izquierda");
+                        setArmaIzq(arma);
+                    }
+                    else
+                    {
+                        System.out.println("Mano mal escrita");
+                    }
+                }
+            }
+        }
+        if(armaEscogida != null)
+        {
+            mochila.quitarArma(armaEscogida);
         }
     }
 }
