@@ -35,7 +35,7 @@ public class Personaje
     private String nombre;
     private int rangoVision; /**Casillas visibles por el personaje**/
     //private final int ataque;
-    private int energia; /**Energia actual**/
+    private float energia; /**Energia actual**/
     private Arma armaDer;
     private Arma armaIzq;
     private Arma armaDosM;
@@ -122,12 +122,12 @@ public class Personaje
         return nombre;
     }
 
-    public int getEnergia()
+    public float getEnergia()
     {
         return energia;
     }
 
-    public void setEnergia(int energia)
+    public void setEnergia(float energia)
     {
         if (energia < 0)
         {
@@ -673,8 +673,6 @@ public class Personaje
 
         arrayBin = celda.getBinoculares();
         arrayBot = celda.getBotiquin();
-        System.out.println("Tamaño botiquin: " + arrayBot.size());
-
         //Hay una serie de ifs que controlan si se imprime un objeto.
         //Si no se proporciona objeto se imprimen todos
         //Si se proporciona solo se imprime aquel que tenga el mismo nombre

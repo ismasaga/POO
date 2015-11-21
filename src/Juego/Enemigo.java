@@ -197,7 +197,7 @@ public class Enemigo
 
     /**
      * Este método equipa las armas al enemigo dado un array de ellas(1 de dos manos o 2 de una mano).
-     * ATENCIÓN : si se usa éste método se eliminarán las armas que el enemigo lla portaba
+     * ATENCIÓN : si se usa éste método se eliminarán las armas que el enemigo ya portaba
      * ATENCIÓN : si se usa para mandar solo una arma de una mano ésta quedará equipada en la mano derecha.
      * ATENCIÓN : en caso de ser dos armas a una mano la primera irá a la mano derecha.
      */

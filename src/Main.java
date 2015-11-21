@@ -91,6 +91,10 @@ public class Main {
                         cadeas = linea.split(";");
                         tamano[0] = Integer.parseInt(cadeas[0].split(",")[0]);
                         tamano[1] = Integer.parseInt(cadeas[0].split(",")[1]);
+                        if(!(cadeas[1].equals("enemigo") || cadeas[1].equals("jugador")))
+                        {
+                            System.out.println("ERROR, el tipo de personaje no está contemplado");
+                        }
                         switch (cadeas[1]) {
                             case "enemigo":
                                 mapa.getCelda(tamano[0], tamano[1]).setEnemigo(new Enemigo(cadeas[2],Integer.parseInt(cadeas[3]),Integer.parseInt(cadeas[4])));
@@ -98,8 +102,7 @@ public class Main {
                             case "jugador":
                                 personaje = new Personaje(mapa.getCelda(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
                                 break;
-                            default:
-                                System.out.println("ERROR, el tipo de personaje no está contemplado");
+
                         }
                     }
                 }
@@ -130,6 +133,7 @@ public class Main {
             try {
                 while ((linea = buffer.readLine()) != null) {
                     if(linea.length() != 0 && linea.charAt(0) != '#') {
+
                         cadeas = linea.split(";");
                         tamano[0] = Integer.parseInt(cadeas[0].split(",")[0]);
                         tamano[1] = Integer.parseInt(cadeas[0].split(",")[1]);
@@ -140,13 +144,13 @@ public class Main {
                                         mapa.getCelda(tamano[0], tamano[1]).setBinoculares(new Binoculares(cadeas[3],cadeas[4],Integer.parseInt(cadeas[5]),Integer.parseInt(cadeas[6])));
                                         break;
                                     case "arma" :
-                                        mapa.getCelda(tamano[0], tamano[1]).setArma(new Arma(cadeas[3],cadeas[4],Integer.parseInt(cadeas[5]),Integer.parseInt(cadeas[6]),Integer.parseInt(cadeas[7]),Integer.parseInt(cadeas[8])));
+                                        mapa.getCelda(tamano[0], tamano[1]).setArma(new Arma(cadeas[3],cadeas[4],Integer.parseInt(cadeas[5]),Integer.parseInt(cadeas[6]),Integer.parseInt(cadeas[7]),Float.parseFloat(cadeas[8])));
                                         break;
                                     case "armadura" :
                                         mapa.getCelda(tamano[0], tamano[1]).setArmadura(new Armadura(cadeas[3],cadeas[4],Integer.parseInt(cadeas[5]),Integer.parseInt(cadeas[6]),Integer.parseInt(cadeas[7]),Integer.parseInt(cadeas[8])));
                                         break;
                                     case "botiquin" :
-                                        mapa.getCelda(tamano[0], tamano[1]).setBotiquin(new Botiquin(cadeas[3],cadeas[4],Integer.parseInt(cadeas[5]),Integer.parseInt(cadeas[6])));
+                                        mapa.getCelda(tamano[0], tamano[1]).setBotiquin(new Botiquin(cadeas[3],cadeas[4],Integer.parseInt(cadeas[5]),Float.parseFloat(cadeas[6])));
                                         break;
                                     case "mochila" :
                                         System.out.println("Non podes deixar unha mochila nunha casilla(Por ahora)");
@@ -188,25 +192,30 @@ public class Main {
                                         System.out.println("ERROR, intentas dar un objeto desconocido(Por ahora) al personaje");
                                 }
                                 break;
-                            /*case "enemigo" :
-                                switch (cadeas[2]) {
-                                    case "binoculares" :
-                                        break;
-                                    case "arma" :
-                                        break;
-                                    case "armadura" :
-                                        break;
-                                    case "botiquin" :
-                                        break;
-                                    case "mochila" :
-                                        pe//rsonaje.setMochila(new Mochila(cadeas[3],cadeas[4],Integer.parseInt(cadeas[5]),Integer.parseInt(cadeas[6])));
-                                        break;
-                                    default:
-                                        System.out.println("ERROR, intentas dar un objeto desconocido a un enemigo");
-                                }
-                                break;*/
                             default:
-                                System.out.println("ERROR, el tipo de personaje no está contemplado");
+                                Celda celda = mapa.getCelda(tamano[0],tamano[1]);
+                                for(Enemigo enemigo : celda.getEnemigo())
+                                {
+                                    if(cadeas[2].equals("arma"))
+                                    {
+                                        ArrayList armas = new ArrayList<>();
+                                        Arma arma = new Arma(cadeas[3],cadeas[4],Integer.parseInt(cadeas[5]),Integer.parseInt(cadeas[6]),Integer.parseInt(cadeas[7]),Float.parseFloat(cadeas[8]));
+                                        armas.add(arma);
+                                        if(enemigo.getNombre().equals(cadeas[1]))
+                                        {
+                                            enemigo.setArmas(armas);
+                                        }
+                                    }
+                                    else if(cadeas[2].equals("armadura"))
+                                    {
+                                        enemigo.setArmadura(new Armadura(cadeas[3],cadeas[4],Integer.parseInt(cadeas[5]),Integer.parseInt(cadeas[6]),Integer.parseInt(cadeas[7]),Float.parseFloat(cadeas[8])));
+                                    }
+                                    else
+                                    {
+                                        System.out.println("Comando no encontrado");
+                                    }
+
+                                }
                         }
                     }
                 }

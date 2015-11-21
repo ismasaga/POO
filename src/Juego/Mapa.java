@@ -164,12 +164,14 @@ public class Mapa {
                     System.out.print(imprimir);
                     continue;
                 }
+                /*
                 if (!(fila >= i-personaje.getRangoVision() && fila <= i+personaje.getRangoVision() && columna >= j-personaje.getRangoVision() && columna <= j+personaje.getRangoVision()))
                 {
                     imprimir = "---|";
                     System.out.print(imprimir);
                     continue;
                 }
+                */
                 if(!mapa.get(fila).get(columna).isTransitable())
                 {
                     imprimir = " * |";

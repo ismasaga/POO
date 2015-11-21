@@ -4,7 +4,7 @@ public class Armadura {
     private String nombre;
     private int incrVida,incrEnergia,defensa;
     private String descripcion;
-    private int peso;
+    private float peso;
     private int espacio;
 
     public Armadura() {
@@ -17,7 +17,7 @@ public class Armadura {
         setEspacio(1);
     }
 
-    public Armadura(String nombre, String descripcion, int incrVida, int incrEnergia, int defensa, int peso, int espacio) {
+    public Armadura(String nombre, String descripcion, int incrVida, int incrEnergia, int defensa, float peso, int espacio) {
         setDescripcion(descripcion);
         setNombre(nombre);
         setIncrVida(incrVida);
@@ -30,7 +30,7 @@ public class Armadura {
     /**
      * Constructor para armaduras parseadas de archivo
      */
-    public Armadura(String nombre, String descripcion, int defensa, int incrVida, int incrEnergia, int peso) {
+    public Armadura(String nombre, String descripcion, int defensa, int incrVida, int incrEnergia, float peso) {
         setNombre(nombre);
         setDescripcion(descripcion);
         setDefensa(defensa);
@@ -57,11 +57,11 @@ public class Armadura {
             this.espacio = espacio;
     }
 
-    public int getPeso() {
+    public float getPeso() {
         return peso;
     }
 
-    public void setPeso(int peso) {
+    public void setPeso(float peso) {
         this.peso = peso;
     }
 

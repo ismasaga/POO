@@ -5,7 +5,7 @@ public class Arma {
     private boolean dosManos;
     private String descripcion;
     private int dano;
-    private int peso;
+    private float peso; //Crashea ó ler o arquivo
     private int espacio;
     private int alcance;
 
@@ -19,7 +19,7 @@ public class Arma {
         setAlcance(1);
     }
 
-    public Arma(String nombre,String descripcion, boolean dosManos,int dano, int peso, int espacio) {
+    public Arma(String nombre,String descripcion, boolean dosManos,int dano, float peso, int espacio) {
         setNombre(nombre);
         setDano(dano);
         setDescripcion(descripcion);
@@ -32,7 +32,7 @@ public class Arma {
     /**
      * Constructor para armas parseadas de archivo
      */
-    public Arma(String nombre, String descripcion, int dano, int alcance, int manos, int peso) {
+    public Arma(String nombre, String descripcion, int dano, int alcance, int manos, float peso) {
         setNombre(nombre);
         setDescripcion(descripcion);
         setDano(dano);
@@ -74,11 +74,11 @@ public class Arma {
         this.espacio = espacio;
     }
 
-    public int getPeso() {
+    public float getPeso() {
         return peso;
     }
 
-    public void setPeso(int peso) {
+    public void setPeso(float peso) {
         this.peso = peso > 0 ? peso : 1;
     }
 

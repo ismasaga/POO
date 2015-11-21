@@ -11,12 +11,12 @@ import Juego.Personaje;
 public class Botiquin
 {
     private final int curacion;
-    private final int peso;
+    private final float peso;
     private final int espacio;
     private String descripcion;
     private String nombre;
 
-    public Botiquin(String nombre, String descripcion, int curacion, int peso, int espacio)
+    public Botiquin(String nombre, String descripcion, int curacion, float peso, int espacio)
     {
         setNombre(nombre);
         setDescripcion(descripcion);
@@ -37,7 +37,7 @@ public class Botiquin
     /**
      * Constructor para botiquines parseados de archivo
      */
-    public Botiquin(String nombre, String descripcion, int curacion, int peso) {
+    public Botiquin(String nombre, String descripcion, int curacion, float peso) {
         setNombre(nombre);
         setDescripcion(descripcion);
         this.curacion = curacion;
@@ -84,7 +84,7 @@ public class Botiquin
         return curacion;
     }
 
-    public int getPeso()
+    public float getPeso()
     {
         return peso;
     }

@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class Mochila
 {
-    private final int pesoMaximo;
+    private final float pesoMaximo;
     private final int objetosMaximos;
     private ArrayList<Binoculares> arrayBinoculares;
     private ArrayList<Botiquin> arrayBotiquin;
@@ -31,8 +31,8 @@ public class Mochila
     private String descripcion;
     //Hay que obtener el peso actual de la mochila
     //Estos atributos no tienen setters, pues sus valores se calculan desde mochila.
-    private int pesoActual;
-    private int objetosActuales;
+    private float pesoActual;
+    private float objetosActuales;
 
     /**
      * Constructor que crea una nueva mochila
@@ -124,24 +124,24 @@ public class Mochila
         this.arrayArmaduras = arrayArmaduras;
     }
 
-    public void setPesoActual(int pesoActual)
+    public void setPesoActual(float pesoActual)
     {
         this.pesoActual = pesoActual >= 0 ? pesoActual : 0;
     }
 
-    public void setObjetosActuales(int objetosActuales)
+    public void setObjetosActuales(float objetosActuales)
     {
         this.objetosActuales = objetosActuales >= 0 ? objetosActuales : 0;
     }
-    public int getPesoActual() {
+    public float getPesoActual() {
         return pesoActual;
     }
 
-    public int getObjetosActuales() {
+    public float getObjetosActuales() {
         return objetosActuales;
     }
 
-    public int getPesoMaximo()
+    public float getPesoMaximo()
     {
         return pesoMaximo;
     }
