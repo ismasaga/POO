@@ -66,6 +66,16 @@ public class Celda {
         arrayBotiquin.remove(botiquin);
     }
 
+    public void eliminarArma (Arma arma)
+    {
+        arrayArma.remove(arma);
+    }
+
+    public void eliminarArmadura (Armadura armadura)
+    {
+        arrayArmadura.remove(armadura);
+    }
+
     /**
      * Devolve todos os inimigos da celda.
      * @return Enemigo

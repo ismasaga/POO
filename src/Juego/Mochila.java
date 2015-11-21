@@ -47,6 +47,7 @@ public class Mochila
         arrayBinoculares = new ArrayList<>();
         arrayBotiquin = new ArrayList<>();
         arrayArmas = new ArrayList<>();
+        arrayArmaduras = new ArrayList<>();
         this.pesoActual = 0;
         this.objetosActuales = 0;
     }
@@ -65,6 +66,7 @@ public class Mochila
         arrayBinoculares = new ArrayList<>();
         arrayBotiquin = new ArrayList<>();
         arrayArmas = new ArrayList<>();
+        arrayArmaduras = new ArrayList<>();
         this.pesoActual = 0;
         this.objetosActuales = 0;
     }
@@ -257,32 +259,15 @@ public class Mochila
         arrayBinoculares.remove(binocular);
     }
 
-
-
-    /**
-     * Desequipa el arma de la mano seleccionada. Si el arma detectada es de dos manos se ignora la mano.
-     */
-    public void desequiparArma(Personaje personaje, String mano)
+    public void quitarArma (Arma arma)
     {
-        if(personaje.getArmas().get(0) != null) {
-            if (personaje.getArmaDosM() != null){
-                arrayArmas.add(personaje.getArmas().get(0));
-                personaje.setArmaDosM(null);
-            }
-            else if (mano.equals("derecha"))
-            {
-                arrayArmas.add(personaje.getArmaDer());
-                personaje.setArmaDer(null);
-            }
-            else if (mano.equals("izquierda"))
-            {
-                arrayArmas.add(personaje.getArmaIzq());
-                personaje.setArmaIzq(null);
-            }
-            else
-            {
-                System.out.println("Mano mal escrita");
-            }
-        }
+        arrayArmas.remove(arma);
     }
+
+    public void quitarArmadura (Armadura armadura)
+    {
+        arrayArmaduras.remove(armadura);
+    }
+
+
 }

@@ -500,56 +500,195 @@ public class Personaje
         }
     }
 
-    public void tirarBinocular(Binoculares binocular)
+    public void tirarBinocular(String nombreBinocular)
     {
-        celda.setBinoculares(binocular);
+        Binoculares binocularATirar = null;
+        if(celda.getBinoculares() == null)
+            return;
+        for(Binoculares bin : mochila.getArrayBinoculares())
+        {
+            if(bin.getNombre().equals(nombreBinocular))
+            {
+                binocularATirar = bin;
+            }
+        }
+        if(binocularATirar != null)
+        {
+            celda.setBinoculares(binocularATirar);
+            mochila.quitarBinocular(binocularATirar);
+        }
         /*Se elimina porque el binocular procede del array de binoculares*/
-        mochila.quitarBinocular(binocular);
     }
 
-    public void cogerBinocular(Binoculares binocular)
+    public void cogerBinocular(String nombreBinocular)
     {
-        celda.eliminarBinocular(binocular);
-        /**El binocular procede de la celda*/
-        mochila.anadirBinocular(binocular);
+        Binoculares binocularACoger = null;
+        if(celda.getBinoculares() == null)
+            return;
+        for(Binoculares bin : celda.getBinoculares())
+        {
+            if(bin.getNombre().equals(nombreBinocular))
+            {
+                binocularACoger = bin;
+            }
+        }
+        if(binocularACoger != null)
+        {
+            celda.eliminarBinocular(binocularACoger);
+            mochila.anadirBinocular(binocularACoger);
+        }
     }
 
-    public void tirarBotiquin(Botiquin botiquin)
+    public void tirarBotiquin(String nombreBotiquin)
     {
-        celda.setBotiquin(botiquin);
-        mochila.quitarBotiquin(botiquin);
+        Botiquin botiquinATirar = null;
+        if(celda.getBotiquin() == null)
+            return;
+        for(Botiquin bot : mochila.getArrayBotiquin())
+        {
+            if(bot.getNombre().equals(nombreBotiquin))
+            {
+                botiquinATirar = bot;
+            }
+        }
+        if(botiquinATirar != null)
+        {
+            celda.setBotiquin(botiquinATirar);
+            mochila.quitarBotiquin(botiquinATirar);
+        }
     }
 
-    public void cogerBotiquin(Botiquin botiquin)
+    public void cogerBotiquin(String nombreBotiquin)
     {
-        celda.eliminarBotiquin(botiquin);
-        mochila.anadirBotiquin(botiquin);
+        Botiquin botiquinACoger = null;
+        if(celda.getBotiquin() == null)
+            return;
+        for (Botiquin bot : celda.getBotiquin())
+        {
+            if(bot.getNombre().equals(nombreBotiquin))
+            {
+                botiquinACoger = bot;
+            }
+        }
+        if(botiquinACoger != null)
+        {
+            celda.eliminarBotiquin(botiquinACoger);
+            mochila.anadirBotiquin(botiquinACoger);
+        }
+    }
+
+    public void cogerArma(String nombreArma)
+    {
+        Arma armaACoger = null; //Hay que hacerlo asi que da una excepcion
+        if(celda.getArma() == null)
+            return;
+        for (Arma arma : celda.getArma())
+        {
+            if(arma.getNombre().equals(nombreArma))
+            {
+                armaACoger = arma;
+            }
+        }
+        if(armaACoger != null)
+        {
+            celda.eliminarArma(armaACoger);
+            mochila.anadirArma(armaACoger);
+        }
+    }
+
+    public void tirarArma (String nombreArma)
+    {
+        Arma armaATirar = null;
+        if(celda.getArma() == null)
+            return;
+        for (Arma arma: mochila.getArrayArmas())
+        {
+            if(arma.getNombre().equals(nombreArma))
+            {
+                armaATirar = arma;
+            }
+        }
+        if (armaATirar != null)
+        {
+            mochila.quitarArma(armaATirar);
+            celda.setArma(armaATirar);
+        }
+    }
+
+    public void cogerArmadura (String nombreArmadura)
+    {
+        Armadura armaduraACoger = null;
+        if(celda.getArmaduras() == null)
+            return;
+        for (Armadura armadura : celda.getArmaduras())
+        {
+            if(armadura.getNombre().equals(nombreArmadura))
+            {
+                armaduraACoger = armadura;
+            }
+        }
+        if(armaduraACoger != null)
+        {
+            celda.eliminarArmadura(armadura);
+            mochila.anadirArmadura(armadura);
+        }
+    }
+
+    public void tirarArmadura (String nombreArmadura)
+    {
+        Armadura armaduraATirar = null;
+        if(celda.getArmaduras() == null)
+            return;
+        for(Armadura armadura : celda.getArmaduras())
+        {
+            if(armadura.getNombre().equals(nombreArmadura))
+            {
+                if(armadura.getNombre().equals(nombreArmadura))
+                {
+                    armaduraATirar = armadura;
+                }
+            }
+        }
+        if(armaduraATirar != null)
+        {
+            mochila.quitarArmadura(armadura);
+            celda.setArmadura(armadura);
+        }
     }
 
     public void ojearInventario()
     {
         ArrayList<Binoculares> arrayBin = mochila.getArrayBinoculares();
         ArrayList<Botiquin> arrayBot = mochila.getArrayBotiquin();
-        System.out.println("\n\n\n\n\n\n\n\n\n");
-        System.out.println("Capacidad restante: " + mochila.getObjetosActuales() + " objetos");
-        System.out.println("Peso restante: " + mochila.getPesoActual() + " kilogramos");
+        System.out.println("Capacidad restante: " + (mochila.getObjetosMaximos() - mochila.getObjetosActuales()) + " objetos");
+        System.out.println("Peso actual: " + mochila.getPesoActual() + " kilogramos");
         for (Binoculares bin : arrayBin)
         {
-            System.out.println("Binocular:\n");
-            System.out.println("\tNombre: " + bin.getNombre());
-            System.out.println("\tDescripcion " + bin.getDescripcion());
-            System.out.println("\tPeso: " + bin.getPeso() + "\n");
-            System.out.println("\tEspacio: " + bin.getEspacio() + "\n");
-            System.out.println("\tAumento de rango de vision: " + bin.getVision() + "\n");
+            if(bin != null)
+                bin.info();
+            else
+                System.out.println("No hay botiquines en la mochila.");
         }
         for (Botiquin bot : arrayBot)
         {
-            System.out.println("Botiquin:\n");
-            System.out.println("\tNombre: " + bot.getNombre());
-            System.out.println("\tDescripcion " + bot.getDescripcion());
-            System.out.println("\tPeso: " + bot.getPeso() + "\n");
-            System.out.println("\tEspacio: " + bot.getEspacio() + "\n");
-            System.out.println("\tCuracion: " + bot.getCuracion() + "\n");
+            if(bot != null)
+                bot.info();
+            else
+                System.out.println("No hay botiquines en la mochila.");
+        }
+        for (Arma arma : mochila.getArrayArmas())
+        {
+            if(arma != null)
+                arma.info();
+            else
+                System.out.println("No hay armas en la mochila.");
+        }
+        for(Armadura armadura : mochila.getArrayArmaduras())
+        {
+            if(armadura != null)
+                armadura.info();
+            else
+                System.out.println("No hay armaduras en la mochila.");
         }
     }
 
@@ -842,6 +981,63 @@ public class Personaje
             this.binocular = binocular;
             mochila.anadirBinocular(this.binocular);
             binocular.usar(this);
+        }
+    }
+
+    public void info()
+    {
+        System.out.println("Personaje: " + getNombre());
+        System.out.println("Energia actual: " + getEnergia());
+        System.out.println("Salud actual: " + getPuntosVida());
+        if(getArmaDosM() != null)
+        {
+            System.out.println("Arma equipada de dos manos: " );
+            getArmaDosM().info();
+        }
+        if(getArmaDer() != null)
+        {
+            System.out.println("Arma equipada de mano derecha: ");
+            getArmaDer().info();
+        }
+        if(getArmaIzq() != null)
+        {
+            System.out.println("Arma equipada de mano izquierda: ");
+            getArmaIzq().info();
+        }
+        if(getArmadura() != null)
+        {
+            getArmadura().info();
+        }
+        System.out.println("Puntos de ataque: " + getAtaque());
+        System.out.println("Rango vision: " + getRangoVision());
+        System.out.println("Inventario: ");
+        ojearInventario();
+    }
+
+        /**
+     * Desequipa el arma de la mano seleccionada. Si el arma detectada es de dos manos se ignora la mano.
+     */
+    public void desequiparArma(Personaje personaje, String mano)
+    {
+        if(personaje.getArmas().get(0) != null) {
+            if (personaje.getArmaDosM() != null){
+                mochila.anadirArma(personaje.getArmas().get(0));
+                personaje.setArmaDosM(null);
+            }
+            else if (mano.equals("derecha"))
+            {
+                mochila.anadirArma(personaje.getArmaDer());
+                personaje.setArmaDer(null);
+            }
+            else if (mano.equals("izquierda"))
+            {
+                mochila.anadirArma(personaje.getArmaIzq());
+                personaje.setArmaIzq(null);
+            }
+            else
+            {
+                System.out.println("Mano mal escrita");
+            }
         }
     }
 }

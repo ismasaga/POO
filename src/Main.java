@@ -17,9 +17,11 @@ public class Main {
         BufferedReader buffer;
         Scanner entradaEscaner;
         int[] tamano = new int[2];
+        Arma armaMasBuena;
+
         Mapa mapa;
         Personaje personaje = null;
-        Arma armaMasBuena;
+
 
         /**
          * Leemos ficheiro quedandonos con cantas filas e columnas debe ter o mapa
@@ -341,6 +343,19 @@ public class Main {
                     break;
                 case "descripcion":
                     System.out.println(mapa.getDescripcion());
+                    break;
+                case "estado":
+                    personaje.info();
+                    break;
+                case "inventario":
+                    personaje.ojearInventario();
+                    break;
+                case "coger":
+                    /**Esperemos que no haya armas que se llamen igual que los botiquines**/
+                    personaje.cogerArma(cadeas[1]);
+                    personaje.cogerArmadura(cadeas[1]);
+                    personaje.cogerBinocular(cadeas[1]);
+                    personaje.cogerBotiquin(cadeas[1]);
                     break;
                 case "usar":
                     if(cadeas.length == 2)
