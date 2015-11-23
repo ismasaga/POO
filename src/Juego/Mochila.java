@@ -228,6 +228,18 @@ public class Mochila
         return null;
     }
 
+    public Binoculares getBinocular(String nombre)
+    {
+        for(Binoculares binocular: arrayBinoculares)
+        {
+            if(binocular.getNombre().equals(nombre))
+            {
+                return binocular;
+            }
+        }
+        return null;
+    }
+
     public void anadirBotiquin(Botiquin botiquin)
     {
         if(getPesoActual() + botiquin.getPeso() > this.getPesoMaximo())

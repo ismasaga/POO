@@ -17,7 +17,7 @@ import java.util.Scanner;
  */
 public class Parser
 {
-    public Bundle Parse(String ruta)
+    public Bundle Parse(String rutaMapa, String rutaNpcs, String rutaObjetos)
     {
         String sel, linea;
         String[] cadeas;
@@ -30,7 +30,7 @@ public class Parser
 
         try
         {
-            buffer = new BufferedReader(new FileReader(new File(ruta)));
+            buffer = new BufferedReader(new FileReader(new File(rutaMapa)));
             try
             {
                 while ((linea = buffer.readLine()) != null)
@@ -72,7 +72,7 @@ public class Parser
          */
         try
         {
-            buffer = new BufferedReader(new FileReader(new File("src/Juego/mapa.csv")));
+            buffer = new BufferedReader(new FileReader(new File(rutaMapa)));
             try
             {
                 while ((linea = buffer.readLine()) != null)
@@ -100,7 +100,7 @@ public class Parser
          */
         try
         {
-            buffer = new BufferedReader(new FileReader(new File("src/Juego/npcs.csv")));
+            buffer = new BufferedReader(new FileReader(new File(rutaNpcs)));
             try
             {
                 while ((linea = buffer.readLine()) != null)
@@ -153,7 +153,7 @@ public class Parser
          */
         try
         {
-            buffer = new BufferedReader(new FileReader(new File("src/Juego/objetos.csv")));
+            buffer = new BufferedReader(new FileReader(new File(rutaObjetos)));
             try
             {
                 while ((linea = buffer.readLine()) != null)

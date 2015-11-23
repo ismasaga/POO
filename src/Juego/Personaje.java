@@ -901,14 +901,14 @@ public class Personaje
     }
 
 
-    public void equiparArmadura(Personaje personaje, String nombreArmadura)
+    public void equiparArmadura(String nombreArmadura)
     {
         for(Armadura armadura : mochila.getArrayArmaduras())
         {
             if(armadura.getNombre().equals(nombreArmadura))
             {
                 mochila.anadirArmadura(armadura);
-                personaje.setArmadura(personaje.getArmadura());
+                setArmadura(getArmadura());
             }
         }
     }
@@ -925,13 +925,19 @@ public class Personaje
         mochila.quitarBotiquin(botiquin);
     }
 
-    public void equiparBinocular(Binoculares binocular)
+    public void equiparBinocular(String nombre)
     {
-        if(this.binocular != null && binocular != null)
+        Binoculares binocular = mochila.getBinocular(nombre);
+        if(this.binocular != null && binocular != null) //Desequipa y equipa
         {
             this.binocular.disipar(this);
             this.binocular = binocular;
             mochila.anadirBinocular(this.binocular);
+            binocular.usar(this);
+        }
+        else if(binocular != null && this.binocular == null) //Solo equipa
+        {
+            this.binocular = binocular;
             binocular.usar(this);
         }
     }

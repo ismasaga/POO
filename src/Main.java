@@ -25,7 +25,7 @@ public class Main {
          */
         Parser parser = new Parser();
         Bundle bundle = new Bundle();
-        bundle = parser.Parse("src/Juego/mapa.csv");
+        bundle = parser.Parse("src/Juego/mapa.csv","src/Juego/npcs.csv","src/Juego/objetos.csv");
 
         mapa = bundle.getMapa();
         personaje = bundle.getPersonaje();
@@ -115,6 +115,10 @@ public class Main {
                         System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                     break;
                 case "mirar":
+                    if(cadeas.length == 1)
+                    {
+                            personaje.mirar(mapa,0,"",null);
+                    }
                     if(cadeas.length == 2)
                     {
                         if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
@@ -171,6 +175,10 @@ public class Main {
                     {
                         if (cadeas[1].equals("arma"))
                             personaje.equiparArma(cadeas[2], "");
+                        if (cadeas[1].equals("armadura"))
+                            personaje.equiparArmadura(cadeas[2]);
+                        if (cadeas[1].equals("binocular"))
+                            personaje.equiparBinocular(cadeas[2]);
                     }
                     else if (cadeas.length == 4)
                     {
@@ -185,7 +193,7 @@ public class Main {
                 case "cargar":
                     if(cadeas.length == 2)
                     {
-                        bundle = parser.Parse(cadeas[1]);
+                        bundle = parser.Parse(cadeas[1]+"/mapa.csv",cadeas[1]+"/npcs.csv",cadeas[1]+"/objetos.csv");
                         personaje = bundle.getPersonaje();
                         mapa = bundle.getMapa();
                     }
