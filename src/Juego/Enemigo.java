@@ -356,7 +356,7 @@ public class Enemigo {
     public void mover(Mapa mapa, int iE, int jE, Personaje personaje) {
         Random numero = new Random();
 
-        int numeroMovimientos = numero.nextInt(3);
+        int numeroMovimientos = numero.nextInt(4);
         int direccion;
         int iPersonaje = mapa.posicionPersonaje(personaje)[0];
         int jPersonaje = mapa.posicionPersonaje(personaje)[1];

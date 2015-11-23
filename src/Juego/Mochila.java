@@ -157,6 +157,10 @@ public class Mochila {
      */
     public void anadirArma(Arma arma) {
         if (arma != null) {
+            if(arma.getPeso() + getPesoActual() > getPesoMaximo() || arma.getEspacio() + getObjetosActuales() > getObjetosMaximos()) {
+                System.out.println("Has superado el limite de la mochila");
+                return;
+            }
             arrayArmas.add(arma);
             this.setPesoActual(this.getPesoActual() + arma.getPeso());
             this.setObjetosActuales(this.getObjetosActuales() + 1);
@@ -170,9 +174,15 @@ public class Mochila {
      * @param armadura
      */
     public void anadirArmadura(Armadura armadura) {
-        arrayArmaduras.add(armadura);
-        this.setPesoActual(this.getPesoActual() + 1);
-        this.setObjetosActuales(this.getObjetosActuales() + armadura.getPeso());
+        if(armadura != null) {
+            arrayArmaduras.add(armadura);
+            if (armadura.getPeso() + getPesoActual() > getPesoMaximo() || armadura.getEspacio() + getObjetosActuales() > getObjetosMaximos()) {
+                System.out.println("Has superado el limite de la mochila");
+                return;
+            }
+            this.setPesoActual(this.getPesoActual() + 1);
+            this.setObjetosActuales(this.getObjetosActuales() + armadura.getPeso());
+        }
     }
 
     /**

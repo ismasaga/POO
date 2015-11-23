@@ -841,7 +841,7 @@ public class Personaje {
             celda = mapa.getCelda(celdaI, celdaJ);
 
         System.out.println("Got celda: " + celdaI + "," + celdaJ + "!=null " + (celda != null));
-        if (celda != null) {
+        if (celda == null) {
             System.err.println("Segmentation fault.");
             return;
         }
@@ -853,33 +853,58 @@ public class Personaje {
 
         if (!arrayBin.isEmpty() || !arrayBot.isEmpty()) {
             for (Binoculares bin : arrayBin) {
-                if (objeto == null || (objeto.equals(bin.getNombre())))
+                //Si el objeto que se intenta mirar esta en la celda actual.
+                if (objeto != null && (objeto.equals(bin.getNombre()) && posicionX == 0 && posicionY == 0))
                     bin.info();
+                else {
+                    System.out.print("Binocular: " + bin.getNombre());
+                    System.out.println();
+                }
             }
             for (Botiquin bot : arrayBot) {
-                if (objeto == null || (objeto.equals(bot.getNombre())))
+                //Si el objeto que se intenta mirar esta en la celda actual.
+                if (objeto != null && (objeto.equals(bot.getNombre()) && posicionX == 0 && posicionY == 0))
                     bot.info();
+                else {
+                    System.out.print("Botiquin: " + bot.getNombre());
+                    System.out.println();
+                }
             }
         }
         if (celda.getEnemigo() != null) {
             ArrayList<Enemigo> enemigos = celda.getEnemigo();
             for (Enemigo enemigo : enemigos) {
-                if (objeto == null || (objeto.equals(enemigo.getNombre())))
+                if (objeto != null && (objeto.equals(enemigo.getNombre())))
                     enemigo.info();
+                else {
+                    System.out.print("Enemigo: " + enemigo.getNombre());
+                    System.out.println();
+                }
+
             }
         }
         if (celda.getArmaduras() != null) {
             ArrayList<Armadura> armaduras = celda.getArmaduras();
+            //Si el objeto que se intenta mirar esta en la celda actual.
             for (Armadura armadura : armaduras) {
-                if (objeto == null || (objeto.equals(armadura.getNombre())))
+                if (objeto != null && (objeto.equals(armadura.getNombre()) && posicionX == 0 && posicionY == 0))
                     armadura.info();
+                else {
+                    System.out.print("Armadura: " + armadura.getNombre());
+                    System.out.println();
+                }
             }
         }
         if (celda.getArma() != null) {
             ArrayList<Arma> armas = celda.getArma();
             for (Arma arma : armas) {
-                if (objeto == null || (objeto.equals(arma.getNombre())))
+                //Si el objeto que se intenta mirar esta en la celda actual.
+                if (objeto != null && (objeto.equals(arma.getNombre()) && posicionX == 0 && posicionY == 0))
                     arma.info();
+                else {
+                    System.out.print("Arma: " + arma.getNombre());
+                    System.out.println();
+                }
             }
         }
     }
