@@ -283,8 +283,22 @@ public class Main {
                         System.out.println("Formato del comando incorrecto, use ayuda para saber mas");
                     break;
                 case "desequipar":
-                    if (cadeas[1].equals("arma"))
-                        personaje.desequiparArma(cadeas[2]);
+                    if(cadeas.length == 2) {
+                        switch(cadeas[1]) {
+                            case "armadura":
+                                personaje.desequiparArmadura();
+                                break;
+                            case "binocular":
+                                personaje.desequiparBinocular();
+                                break;
+                            default:
+                                System.out.println("Comando no reconocido.");
+                        }
+                    }
+                    if(cadeas.length == 3){
+                        if(cadeas[1] == "arma")
+                            personaje.desequiparArma(cadeas[1]);
+                    }
                     break;
                 case "equipar":
                     if (cadeas.length == 2) {

@@ -100,8 +100,8 @@ public class Botiquin {
         System.out.println("\tPeso: " + getPeso() + "\n");
         System.out.println("\tEspacio: " + getEspacio() + "\n");
         System.out.println("\tCuracion: " + getCuracion() + "\n");
-        System.out.println("\tNombre:" + getNombre());
-        System.out.println("\tDescripcion:" + getDescripcion());
+        System.out.println("\tNombre: " + getNombre());
+        System.out.println("\tDescripcion: " + getDescripcion());
     }
 
 

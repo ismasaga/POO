@@ -180,8 +180,8 @@ public class Mochila {
                 System.out.println("Has superado el limite de la mochila");
                 return;
             }
-            this.setPesoActual(this.getPesoActual() + armadura.getEspacio());
-            this.setObjetosActuales(this.getObjetosActuales() + armadura.getPeso());
+            this.setPesoActual(this.getPesoActual() + armadura.getPeso());
+            this.setObjetosActuales(this.getObjetosActuales() + armadura.getEspacio());
         }
     }
 

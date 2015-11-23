@@ -108,6 +108,15 @@ public class Personaje {
         this.MAXIMO_ENERGIA = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
     }
 
+    public Binoculares getBinocular() {
+        return binocular;
+    }
+
+    public void setBinocular(Binoculares binocular) {
+        if(binocular != null)
+            this.binocular = binocular;
+    }
+
     /**
      * Asigna el nombre al personaje
      *
@@ -955,8 +964,11 @@ public class Personaje {
             }
         }
         if (armaduraEncontrada != null) {
-            mochila.quitarArmadura(armaduraEncontrada);
-            setArmadura(armaduraEncontrada);
+            desequiparArmadura();
+            if(armadura == null) { //Desequipada correctamente
+                mochila.quitarArmadura(armaduraEncontrada);
+                setArmadura(armaduraEncontrada);
+            }
         }
     }
 
@@ -965,10 +977,28 @@ public class Personaje {
      */
     public void desequiparArmadura() {
         if (getArmadura() != null) {
-            setMAXIMO_ENERGIA(getMAXIMO_ENERGIA() - getArmadura().getIncrEnergia());
-            setMAXIMO_VIDA(getMAXIMO_VIDA() - getArmadura().getIncrVida());
-            mochila.anadirArmadura(getArmadura());
-            setArmadura(null);
+            if(mochila.getObjetosMaximos() > mochila.getObjetosActuales() + getArmadura().getEspacio()
+                    && mochila.getPesoMaximo() > mochila.getPesoActual() + getArmadura().getPeso()) {
+                setMAXIMO_ENERGIA(getMAXIMO_ENERGIA() - getArmadura().getIncrEnergia());
+                setMAXIMO_VIDA(getMAXIMO_VIDA() - getArmadura().getIncrVida());
+                mochila.anadirArmadura(getArmadura());
+                armadura = null; //Para indicar que no hay nada
+            }
+        }
+    }
+
+    public void desequiparBinocular() {
+        if(getBinocular() != null) {
+            if(mochila.getObjetosMaximos() > mochila.getObjetosActuales() + getBinocular().getEspacio()
+                    && mochila.getPesoMaximo() > mochila.getPesoActual() + getBinocular().getPeso()){
+                getBinocular().disipar(this);
+                mochila.anadirBinocular(getBinocular());
+                binocular = null; //Para indicar que no hay nada
+            }
+            else{
+                System.out.println("No hay suficiente espacio en la mochila.");
+            }
+
         }
     }
 
@@ -987,11 +1017,7 @@ public class Personaje {
         if (this.binocular != null && binocular != null) //Desequipa y equipa
         {
             this.binocular.disipar(this);
-            this.binocular = binocular;
-            mochila.anadirBinocular(this.binocular);
-            binocular.usar(this);
-        } else if (binocular != null && this.binocular == null) //Solo equipa
-        {
+            desequiparBinocular();
             this.binocular = binocular;
             binocular.usar(this);
         }

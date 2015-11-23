@@ -274,7 +274,7 @@ public class Enemigo {
      */
     public void info() {
         System.out.println("Enemigo: ");
-        System.out.println("Nombre" + getNombre() +
+        System.out.println("Nombre: " + getNombre() +
                 "\nPuntos de vida: " + getPuntosVida() +
                 "\nPuntos de ataque: " + getAtaque() +
                 "\nPuntos de armadura: " + getArmadura().getDefensa());

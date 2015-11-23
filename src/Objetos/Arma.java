@@ -152,11 +152,11 @@ public class Arma {
      * Imprime informacion sobre el arma
      */
     public void info() {
-        System.out.println("Arma:" + getNombre());
-        System.out.println("\tDaño" + getDano());
-        System.out.println("\tPeso" + getPeso());
-        System.out.println("\tEspacio" + getEspacio());
-        System.out.println("\tDescripcion" + getDescripcion());
+        System.out.println("Arma: " + getNombre());
+        System.out.println("\tDaño: " + getDano());
+        System.out.println("\tPeso: " + getPeso());
+        System.out.println("\tEspacio: " + getEspacio());
+        System.out.println("\tDescripcion: " + getDescripcion());
         System.out.println("\tMano: " + (isDosManos() ? "Dos Manos" : "Una mano"));
     }
 }
