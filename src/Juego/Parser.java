@@ -27,6 +27,10 @@ public class Parser {
         Mapa mapa;
         Personaje personaje = null;
 
+
+
+        Bundle bundle = new Bundle();
+
         try {
             buffer = new BufferedReader(new FileReader(new File(rutaMapa)));
             try {
@@ -43,11 +47,14 @@ public class Parser {
                 buffer.close();
             } catch (IOException ex) {
                 System.out.println("ERROR leyendo el fichero : " + ex);
-                System.exit(1);
+                System.out.println("Loading defaults");
+                bundle = loadDefault();
+                return bundle;
             }
         } catch (FileNotFoundException ex) {
             System.out.println("ERROR abriendo el fichero : " + ex);
-            System.exit(1);
+            bundle = loadDefault();
+            return bundle;
         }
         System.out.println("Os mapa vai ter : " + tamano[0] + " filas por : " + tamano[1] + " columnas");
 
@@ -75,11 +82,13 @@ public class Parser {
                 buffer.close();
             } catch (IOException ex) {
                 System.out.println("ERROR leyendo el fichero" + ex);
-                System.exit(1);
+                bundle = loadDefault();
+                return bundle;
             }
         } catch (FileNotFoundException ex) {
             System.out.println("ERROR abriendo el fichero" + ex);
-            System.exit(1);
+            bundle = loadDefault();
+            return bundle;
         }
 
         /**
@@ -110,11 +119,13 @@ public class Parser {
                 buffer.close();
             } catch (IOException ex) {
                 System.out.println("ERROR leyendo el fichero" + ex);
-                System.exit(1);
+                bundle = loadDefault();
+                return bundle;
             }
         } catch (FileNotFoundException ex) {
             System.out.println("ERROR abriendo el fichero" + ex);
-            System.exit(1);
+            bundle = loadDefault();
+            return bundle;
         }
 
         //Asegurome de que o persoaxe sempre é creado
@@ -227,10 +238,60 @@ public class Parser {
             System.exit(1);
         }
 
-        Bundle bundle = new Bundle();
         bundle.setMapa(mapa);
         bundle.setPersonaje(personaje);
 
+        return bundle;
+    }
+
+    public Bundle loadDefault ()
+    {
+        Mapa mapa = new Mapa(20,20,"Default conlleira");
+
+        Arma armaMala = new Arma("pistolita","pistola pequeña",false,20,1,1);
+        Arma armaBuena = new Arma("pistolón","pistola grande",false,40,2,2);
+        ArrayList<Arma> armas = new ArrayList<>();
+        armas.add(armaBuena);
+        armas.add(armaMala);
+
+        Arma armaMasBuena = new Arma("bazoka","lanzamisiles 2.0",true,80,1,1);
+        ArrayList<Arma> armas2 = new ArrayList<>();
+        armas2.add(armaMasBuena);
+        Armadura armaduraVida = new Armadura("armadura curadora","armadura de vida",10,0,3,5,5);
+        Armadura armaduraEnergy = new Armadura("armadura rapida","armadura de energia",0,10,3,4,4);
+
+        System.out.println(mapa.getDescripcion());
+
+        mapa.getCelda(0,0).setBotiquin(new Botiquin("botiquin_grande", "botiquin mas grande que tu cabeza", 1, 2, 3));
+        mapa.getCelda(5,0).setEnemigo(new Enemigo(100, 100, armaMala, null, armaduraEnergy, "desconocido"));
+
+        mapa.getCelda(1,1).setBinoculares(new Binoculares("binoculares","mira a lo lejos",2, 3, 4));
+        mapa.getCelda(6,1).setBotiquin(new Botiquin("botiquin_grande","botiquin mas grande que tu cabeza", 1, 2, 3));
+
+        mapa.getCelda(1,2).setEnemigo(new Enemigo(100,100,armaBuena,null,armaduraEnergy,"Fulgensio"));
+        mapa.getCelda(5,2).setTransitable(false);
+
+        mapa.getCelda(3,3).setTransitable(false);
+        mapa.getCelda(7,3).setEnemigo(new Enemigo(100,100,armas,armaduraVida));
+
+        mapa.getCelda(4,5).setBotiquin(new Botiquin("botiquin","asf",1, 2, 3));
+        mapa.getCelda(6,5).setTransitable(false);
+
+        mapa.getCelda(1,6).setTransitable(false);
+        mapa.getCelda(7,6).setBinoculares(new Binoculares("binocular","asf",2,3,4));
+
+        mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,null,armaBuena,armaduraEnergy,"Enemyger"));
+
+        mapa.getCelda(1,8).setBinoculares(new Binoculares("binocular","asdfx2",2,3,4));
+
+        mapa.getCelda(3,3).setEnemigo(new Enemigo(100,100,armas,armaduraEnergy));
+
+        Celda celdaActual = mapa.getCelda(5,5);
+        Personaje personaje = new Personaje(celdaActual,"Chiquito",1000000,1000000000);
+
+        Bundle bundle = new Bundle();
+        bundle.setPersonaje(personaje);
+        bundle.setMapa(mapa);
         return bundle;
     }
 }
