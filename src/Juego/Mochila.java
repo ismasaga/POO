@@ -273,6 +273,8 @@ public class Mochila
 
     public void quitarArma (Arma arma)
     {
+        setPesoActual(getPesoActual()-arma.getPeso());
+        setObjetosActuales(getObjetosActuales()-1);
         arrayArmas.remove(arma);
     }
 

@@ -603,8 +603,6 @@ public class Personaje
     public void tirarArma (String nombreArma)
     {
         Arma armaATirar = null;
-        if(celda.getArma() == null)
-            return;
         for (Arma arma: mochila.getArrayArmas())
         {
             if(arma.getNombre().equals(nombreArma))

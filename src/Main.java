@@ -160,11 +160,24 @@ public class Main {
                     personaje.ojearInventario();
                     break;
                 case "coger":
-                    /**Esperemos que no haya armas que se llamen igual que los botiquines**/
-                    personaje.cogerArma(cadeas[1]);
-                    personaje.cogerArmadura(cadeas[1]);
-                    personaje.cogerBinocular(cadeas[1]);
-                    personaje.cogerBotiquin(cadeas[1]);
+                    if(cadeas.length == 2) {
+                        /**Esperemos que no haya armas que se llamen igual que los botiquines**/
+                        personaje.cogerArma(cadeas[1]);
+                        personaje.cogerArmadura(cadeas[1]);
+                        personaje.cogerBinocular(cadeas[1]);
+                        personaje.cogerBotiquin(cadeas[1]);
+                    } else
+                        System.out.println("Formato del comando incorrecto, use ayuda para saber mas");
+                    break;
+                case "tirar":
+                    if(cadeas.length == 2) {
+                        /**Esperemos que no haya armas que se llamen igual que los botiquines**/
+                        personaje.tirarArma(cadeas[1]);
+                        personaje.tirarArmadura(cadeas[1]);
+                        personaje.tirarBinocular(cadeas[1]);
+                        personaje.tirarBotiquin(cadeas[1]);
+                    } else
+                        System.out.println("Formato del comando incorrecto, use ayuda para saber mas");
                     break;
                 case "desequipar":
                     if(cadeas[1].equals("arma"))
