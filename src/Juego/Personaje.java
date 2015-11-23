@@ -26,8 +26,8 @@ public class Personaje
      * Constante de los puntos maximos de vida.
      * Esta variable se incializa en el constructor.
      */
-    private final int MAXIMO_VIDA;
-    private final int MAXIMO_ENERGIA;
+    private int MAXIMO_VIDA;
+    private int MAXIMO_ENERGIA;
     private int puntosVida;
     //private final int armadura;
     private Celda celda;
@@ -91,6 +91,16 @@ public class Personaje
         this.energia = (energia > 0 && energia <= this.MAXIMO_ENERGIA) ? energia : 100;
         setNombre(nombre);
         binocular = null;
+    }
+
+    public void setMAXIMO_VIDA(int MAXIMO_VIDA)
+    {
+        this.MAXIMO_VIDA = MAXIMO_VIDA > 0 ? MAXIMO_VIDA : 100;
+    }
+
+    public void setMAXIMO_ENERGIA(int MAXIMO_ENERGIA)
+    {
+        this.MAXIMO_ENERGIA = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
     }
 
     /**
@@ -173,7 +183,12 @@ public class Personaje
      */
     public void setArmadura(Armadura armadura) {
         if(armadura != null)
+        {
+            desequiparArmadura();
+            setMAXIMO_ENERGIA(getMAXIMO_ENERGIA() + armadura.getIncrEnergia());
+            setMAXIMO_VIDA(getMAXIMO_VIDA() + armadura.getIncrVida());
             this.armadura = armadura;
+        }
         else
             System.out.println("ERROR asignando armadura al personaje");
     }
@@ -363,13 +378,14 @@ public class Personaje
      * Ej atacar 3u Ambrosio
      * Para dejar una direccion sin aplicar pasar como parametro 'q' (deja la posicion del personaje).
      * @param mapa Mapa a atacar
-     * @param num: numero de casillas a atacar
+     * @param numX: numero de casillas a atacar (ejeX)
+     * @param numY: numero de casillas a atacar (ejeY)
      * @param dirX: Direccion de ataque en el eje de las X.
      * @param dirY: direccion de ataque en el eje de las Y
      *
      */
     //FIXME: bug
-    public void atacar(Mapa mapa,int num, char dirX, char dirY, String nombre)
+    public void atacar(Mapa mapa,int numX,int numY, char dirX, char dirY, String nombre)
     {
         /**
          * Energia requerida para atacar
@@ -401,38 +417,71 @@ public class Personaje
             this.setEnergia(this.getEnergia() - ENERGIA_REQUERIDA);
         }
 
-        int min = num;
-        if (min > getRangoVision())
+        /**Buscamos el maximo de casillas atacables (eje x)**/
+        int minX = numX;
+        if (minX > getRangoVision())
         {
             System.out.println("No tienes suficiente rango de vision");
-            min = getRangoVision();
+            minX = getRangoVision();
         }
         if(armaDer != null)
         {
-            if (min > armaDer.getAlcance())
+            if (minX > armaDer.getAlcance())
             {
-                min = armaDer.getAlcance();
+                minX = armaDer.getAlcance();
                 System.out.println("Tu arma derecha no tiene suficiente alcance.");
             }
 
         }
         if(armaIzq != null)
         {
-            if (min > armaIzq.getAlcance())
+            if (minX > armaIzq.getAlcance())
             {
-                min = armaIzq.getAlcance();
+                minX = armaIzq.getAlcance();
+                System.out.println("Tu arma izquierda no tiene suficiente alcance.");
+            }
+        }
+        if(armaDosM != null)
+        {
+            if (minX > armaDosM.getAlcance())
+            {
+                minX = armaDosM.getAlcance();
+                System.out.println("Tu arma no tiene suficiente alcance.");
+            }
+        }
+
+        /**Buscamos el maximo de casillas atacables (eje y)**/
+        int minY = numY;
+        if (minY > getRangoVision())
+        {
+            System.out.println("No tienes suficiente rango de vision");
+            minY = getRangoVision();
+        }
+        if(armaDer != null)
+        {
+            if (minY > armaDer.getAlcance())
+            {
+                minY = armaDer.getAlcance();
+                System.out.println("Tu arma derecha no tiene suficiente alcance.");
+            }
+
+        }
+        if(armaIzq != null)
+        {
+            if (minY > armaIzq.getAlcance())
+            {
+                minY = armaIzq.getAlcance();
                 System.out.println("Tu arma izquierda no tiene suficiente alcance.");
             }
         }
         if(armaDosM!= null)
         {
-            if (min > armaDosM.getAlcance())
+            if (minY > armaDosM.getAlcance())
             {
-                min = armaDosM.getAlcance();
+                minY = armaDosM.getAlcance();
                 System.out.println("Tu arma no tiene suficiente alcance.");
             }
         }
-
         int componenteI = 0;
         int componenteJ = 0;
         Celda celdaObtenida;
@@ -445,28 +494,28 @@ public class Personaje
         {
             componenteJ = j;
         }
-        if(dirY == 'u' && i-min >= 0 && mapa.getCelda(i-min,j).getEnemigo() != null)
+        if(dirY == 'u' && i-minY >= 0)
         {
             //celdaObtenida = mapa.getCelda(i - min, j);
-            componenteI = i-min;
+            componenteI = i-minY;
             //enemigos = celdaObtenida.getEnemigo();
         }
-        if(dirY == 'd' && i+min < mapa.getAlto() && mapa.getCelda(i+min,j).getEnemigo() != null)
+        if(dirY == 'd' && i+minY < mapa.getAlto())
         {
             //celdaObtenida = mapa.getCelda(i + min, j);
-            componenteI = i+min;
+            componenteI = i+minY;
             //enemigos = celdaObtenida.getEnemigo();
         }
-        if(dirX == 'l' && j-min >= 0 && mapa.getCelda(i,j-min).getEnemigo() != null)
+        if(dirX == 'l' && j-minX >= 0)
         {
             //celdaObtenida = mapa.getCelda(i, j - min);
-            componenteJ = j-min;
+            componenteJ = j-minX;
             //enemigos = celdaObtenida.getEnemigo();
         }
-        if(dirX == 'r' && j+min < mapa.getAncho() && mapa.getCelda(i,j+min).getEnemigo() != null)
+        if(dirX == 'r' && j+minX < mapa.getAncho())
         {
             //celdaObtenida = mapa.getCelda(i, j + min);
-            componenteJ = j+min;
+            componenteJ = j+minX;
             //enemigos = celdaObtenida.getEnemigo();
         }
         if( !((dirX == 'q' || dirX == 'r' || dirX == 'l') && (dirY == 'u' || dirY == 'd' || dirY == 'q')))
@@ -483,6 +532,7 @@ public class Personaje
         if(enemigos == null)
         {
             System.out.println("No hay un enemigo en esa celda.");
+            this.setEnergia(this.getEnergia() + ENERGIA_REQUERIDA);
             return;
         }
 
@@ -501,10 +551,11 @@ public class Personaje
                 //Ahora hay que dividir el daño del personaje entre todos los enemigos
                 if (prob > 0.25) //No es crítico
                 {
-                    ataqueEjecutado = (getAtaque() / enemigos.size()) - enemigo.getArmadura().getDefensa();
-                } else //Golpe critico
+                    ataqueEjecutado = (getAtaque() / enemigos.size()) * 20/enemigo.getArmadura().getDefensa();
+                }
+                else //Golpe critico
                 {
-                    ataqueEjecutado = (2 * (getAtaque() / enemigos.size())) - enemigo.getArmadura().getDefensa();
+                    ataqueEjecutado = (2 * (getAtaque() / enemigos.size())) * 20/enemigo.getArmadura().getDefensa();
                     System.out.println("CR1T 1N Y0U8 F4C3");
                 }
                 if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
@@ -538,10 +589,10 @@ public class Personaje
                 {
                     if (prob > 0.25) //No es crítico
                     {
-                        ataqueEjecutado = (getAtaque() - enemigo.getArmadura().getDefensa());
+                        ataqueEjecutado = (getAtaque() * 20/enemigo.getArmadura().getDefensa());
                     } else //Golpe critico
                     {
-                        ataqueEjecutado = (2 * (getAtaque()) - enemigo.getArmadura().getDefensa());
+                        ataqueEjecutado = (2 * (getAtaque()) * 20/enemigo.getArmadura().getDefensa());
                         System.out.println("CR1T 1N Y0U8 F4C3");
                     }
                     if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
@@ -958,13 +1009,32 @@ public class Personaje
 
     public void equiparArmadura(String nombreArmadura)
     {
+        Armadura armaduraEncontrada = null;
         for(Armadura armadura : mochila.getArrayArmaduras())
         {
             if(armadura.getNombre().equals(nombreArmadura))
             {
-                mochila.anadirArmadura(armadura);
-                setArmadura(getArmadura());
+               armaduraEncontrada = armadura;
             }
+        }
+        if (armaduraEncontrada != null)
+        {
+            mochila.quitarArmadura(armaduraEncontrada);
+            setArmadura(armaduraEncontrada);
+        }
+    }
+
+    /**
+     * Desequipa la armadura actual del personaje
+     */
+    public void desequiparArmadura()
+    {
+        if(getArmadura() != null)
+        {
+            setMAXIMO_ENERGIA(getMAXIMO_ENERGIA() - getArmadura().getIncrEnergia());
+            setMAXIMO_VIDA(getMAXIMO_VIDA() - getArmadura().getIncrVida());
+            mochila.anadirArmadura(getArmadura());
+            setArmadura(null);
         }
     }
 
@@ -1000,6 +1070,8 @@ public class Personaje
     public void info()
     {
         System.out.println("Personaje: " + getNombre());
+        System.out.println("Energia maxima: " + getMAXIMO_ENERGIA());
+        System.out.println("Salud maxima: " + getMAXIMO_VIDA());
         System.out.println("Energia actual: " + getEnergia());
         System.out.println("Salud actual: " + getPuntosVida());
         if(getArmaDosM() != null)

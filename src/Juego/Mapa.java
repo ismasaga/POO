@@ -137,7 +137,6 @@ public class Mapa {
      * V: botiquin
      * E: enemigo
      * T: situación del personaje
-     * //TODO: probar las celdas no transitables
      * @param personaje
      */
     public void imprimir(Personaje personaje)
