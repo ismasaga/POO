@@ -287,16 +287,12 @@ public class Main {
                         personaje.desequiparArma(cadeas[2]);
                     break;
                 case "equipar":
-                    if (cadeas.length == 3) {
-                        if (cadeas[1].equals("arma"))
-                            personaje.equiparArma(cadeas[2], "");
-                        if (cadeas[1].equals("armadura"))
-                            personaje.equiparArmadura(cadeas[2]);
-                        if (cadeas[1].equals("binocular"))
-                            personaje.equiparBinocular(cadeas[2]);
-                    } else if (cadeas.length == 4) {
-                        if (cadeas[1].equals("arma"))
-                            personaje.equiparArma(cadeas[2], cadeas[3]);
+                    if (cadeas.length == 2) {
+                            personaje.equiparArma(cadeas[1], "derecha"); //Por defecto, si es de una mano, la equipa en la derecha
+                            personaje.equiparArmadura(cadeas[1]);
+                            personaje.equiparBinocular(cadeas[1]);
+                    } else if (cadeas.length == 3) {
+                            personaje.equiparArma(cadeas[1], cadeas[2]);
                     }
                     break;
                 case "usar":

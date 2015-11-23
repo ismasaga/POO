@@ -1058,28 +1058,32 @@ public class Personaje {
         for (Arma arma : mochila.getArrayArmas()) {
             if (arma.getNombre().equals(nombre)) {
                 armaEscogida = arma;
-                if (arma.isDosManos()) {
-                    if (getArmaDosM() != null) {
-                        desequiparArma("");
-                    } else {
-                        desequiparArma("derecha");
-                        desequiparArma("izquierda");
-                    }
-                    setArmaDosM(arma);
-                } else {
-                    if (mano.equals("derecha")) {
-                        desequiparArma("derecha");
-                        setArmaDer(arma);
-                    } else if (mano.equals("izquierda")) {
-                        desequiparArma("izquierda");
-                        setArmaIzq(arma);
-                    } else {
-                        System.out.println("Mano mal escrita");
-                    }
-                }
             }
         }
-        if (armaEscogida != null) {
+        if(armaEscogida != null) {
+            if (armaEscogida.isDosManos()) {
+                if (getArmaDosM() != null) {
+                    desequiparArma("");
+                } else {
+                    desequiparArma("derecha");
+                    desequiparArma("izquierda");
+                }
+                setArmaDosM(armaEscogida);
+            } else {
+                switch (mano) {
+                    case "derecha":
+                        desequiparArma("derecha");
+                        setArmaDer(armaEscogida);
+                        break;
+                    case "izquierda":
+                        desequiparArma("izquierda");
+                        setArmaIzq(armaEscogida);
+                        break;
+                    default:
+                        System.out.println("Mano mal escrita");
+                        break;
+                }
+            }
             mochila.quitarArma(armaEscogida);
         }
     }

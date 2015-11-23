@@ -163,7 +163,7 @@ public class Mochila {
             }
             arrayArmas.add(arma);
             this.setPesoActual(this.getPesoActual() + arma.getPeso());
-            this.setObjetosActuales(this.getObjetosActuales() + 1);
+            this.setObjetosActuales(this.getObjetosActuales() + arma.getEspacio());
         } else
             System.out.println("ERROR insertando arma en la mochila");
     }
@@ -180,7 +180,7 @@ public class Mochila {
                 System.out.println("Has superado el limite de la mochila");
                 return;
             }
-            this.setPesoActual(this.getPesoActual() + 1);
+            this.setPesoActual(this.getPesoActual() + armadura.getEspacio());
             this.setObjetosActuales(this.getObjetosActuales() + armadura.getPeso());
         }
     }
@@ -196,14 +196,13 @@ public class Mochila {
             return;
         }
         if (getObjetosActuales() + 1 > this.getObjetosMaximos()) {
-            //TODO: implementarlo bien en la UI
             System.err.println("Se ha sobrepasado el numero de objetos maximo");
             return;
         }
         if (binocular != null) {
             arrayBinoculares.add(binocular);
             pesoActual = pesoActual + binocular.getPeso();
-            objetosActuales = objetosActuales + 1;
+            objetosActuales = objetosActuales + binocular.getEspacio();
         }
     }
 
@@ -236,36 +235,49 @@ public class Mochila {
             System.err.println("Se ha sobrepasado el peso maximo");
             return;
         }
-        if (getObjetosActuales() + 1 > this.getObjetosMaximos()) {
+        if (getObjetosActuales() + botiquin.getEspacio() > this.getObjetosMaximos()) {
             System.err.println("Se ha sobrepasado el numero de objetos maximo");
             return;
         }
         if (botiquin != null) {
             arrayBotiquin.add(botiquin);
             pesoActual = pesoActual + botiquin.getPeso();
-            objetosActuales = objetosActuales + 1;
+            objetosActuales = objetosActuales + botiquin.getEspacio();
         }
     }
 
     public void quitarBotiquin(Botiquin botiquin) {
         /*Se pueden comparar referencias ya que el botiquin obtenido por parametro procede del array de mochilas*/
-        arrayBotiquin.remove(botiquin);
+        if(botiquin != null) {
+            setObjetosActuales(getObjetosActuales() - botiquin.getEspacio());
+            setPesoActual(getPesoActual() - botiquin.getPeso());
+            arrayBotiquin.remove(botiquin);
+        }
+
     }
 
     public void quitarBinocular(Binoculares binocular) {
-        arrayBinoculares.remove(binocular);
+        if(binocular != null) {
+            arrayBinoculares.remove(binocular);
+            setPesoActual(getPesoActual() - binocular.getPeso());
+            setObjetosActuales(getObjetosActuales() - binocular.getEspacio());
+        }
     }
 
     public void quitarArma(Arma arma) {
-        setPesoActual(getPesoActual() + arma.getPeso());
-        setObjetosActuales(getObjetosActuales() - 1);
-        arrayArmas.remove(arma);
+        if(arma != null) {
+            setPesoActual(getPesoActual() - arma.getPeso());
+            setObjetosActuales(getObjetosActuales() - arma.getEspacio());
+            arrayArmas.remove(arma);
+        }
     }
 
     public void quitarArmadura(Armadura armadura) {
-        setPesoActual(getPesoActual() + armadura.getPeso());
-        setObjetosActuales(getObjetosActuales() - 1);
-        arrayArmaduras.remove(armadura);
+        if(armadura != null) {
+            setPesoActual(getPesoActual() - armadura.getPeso());
+            setObjetosActuales(getObjetosActuales() - armadura.getEspacio());
+            arrayArmaduras.remove(armadura);
+        }
     }
 
 
