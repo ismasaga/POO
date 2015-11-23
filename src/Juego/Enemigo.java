@@ -277,7 +277,7 @@ public class Enemigo
         System.out.println("Nombre" + getNombre() +
                 "\nPuntos de vida: " + getPuntosVida() +
                 "\nPuntos de ataque: " + getAtaque() +
-                "\nPuntos de armadura: " + getArmadura());
+                "\nPuntos de armadura: " + getArmadura().getDefensa());
         if(!getArmas().isEmpty()) //Si el enemigo tiene armas
         {
             for(Arma arma : getArmas())

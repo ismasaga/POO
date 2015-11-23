@@ -137,9 +137,15 @@ public class Main {
                     }
                     break;
                 case "atacar":
-                    if(cadeas.length == 2 && cadeas[1].length() == 1)
-                        if(cadeas[1].charAt(0) == 'r' || cadeas[1].charAt(0) == 'l' || cadeas[1].charAt(0) == 'u' || cadeas[1].charAt(0) == 'd')
-                            personaje.atacar(mapa, cadeas[1].charAt(0),null); //Por defecto ataca a todos
+                    if(cadeas.length == 2 && cadeas[1].length() == 2)
+                        if(cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' )
+                        {
+                            personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)), cadeas[1].charAt(1), 'q', null);
+                        }
+                        else if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
+                        {
+                            personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)), 'q', cadeas[1].charAt(1), null);
+                        }
                         else
                             System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                     else

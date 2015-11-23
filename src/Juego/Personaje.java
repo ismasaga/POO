@@ -361,10 +361,15 @@ public class Personaje
      * Ej atacar 3u
      * Ahora tambien permite atacar a un enemigo concreto
      * Ej atacar 3u Ambrosio
-     * @param mapa
-     * @param dir
+     * Para dejar una direccion sin aplicar pasar como parametro 'q' (deja la posicion del personaje).
+     * @param mapa Mapa a atacar
+     * @param num: numero de casillas a atacar
+     * @param dirX: Direccion de ataque en el eje de las X.
+     * @param dirY: direccion de ataque en el eje de las Y
+     *
      */
-    public void atacar(Mapa mapa, char dir, String nombre)
+    //FIXME: bug
+    public void atacar(Mapa mapa,int num, char dirX, char dirY, String nombre)
     {
         /**
          * Energia requerida para atacar
@@ -396,35 +401,91 @@ public class Personaje
             this.setEnergia(this.getEnergia() - ENERGIA_REQUERIDA);
         }
 
+        int min = num;
+        if (min > getRangoVision())
+        {
+            System.out.println("No tienes suficiente rango de vision");
+            min = getRangoVision();
+        }
+        if(armaDer != null)
+        {
+            if (min > armaDer.getAlcance())
+            {
+                min = armaDer.getAlcance();
+                System.out.println("Tu arma derecha no tiene suficiente alcance.");
+            }
+
+        }
+        if(armaIzq != null)
+        {
+            if (min > armaIzq.getAlcance())
+            {
+                min = armaIzq.getAlcance();
+                System.out.println("Tu arma izquierda no tiene suficiente alcance.");
+            }
+        }
+        if(armaDosM!= null)
+        {
+            if (min > armaDosM.getAlcance())
+            {
+                min = armaDosM.getAlcance();
+                System.out.println("Tu arma no tiene suficiente alcance.");
+            }
+        }
+
+        int componenteI = 0;
+        int componenteJ = 0;
         Celda celdaObtenida;
-        if(dir == 'u' && i-1 >= 0 && mapa.getCelda(i-1,j).getEnemigo() != null)
+
+        if(dirY == 'q')
         {
-            celdaObtenida = mapa.getCelda(i - 1, j);
-            enemigos = celdaObtenida.getEnemigo();
+            componenteI = i;
         }
-        else if(dir == 'd' && i+1 < mapa.getAlto() && mapa.getCelda(i+1,j).getEnemigo() != null)
+        if(dirX == 'q')
         {
-            celdaObtenida = mapa.getCelda(i + 1, j);
-            enemigos = celdaObtenida.getEnemigo();
+            componenteJ = j;
         }
-        else if(dir == 'l' && j-1 >= 0 && mapa.getCelda(i,j-1).getEnemigo() != null)
+        if(dirY == 'u' && i-min >= 0 && mapa.getCelda(i-min,j).getEnemigo() != null)
         {
-            celdaObtenida = mapa.getCelda(i, j - 1);
-            enemigos = celdaObtenida.getEnemigo();
+            //celdaObtenida = mapa.getCelda(i - min, j);
+            componenteI = i-min;
+            //enemigos = celdaObtenida.getEnemigo();
         }
-        else if(dir == 'r' && j+1 < mapa.getAncho() && mapa.getCelda(i,j+1).getEnemigo() != null)
+        if(dirY == 'd' && i+min < mapa.getAlto() && mapa.getCelda(i+min,j).getEnemigo() != null)
         {
-            celdaObtenida = mapa.getCelda(i, j + 1);
-            enemigos = celdaObtenida.getEnemigo();
+            //celdaObtenida = mapa.getCelda(i + min, j);
+            componenteI = i+min;
+            //enemigos = celdaObtenida.getEnemigo();
         }
-        else
+        if(dirX == 'l' && j-min >= 0 && mapa.getCelda(i,j-min).getEnemigo() != null)
         {
-            //Si el enemigo no existe se sale de la ejecucion
-            System.out.println("El enemigo no existe");
+            //celdaObtenida = mapa.getCelda(i, j - min);
+            componenteJ = j-min;
+            //enemigos = celdaObtenida.getEnemigo();
+        }
+        if(dirX == 'r' && j+min < mapa.getAncho() && mapa.getCelda(i,j+min).getEnemigo() != null)
+        {
+            //celdaObtenida = mapa.getCelda(i, j + min);
+            componenteJ = j+min;
+            //enemigos = celdaObtenida.getEnemigo();
+        }
+        if( !((dirX == 'q' || dirX == 'r' || dirX == 'l') && (dirY == 'u' || dirY == 'd' || dirY == 'q')))
+        {
+            //Si las direcciones estan mal pues se sale del programa
+            System.out.println("Error atacando. Melon");
             //Retornamos la energia
             this.setEnergia(this.getEnergia() + ENERGIA_REQUERIDA);
             return;
         }
+        System.out.println("ComponenteI " + componenteI + "ComponenteJ" + componenteJ);
+        celdaObtenida = mapa.getCelda(componenteI,componenteJ);
+        enemigos = celdaObtenida.getEnemigo();
+        if(enemigos == null)
+        {
+            System.out.println("No hay un enemigo en esa celda.");
+            return;
+        }
+
         int coeficienteAtaque; //Previene que se sume vida al atacar
         Random random = new Random();
 
@@ -436,13 +497,14 @@ public class Personaje
             ArrayList<Enemigo> enemigosAbatidos = new ArrayList<>();
             for (Enemigo enemigo : enemigos)
             {
+                System.out.println("Tamaño enemigos: " + enemigos.size());
                 //Ahora hay que dividir el daño del personaje entre todos los enemigos
                 if (prob > 0.25) //No es crítico
                 {
-                    ataqueEjecutado = (getAtaque() / enemigos.size() - enemigo.getArmadura().getDefensa());
+                    ataqueEjecutado = (getAtaque() / enemigos.size()) - enemigo.getArmadura().getDefensa();
                 } else //Golpe critico
                 {
-                    ataqueEjecutado = (2 * (getAtaque() / enemigos.size()) - enemigo.getArmadura().getDefensa());
+                    ataqueEjecutado = (2 * (getAtaque() / enemigos.size())) - enemigo.getArmadura().getDefensa();
                     System.out.println("CR1T 1N Y0U8 F4C3");
                 }
                 if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo

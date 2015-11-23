@@ -226,21 +226,23 @@ public class Parser
                                 Celda celda = mapa.getCelda(tamano[0], tamano[1]);
                                 for (Enemigo enemigo : celda.getEnemigo())
                                 {
-                                    if (cadeas[2].equals("arma"))
+                                    switch (cadeas[2])
                                     {
-                                        ArrayList armas = new ArrayList<>();
-                                        Arma arma = new Arma(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Float.parseFloat(cadeas[8]));
-                                        armas.add(arma);
-                                        if (enemigo.getNombre().equals(cadeas[1]))
-                                        {
-                                            enemigo.setArmas(armas);
-                                        }
-                                    } else if (cadeas[2].equals("armadura"))
-                                    {
-                                        enemigo.setArmadura(new Armadura(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Float.parseFloat(cadeas[8])));
-                                    } else
-                                    {
-                                        System.out.println("Comando no encontrado");
+                                        case "arma":
+                                            ArrayList armas = new ArrayList<>();
+                                            Arma arma = new Arma(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Float.parseFloat(cadeas[8]));
+                                            armas.add(arma);
+                                            if (enemigo.getNombre().equals(cadeas[1]))
+                                            {
+                                                enemigo.setArmas(armas);
+                                            }
+                                            break;
+                                        case "armadura":
+                                            enemigo.setArmadura(new Armadura(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Float.parseFloat(cadeas[8])));
+                                            break;
+                                        default:
+                                            System.out.println("Comando no encontrado");
+                                            break;
                                     }
 
                                 }
