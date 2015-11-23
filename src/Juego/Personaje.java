@@ -433,6 +433,7 @@ public class Personaje
 
         if(nombre == null) //Se ataca a todos los enemigos de la celda
         {
+            ArrayList<Enemigo> enemigosAbatidos = new ArrayList<>();
             for (Enemigo enemigo : enemigos)
             {
                 //Ahora hay que dividir el daño del personaje entre todos los enemigos
@@ -453,14 +454,18 @@ public class Personaje
                 if (enemigo.getPuntosVida() <= 0)
                 {
                     System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
-                    enemigo.soltarObjetos(celdaObtenida);
-                    celdaObtenida.eliminarEnemigo(enemigo);
-                    if (!mapa.moreEnemies())
-                    {
-                        System.out.println("No hay mas enemigos, enhorabuena, has ganado la partida");
-                        System.exit(0);
-                    }
+                    enemigosAbatidos.add(enemigo);
                 }
+            }
+            for(Enemigo enemigo : enemigosAbatidos)
+            {
+                enemigo.soltarObjetos(celdaObtenida);
+                celdaObtenida.eliminarEnemigo(enemigo);
+            }
+            if (!mapa.moreEnemies())
+            {
+                System.out.println("No hay mas enemigos, enhorabuena, has ganado la partida");
+                System.exit(0);
             }
         }
         else //Se ha especificado un nombre
@@ -486,6 +491,7 @@ public class Personaje
                     if (enemigo.getPuntosVida() <= 0)
                     {
                         System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
+                        enemigo.soltarObjetos(celdaObtenida);
                         celdaObtenida.eliminarEnemigo(enemigo);
                         if (!mapa.moreEnemies())
                         {

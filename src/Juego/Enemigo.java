@@ -296,7 +296,11 @@ public class Enemigo
         for(Arma arma : this.getArmas())
         {
             if(arma != null)
+            {
                 celda.setArma(arma);
+                System.out.println("Soltando:");
+                arma.info();
+            }
             armaDer = null;
             armaIzq = null;
             armaDosM = null;
@@ -304,18 +308,28 @@ public class Enemigo
         if(getArmadura() != null)
         {
             celda.setArmadura(getArmadura());
+            System.out.println("Soltando:");
+            armadura.info();
             armadura = null;
         }
         for(Arma arma : mochila.getArrayArmas())
         {
             if(arma != null)
+            {
                 celda.setArma(arma);
+                System.out.println("Soltando:");
+                arma.info();
+            }
         }
-        mochila.setArrayArmaduras(null); //Se marca para eliminacion
+        //mochila.setArrayArmas(null); //Se marca para eliminacion
         for(Armadura armadura : mochila.getArrayArmaduras())
         {
             if(armadura != null)
+            {
                 celda.setArmadura(armadura);
+                System.out.println("Soltando:");
+                armadura.info();
+            }
         }
         mochila.setArrayArmaduras(null);
         for(Binoculares bin : mochila.getArrayBinoculares())
@@ -324,6 +338,8 @@ public class Enemigo
             {
                 celda.setBinoculares(bin);
                 mochila.getArrayBinoculares().remove(bin);
+                System.out.println("Soltando:");
+                bin.info();
             }
         }
         for(Botiquin bot : mochila.getArrayBotiquin())
@@ -332,6 +348,8 @@ public class Enemigo
             {
                 celda.setBotiquin(bot);
                 mochila.getArrayBotiquin().remove(bot);
+                System.out.println("Soltando:");
+                bot.info();
             }
         }
     }
