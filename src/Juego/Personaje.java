@@ -1,27 +1,27 @@
 package Juego;
 
-import Objetos.*;
+import Objetos.Arma;
+import Objetos.Armadura;
+import Objetos.Binoculares;
+import Objetos.Botiquin;
 
-import java.awt.geom.Point2D;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
-/**Resumen. A destacar:
+/**
+ * Resumen. A destacar:
  * puntosAtaque: representa el arma del personaje, sin nombre (no hace falta) y con una cantidad de puntos fija y
  * predeterminada por el constructor.
- *
+ * <p>
  * armadura: representa la armadura del persoaje, sin nombre (no hace falta) y con una cantidad de puntos fija y
  * predeterminada por el constructor. La armadura disminuye el daño recibido (dañoRecb - armadura).
- *
+ * <p>
  * MAXIMO_VIDA y MAXIMO_ENERGIA siguen la misma lógica que los dos atributos anteriores.
- *
+ * <p>
  * El getter getCelda devuelve directamente la celda, pues se usa aliasing para modificarla desde otras clases (ídem setter).
  */
 
-public class Personaje
-{
+public class Personaje {
     /**
      * Constante de los puntos maximos de vida.
      * Esta variable se incializa en el constructor.
@@ -33,9 +33,15 @@ public class Personaje
     private Celda celda;
     private Mochila mochila;
     private String nombre;
-    private int rangoVision; /**Casillas visibles por el personaje**/
+    private int rangoVision;
+    /**
+     * Casillas visibles por el personaje
+     **/
     //private final int ataque;
-    private float energia; /**Energia actual**/
+    private float energia;
+    /**
+     * Energia actual
+     **/
     private Arma armaDer;
     private Arma armaIzq;
     private Arma armaDosM;
@@ -43,16 +49,16 @@ public class Personaje
     private Binoculares binocular;
 
 
-    public Personaje(int MAXIMO_VIDA,int puntosVida,Armadura armadura,Celda celda,Mochila mochila,int rangoVision,Arma armaIzq,Arma armaDer,int energia,int MAXIMO_ENERGIA,String nombre) {
-        this.MAXIMO_VIDA = MAXIMO_VIDA > 0? MAXIMO_VIDA : 100;
-        this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA)? puntosVida : this.MAXIMO_VIDA;
+    public Personaje(int MAXIMO_VIDA, int puntosVida, Armadura armadura, Celda celda, Mochila mochila, int rangoVision, Arma armaIzq, Arma armaDer, int energia, int MAXIMO_ENERGIA, String nombre) {
+        this.MAXIMO_VIDA = MAXIMO_VIDA > 0 ? MAXIMO_VIDA : 100;
+        this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA) ? puntosVida : this.MAXIMO_VIDA;
         setArmadura(armadura);
         this.celda = celda;
         this.mochila = mochila;
-        this.rangoVision = (rangoVision > 0)? rangoVision : 2;
+        this.rangoVision = (rangoVision > 0) ? rangoVision : 2;
         setArmaDer(armaDer);
         setArmaIzq(armaIzq);
-        this.MAXIMO_ENERGIA  = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
+        this.MAXIMO_ENERGIA = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
         this.energia = (energia > 0 && energia <= this.MAXIMO_ENERGIA) ? energia : 100;
         setNombre(nombre);
         binocular = null;
@@ -60,108 +66,102 @@ public class Personaje
 
     /**
      * Constructor para archivo parseado
+     *
      * @param celda
      * @param nombre
      * @param puntosVida
      * @param MAXIMO_ENERGIA
      */
-    public Personaje(Celda celda, String nombre,int puntosVida,int MAXIMO_ENERGIA) {
+    public Personaje(Celda celda, String nombre, int puntosVida, int MAXIMO_ENERGIA) {
         this.MAXIMO_VIDA = puntosVida > 0 ? puntosVida : 100;
         setPuntosVida(puntosVida);
         setArmadura(new Armadura());
         setCelda(celda);
-        setMochila(new Mochila(20,5));
+        setMochila(new Mochila(20, 5));
         setRangoVision(2);
         armaDer = armaIzq = armaDosM = null;
-        this.MAXIMO_ENERGIA  = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
+        this.MAXIMO_ENERGIA = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
         setEnergia(this.MAXIMO_ENERGIA);
         setNombre(nombre);
         binocular = null;
     }
 
-    public Personaje(int MAXIMO_VIDA,int puntosVida,Armadura armadura,Celda celda,Mochila mochila,int rangoVision,ArrayList<Arma> armas,int energia,int MAXIMO_ENERGIA,String nombre) {
-        this.MAXIMO_VIDA = MAXIMO_VIDA > 0? MAXIMO_VIDA : 100;
-        this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA)? puntosVida : this.MAXIMO_VIDA;
+    public Personaje(int MAXIMO_VIDA, int puntosVida, Armadura armadura, Celda celda, Mochila mochila, int rangoVision, ArrayList<Arma> armas, int energia, int MAXIMO_ENERGIA, String nombre) {
+        this.MAXIMO_VIDA = MAXIMO_VIDA > 0 ? MAXIMO_VIDA : 100;
+        this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA) ? puntosVida : this.MAXIMO_VIDA;
         setArmadura(armadura);
         this.celda = celda;
         this.mochila = mochila;
-        this.rangoVision = (rangoVision > 0)? rangoVision : 2;
+        this.rangoVision = (rangoVision > 0) ? rangoVision : 2;
         setArmas(armas);
-        this.MAXIMO_ENERGIA  = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
+        this.MAXIMO_ENERGIA = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
         this.energia = (energia > 0 && energia <= this.MAXIMO_ENERGIA) ? energia : 100;
         setNombre(nombre);
         binocular = null;
     }
 
-    public void setMAXIMO_VIDA(int MAXIMO_VIDA)
-    {
+    public void setMAXIMO_VIDA(int MAXIMO_VIDA) {
         this.MAXIMO_VIDA = MAXIMO_VIDA > 0 ? MAXIMO_VIDA : 100;
     }
 
-    public void setMAXIMO_ENERGIA(int MAXIMO_ENERGIA)
-    {
+    public void setMAXIMO_ENERGIA(int MAXIMO_ENERGIA) {
         this.MAXIMO_ENERGIA = MAXIMO_ENERGIA > 0 ? MAXIMO_ENERGIA : 100;
     }
 
     /**
      * Asigna el nombre al personaje
+     *
      * @param nombre
      */
     public void setNombre(String nombre) {
-        if(nombre != null)
+        if (nombre != null)
             this.nombre = nombre;
         else
             System.out.println("ERROR asignando el nombre al personaje");
     }
 
-    public int getMAXIMO_VIDA()
-    {
+    public int getMAXIMO_VIDA() {
         return MAXIMO_VIDA;
     }
 
-    public int getMAXIMO_ENERGIA()
-    {
+    public int getMAXIMO_ENERGIA() {
         return MAXIMO_ENERGIA;
     }
 
     /**
      * Retorna el nombre del personaje
+     *
      * @return nombre
      */
     public String getNombre() {
         return nombre;
     }
 
-    public float getEnergia()
-    {
+    public float getEnergia() {
         return energia;
     }
 
-    public void setEnergia(float energia)
-    {
-        if (energia < 0)
-        {
+    public void setEnergia(float energia) {
+        if (energia < 0) {
             this.energia = 0;
         }
-        if (energia > MAXIMO_ENERGIA)
-        {
+        if (energia > MAXIMO_ENERGIA) {
             this.energia = MAXIMO_ENERGIA;
-        }
-        else
-        {
+        } else {
             this.energia = energia;
         }
     }
 
     /**
      * Devuelve un entero con el ataque total del personaje tenga las armas que tenga
+     *
      * @return ataque
      */
     public int getAtaque() {
         ArrayList<Arma> armas = getArmas();
         int ataque = 0;
-        if(armas.size() > 0 && armas.size() <= 2)
-            for(Arma arma : armas)
+        if (armas.size() > 0 && armas.size() <= 2)
+            for (Arma arma : armas)
                 ataque += arma.getDano();
         else
             System.out.println("ERROR, no hay armas con las que atacar.");
@@ -171,6 +171,7 @@ public class Personaje
 
     /**
      * Devuelve la armadura, en caso de que no este equipada devolverá null
+     *
      * @return Armadura
      */
     public Armadura getArmadura() {
@@ -179,33 +180,33 @@ public class Personaje
 
     /**
      * Asigna armadura al personaje
+     *
      * @param armadura
      */
     public void setArmadura(Armadura armadura) {
-        if(armadura != null)
-        {
+        if (armadura != null) {
             desequiparArmadura();
             setMAXIMO_ENERGIA(getMAXIMO_ENERGIA() + armadura.getIncrEnergia());
             setMAXIMO_VIDA(getMAXIMO_VIDA() + armadura.getIncrVida());
             this.armadura = armadura;
-        }
-        else
+        } else
             System.out.println("ERROR asignando armadura al personaje");
     }
 
     /**
      * Devuelve un arraylist de las armas que lleva equipadas el personaje
      * ATENCION : si no lleva ninguna devuelve el conjunto pero vacio
+     *
      * @return conjuntoArmas
      */
     /* Este metodo es muerte. Si quieres desequipar el arma de mano izquierda no se puede.*/
     public ArrayList<Arma> getArmas() {
         ArrayList<Arma> conjuntoArmas = new ArrayList<>();
-        if(armaDer != null)
+        if (armaDer != null)
             conjuntoArmas.add(armaDer);
-        if(armaIzq != null)
+        if (armaIzq != null)
             conjuntoArmas.add(armaIzq);
-        if(armaDosM != null)
+        if (armaDosM != null)
             conjuntoArmas.add(armaDosM);
         return conjuntoArmas;
     }
@@ -227,12 +228,13 @@ public class Personaje
      * ATENCIÓN : si se usa éste método se eliminarán las armas que el personaje lla portaba
      * ATENCIÓN : si se usa para mandar solo una arma de una mano ésta quedará equipada en la mano derecha.
      * ATENCIÓN : en caso de ser dos armas a una mano la primera irá a la mano derecha.
+     *
      * @param armas
      */
     public void setArmas(ArrayList<Arma> armas) {
-        if(armas != null) {
-            if(armas.size() == 1) {
-                if(armas.get(0).isDosManos()) {
+        if (armas != null) {
+            if (armas.size() == 1) {
+                if (armas.get(0).isDosManos()) {
                     armaDosM = armas.get(0);
                     armaDer = null;
                     armaIzq = null;
@@ -240,8 +242,8 @@ public class Personaje
                     armaDer = armas.get(0);
                     armaDosM = null;
                 }
-            } else if(armas.size() == 2) {
-                if(armas.get(0).isDosManos() || armas.get(1).isDosManos())
+            } else if (armas.size() == 2) {
+                if (armas.get(0).isDosManos() || armas.get(1).isDosManos())
                     System.out.println("ERROR, quieres equipar dos armas pero una de ellas es a dos manos(El personaje solo tiene dos manos)");
                 else {
                     armaDer = armas.get(0);
@@ -258,8 +260,8 @@ public class Personaje
      * Este método equipa el arma en la mano derecha
      */
     public void setArmaDer(Arma armaDer) {
-        if(armaDer != null)
-            if(armaDer.isDosManos())
+        if (armaDer != null)
+            if (armaDer.isDosManos())
                 System.out.println("ERROR, el arma es de dos manos");
             else {
                 this.armaDer = armaDer;
@@ -273,8 +275,8 @@ public class Personaje
      * Este método equipa el arma en la mano izquierda
      */
     public void setArmaIzq(Arma armaIzq) {
-        if(armaIzq != null)
-            if(armaIzq.isDosManos())
+        if (armaIzq != null)
+            if (armaIzq.isDosManos())
                 System.out.println("ERROR, el arma es de dos manos");
             else {
                 this.armaIzq = armaIzq;
@@ -286,8 +288,8 @@ public class Personaje
      * Este método equipa el arma de dos manos
      */
     public void setArmaDosM(Arma armaDosM) {
-        if(armaDosM != null)
-            if(!armaDosM.isDosManos())
+        if (armaDosM != null)
+            if (!armaDosM.isDosManos())
                 System.out.println("ERROR, el arma es de una mano");
             else {
                 this.armaDosM = armaDosM;
@@ -297,75 +299,67 @@ public class Personaje
         else
             System.out.println("ERROR en el arma de dos manos que intentas equipar");
     }
-    public int getPuntosVida()
-    {
+
+    public int getPuntosVida() {
         return puntosVida;
     }
 
     /**
      * Asigna los puntos de vida.
+     *
      * @param puntosVida
      */
-    public void setPuntosVida(int puntosVida)
-    {
-        if(puntosVida > MAXIMO_VIDA)
-        {
+    public void setPuntosVida(int puntosVida) {
+        if (puntosVida > MAXIMO_VIDA) {
             this.puntosVida = MAXIMO_VIDA;
             return;
-        }
-        else if (puntosVida < 0)
-        {
+        } else if (puntosVida < 0) {
             this.puntosVida = 0;
             return;
-        }
-        else
-        {
+        } else {
             this.puntosVida = puntosVida;
             return;
         }
     }
 
-    public Celda getCelda()
-    {
+    public Celda getCelda() {
         return celda;
     }
 
     /**
      * Asigna unha celda á persoaxe
+     *
      * @param celda
      */
     public void setCelda(Celda celda) {
-        if(celda != null)
+        if (celda != null)
             this.celda = celda;
         else
             System.out.println("ERROR asignando celda al personaje");
     }
 
-    public Mochila getMochila()
-    {
+    public Mochila getMochila() {
         return mochila;
     }
 
     /**
      * Asigna unha mochila á persoaxe
+     *
      * @param mochila
      */
     public void setMochila(Mochila mochila) {
-        if(mochila != null)
+        if (mochila != null)
             this.mochila = mochila;
         else
             System.out.println("ERROR asignando la mochila al personaje");
     }
 
-    public int getRangoVision()
-    {
+    public int getRangoVision() {
         return rangoVision;
     }
 
-    public void setRangoVision(int rangoVision)
-    {
-        if(rangoVision > 0)
-        {
+    public void setRangoVision(int rangoVision) {
+        if (rangoVision > 0) {
             this.rangoVision = rangoVision;
         }
     }
@@ -377,16 +371,15 @@ public class Personaje
      * Ahora tambien permite atacar a un enemigo concreto
      * Ej atacar 3u Ambrosio
      * Para dejar una direccion sin aplicar pasar como parametro 'q' (deja la posicion del personaje).
-     * @param mapa Mapa a atacar
+     *
+     * @param mapa  Mapa a atacar
      * @param numX: numero de casillas a atacar (ejeX)
      * @param numY: numero de casillas a atacar (ejeY)
      * @param dirX: Direccion de ataque en el eje de las X.
      * @param dirY: direccion de ataque en el eje de las Y
-     *
      */
     //FIXME: bug
-    public void atacar(Mapa mapa,int numX,int numY, char dirX, char dirY, String nombre)
-    {
+    public void atacar(Mapa mapa, int numX, int numY, char dirX, char dirY, String nombre) {
         /**
          * Energia requerida para atacar
          */
@@ -394,57 +387,48 @@ public class Personaje
         ArrayList<Enemigo> enemigos = null;
         /*Obtenemos la posicion actual del personaje*/
         boolean encontrado = false;
-        int j = 0,i = 0;
+        int j = 0, i = 0;
         for (i = 0; i < mapa.getAlto(); i++) {
             for (j = 0; j < mapa.getAncho(); j++) {
-                encontrado = mapa.getCelda(i,j).equals(this.getCelda());
-                if(encontrado)
+                encontrado = mapa.getCelda(i, j).equals(this.getCelda());
+                if (encontrado)
                     break;
             }
-            if(encontrado)
+            if (encontrado)
                 break;
         }
 
         /*No hay suficiente energia*/
-        if(this.getEnergia() - ENERGIA_REQUERIDA < 0 )
-        {
+        if (this.getEnergia() - ENERGIA_REQUERIDA < 0) {
             System.out.println("No hay suficiente energia");
             return;
         }
         /*Hay energia*/
-        else
-        {
+        else {
             this.setEnergia(this.getEnergia() - ENERGIA_REQUERIDA);
         }
 
         /**Buscamos el maximo de casillas atacables (eje x)**/
         int minX = numX;
-        if (minX > getRangoVision())
-        {
+        if (minX > getRangoVision()) {
             System.out.println("No tienes suficiente rango de vision");
             minX = getRangoVision();
         }
-        if(armaDer != null)
-        {
-            if (minX > armaDer.getAlcance())
-            {
+        if (armaDer != null) {
+            if (minX > armaDer.getAlcance()) {
                 minX = armaDer.getAlcance();
                 System.out.println("Tu arma derecha no tiene suficiente alcance.");
             }
 
         }
-        if(armaIzq != null)
-        {
-            if (minX > armaIzq.getAlcance())
-            {
+        if (armaIzq != null) {
+            if (minX > armaIzq.getAlcance()) {
                 minX = armaIzq.getAlcance();
                 System.out.println("Tu arma izquierda no tiene suficiente alcance.");
             }
         }
-        if(armaDosM != null)
-        {
-            if (minX > armaDosM.getAlcance())
-            {
+        if (armaDosM != null) {
+            if (minX > armaDosM.getAlcance()) {
                 minX = armaDosM.getAlcance();
                 System.out.println("Tu arma no tiene suficiente alcance.");
             }
@@ -452,32 +436,25 @@ public class Personaje
 
         /**Buscamos el maximo de casillas atacables (eje y)**/
         int minY = numY;
-        if (minY > getRangoVision())
-        {
+        if (minY > getRangoVision()) {
             System.out.println("No tienes suficiente rango de vision");
             minY = getRangoVision();
         }
-        if(armaDer != null)
-        {
-            if (minY > armaDer.getAlcance())
-            {
+        if (armaDer != null) {
+            if (minY > armaDer.getAlcance()) {
                 minY = armaDer.getAlcance();
                 System.out.println("Tu arma derecha no tiene suficiente alcance.");
             }
 
         }
-        if(armaIzq != null)
-        {
-            if (minY > armaIzq.getAlcance())
-            {
+        if (armaIzq != null) {
+            if (minY > armaIzq.getAlcance()) {
                 minY = armaIzq.getAlcance();
                 System.out.println("Tu arma izquierda no tiene suficiente alcance.");
             }
         }
-        if(armaDosM!= null)
-        {
-            if (minY > armaDosM.getAlcance())
-            {
+        if (armaDosM != null) {
+            if (minY > armaDosM.getAlcance()) {
                 minY = armaDosM.getAlcance();
                 System.out.println("Tu arma no tiene suficiente alcance.");
             }
@@ -486,40 +463,33 @@ public class Personaje
         int componenteJ = 0;
         Celda celdaObtenida;
 
-        if(dirY == 'q')
-        {
+        if (dirY == 'q') {
             componenteI = i;
         }
-        if(dirX == 'q')
-        {
+        if (dirX == 'q') {
             componenteJ = j;
         }
-        if(dirY == 'u' && i-minY >= 0)
-        {
+        if (dirY == 'u' && i - minY >= 0) {
             //celdaObtenida = mapa.getCelda(i - min, j);
-            componenteI = i-minY;
+            componenteI = i - minY;
             //enemigos = celdaObtenida.getEnemigo();
         }
-        if(dirY == 'd' && i+minY < mapa.getAlto())
-        {
+        if (dirY == 'd' && i + minY < mapa.getAlto()) {
             //celdaObtenida = mapa.getCelda(i + min, j);
-            componenteI = i+minY;
+            componenteI = i + minY;
             //enemigos = celdaObtenida.getEnemigo();
         }
-        if(dirX == 'l' && j-minX >= 0)
-        {
+        if (dirX == 'l' && j - minX >= 0) {
             //celdaObtenida = mapa.getCelda(i, j - min);
-            componenteJ = j-minX;
+            componenteJ = j - minX;
             //enemigos = celdaObtenida.getEnemigo();
         }
-        if(dirX == 'r' && j+minX < mapa.getAncho())
-        {
+        if (dirX == 'r' && j + minX < mapa.getAncho()) {
             //celdaObtenida = mapa.getCelda(i, j + min);
-            componenteJ = j+minX;
+            componenteJ = j + minX;
             //enemigos = celdaObtenida.getEnemigo();
         }
-        if( !((dirX == 'q' || dirX == 'r' || dirX == 'l') && (dirY == 'u' || dirY == 'd' || dirY == 'q')))
-        {
+        if (!((dirX == 'q' || dirX == 'r' || dirX == 'l') && (dirY == 'u' || dirY == 'd' || dirY == 'q'))) {
             //Si las direcciones estan mal pues se sale del programa
             System.out.println("Error atacando. Melon");
             //Retornamos la energia
@@ -527,10 +497,9 @@ public class Personaje
             return;
         }
         System.out.println("ComponenteI " + componenteI + "ComponenteJ" + componenteJ);
-        celdaObtenida = mapa.getCelda(componenteI,componenteJ);
+        celdaObtenida = mapa.getCelda(componenteI, componenteJ);
         enemigos = celdaObtenida.getEnemigo();
-        if(enemigos == null)
-        {
+        if (enemigos == null) {
             System.out.println("No hay un enemigo en esa celda.");
             this.setEnergia(this.getEnergia() + ENERGIA_REQUERIDA);
             return;
@@ -542,20 +511,18 @@ public class Personaje
         float prob = random.nextFloat();
         int ataqueEjecutado;
 
-        if(nombre == null) //Se ataca a todos los enemigos de la celda
+        if (nombre == null) //Se ataca a todos los enemigos de la celda
         {
             ArrayList<Enemigo> enemigosAbatidos = new ArrayList<>();
-            for (Enemigo enemigo : enemigos)
-            {
+            for (Enemigo enemigo : enemigos) {
                 System.out.println("Tamaño enemigos: " + enemigos.size());
                 //Ahora hay que dividir el daño del personaje entre todos los enemigos
                 if (prob > 0.25) //No es crítico
                 {
-                    ataqueEjecutado = (getAtaque() / enemigos.size()) * 20/enemigo.getArmadura().getDefensa();
-                }
-                else //Golpe critico
+                    ataqueEjecutado = (getAtaque() / enemigos.size()) * 20 / enemigo.getArmadura().getDefensa();
+                } else //Golpe critico
                 {
-                    ataqueEjecutado = (2 * (getAtaque() / enemigos.size())) * 20/enemigo.getArmadura().getDefensa();
+                    ataqueEjecutado = (2 * (getAtaque() / enemigos.size())) * 20 / enemigo.getArmadura().getDefensa();
                     System.out.println("CR1T 1N Y0U8 F4C3");
                 }
                 if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
@@ -564,35 +531,30 @@ public class Personaje
                 }
                 enemigo.setPuntosVida(enemigo.getPuntosVida() - ataqueEjecutado);
                 System.out.println("El enemigo " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getPuntosVida());
-                if (enemigo.getPuntosVida() <= 0)
-                {
+                if (enemigo.getPuntosVida() <= 0) {
                     System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
                     enemigosAbatidos.add(enemigo);
                 }
             }
-            for(Enemigo enemigo : enemigosAbatidos)
-            {
+            for (Enemigo enemigo : enemigosAbatidos) {
                 enemigo.soltarObjetos(celdaObtenida);
                 celdaObtenida.eliminarEnemigo(enemigo);
             }
-            if (!mapa.moreEnemies())
-            {
+            if (!mapa.moreEnemies()) {
                 System.out.println("No hay mas enemigos, enhorabuena, has ganado la partida");
                 System.exit(0);
             }
-        }
-        else //Se ha especificado un nombre
+        } else //Se ha especificado un nombre
         {
-            for (Enemigo enemigo : enemigos)
-            {
+            for (Enemigo enemigo : enemigos) {
                 if (enemigo.getNombre().equals(nombre)) //Se ha encontrado el enemigo
                 {
                     if (prob > 0.25) //No es crítico
                     {
-                        ataqueEjecutado = (getAtaque() * 20/enemigo.getArmadura().getDefensa());
+                        ataqueEjecutado = (getAtaque() * 20 / enemigo.getArmadura().getDefensa());
                     } else //Golpe critico
                     {
-                        ataqueEjecutado = (2 * (getAtaque()) * 20/enemigo.getArmadura().getDefensa());
+                        ataqueEjecutado = (2 * (getAtaque()) * 20 / enemigo.getArmadura().getDefensa());
                         System.out.println("CR1T 1N Y0U8 F4C3");
                     }
                     if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
@@ -601,13 +563,11 @@ public class Personaje
                     }
                     enemigo.setPuntosVida(enemigo.getPuntosVida() - ataqueEjecutado);
                     System.out.println("El enemigo " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getPuntosVida());
-                    if (enemigo.getPuntosVida() <= 0)
-                    {
+                    if (enemigo.getPuntosVida() <= 0) {
                         System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
                         enemigo.soltarObjetos(celdaObtenida);
                         celdaObtenida.eliminarEnemigo(enemigo);
-                        if (!mapa.moreEnemies())
-                        {
+                        if (!mapa.moreEnemies()) {
                             System.out.println("No hay mas enemigos, enhorabuena, has ganado la partida");
                             System.exit(0);
                         }
@@ -617,185 +577,148 @@ public class Personaje
         }
     }
 
-    public void tirarBinocular(String nombreBinocular)
-    {
+    public void tirarBinocular(String nombreBinocular) {
         Binoculares binocularATirar = null;
-        if(celda.getBinoculares() == null)
+        if (celda.getBinoculares() == null)
             return;
-        for(Binoculares bin : mochila.getArrayBinoculares())
-        {
-            if(bin.getNombre().equals(nombreBinocular))
-            {
+        for (Binoculares bin : mochila.getArrayBinoculares()) {
+            if (bin.getNombre().equals(nombreBinocular)) {
                 binocularATirar = bin;
             }
         }
-        if(binocularATirar != null)
-        {
+        if (binocularATirar != null) {
             celda.setBinoculares(binocularATirar);
             mochila.quitarBinocular(binocularATirar);
         }
         /*Se elimina porque el binocular procede del array de binoculares*/
     }
 
-    public void cogerBinocular(String nombreBinocular)
-    {
+    public void cogerBinocular(String nombreBinocular) {
         Binoculares binocularACoger = null;
-        if(celda.getBinoculares() == null)
+        if (celda.getBinoculares() == null)
             return;
-        for(Binoculares bin : celda.getBinoculares())
-        {
-            if(bin.getNombre().equals(nombreBinocular))
-            {
+        for (Binoculares bin : celda.getBinoculares()) {
+            if (bin.getNombre().equals(nombreBinocular)) {
                 binocularACoger = bin;
             }
         }
-        if(binocularACoger != null)
-        {
+        if (binocularACoger != null) {
             celda.eliminarBinocular(binocularACoger);
             mochila.anadirBinocular(binocularACoger);
         }
     }
 
-    public void tirarBotiquin(String nombreBotiquin)
-    {
+    public void tirarBotiquin(String nombreBotiquin) {
         Botiquin botiquinATirar = null;
-        if(celda.getBotiquin() == null)
+        if (celda.getBotiquin() == null)
             return;
-        for(Botiquin bot : mochila.getArrayBotiquin())
-        {
-            if(bot.getNombre().equals(nombreBotiquin))
-            {
+        for (Botiquin bot : mochila.getArrayBotiquin()) {
+            if (bot.getNombre().equals(nombreBotiquin)) {
                 botiquinATirar = bot;
             }
         }
-        if(botiquinATirar != null)
-        {
+        if (botiquinATirar != null) {
             celda.setBotiquin(botiquinATirar);
             mochila.quitarBotiquin(botiquinATirar);
         }
     }
 
-    public void cogerBotiquin(String nombreBotiquin)
-    {
+    public void cogerBotiquin(String nombreBotiquin) {
         Botiquin botiquinACoger = null;
-        if(celda.getBotiquin() == null)
+        if (celda.getBotiquin() == null)
             return;
-        for (Botiquin bot : celda.getBotiquin())
-        {
-            if(bot.getNombre().equals(nombreBotiquin))
-            {
+        for (Botiquin bot : celda.getBotiquin()) {
+            if (bot.getNombre().equals(nombreBotiquin)) {
                 botiquinACoger = bot;
             }
         }
-        if(botiquinACoger != null)
-        {
+        if (botiquinACoger != null) {
             celda.eliminarBotiquin(botiquinACoger);
             mochila.anadirBotiquin(botiquinACoger);
         }
     }
 
-    public void cogerArma(String nombreArma)
-    {
+    public void cogerArma(String nombreArma) {
         Arma armaACoger = null; //Hay que hacerlo asi que da una excepcion
-        if(celda.getArma() == null)
+        if (celda.getArma() == null)
             return;
-        for (Arma arma : celda.getArma())
-        {
-            if(arma.getNombre().equals(nombreArma))
-            {
+        for (Arma arma : celda.getArma()) {
+            if (arma.getNombre().equals(nombreArma)) {
                 armaACoger = arma;
             }
         }
-        if(armaACoger != null)
-        {
+        if (armaACoger != null) {
             celda.eliminarArma(armaACoger);
             mochila.anadirArma(armaACoger);
         }
     }
 
-    public void tirarArma (String nombreArma)
-    {
+    public void tirarArma(String nombreArma) {
         Arma armaATirar = null;
-        for (Arma arma: mochila.getArrayArmas())
-        {
-            if(arma.getNombre().equals(nombreArma))
-            {
+        for (Arma arma : mochila.getArrayArmas()) {
+            if (arma.getNombre().equals(nombreArma)) {
                 armaATirar = arma;
             }
         }
-        if (armaATirar != null)
-        {
+        if (armaATirar != null) {
             mochila.quitarArma(armaATirar);
             celda.setArma(armaATirar);
         }
     }
 
-    public void cogerArmadura (String nombreArmadura)
-    {
+    public void cogerArmadura(String nombreArmadura) {
         Armadura armaduraACoger = null;
-        if(celda.getArmaduras() == null)
+        if (celda.getArmaduras() == null)
             return;
-        for (Armadura armadura : celda.getArmaduras())
-        {
-            if(armadura.getNombre().equals(nombreArmadura))
-            {
+        for (Armadura armadura : celda.getArmaduras()) {
+            if (armadura.getNombre().equals(nombreArmadura)) {
                 armaduraACoger = armadura;
             }
         }
-        if(armaduraACoger != null)
-        {
+        if (armaduraACoger != null) {
             celda.eliminarArmadura(armadura);
             mochila.anadirArmadura(armadura);
         }
     }
 
-    public void tirarArmadura (String nombreArmadura)
-    {
+    public void tirarArmadura(String nombreArmadura) {
         Armadura armaduraATirar = null;
-        for(Armadura armadura : mochila.getArrayArmaduras())
-        {
-            if(armadura.getNombre().equals(nombreArmadura))
-            {
+        for (Armadura armadura : mochila.getArrayArmaduras()) {
+            if (armadura.getNombre().equals(nombreArmadura)) {
                 armaduraATirar = armadura;
             }
         }
-        if(armaduraATirar != null)
-        {
+        if (armaduraATirar != null) {
             mochila.quitarArmadura(armaduraATirar);
             celda.setArmadura(armaduraATirar);
         }
     }
 
-    public void ojearInventario()
-    {
+    public void ojearInventario() {
         ArrayList<Binoculares> arrayBin = mochila.getArrayBinoculares();
         ArrayList<Botiquin> arrayBot = mochila.getArrayBotiquin();
         System.out.println("Capacidad restante: " + (mochila.getObjetosMaximos() - mochila.getObjetosActuales()) + " objetos");
         System.out.println("Peso actual: " + mochila.getPesoActual() + " kilogramos");
-        for (Binoculares bin : arrayBin)
-        {
-            if(bin != null)
+        for (Binoculares bin : arrayBin) {
+            if (bin != null)
                 bin.info();
             else
                 System.out.println("No hay botiquines en la mochila.");
         }
-        for (Botiquin bot : arrayBot)
-        {
-            if(bot != null)
+        for (Botiquin bot : arrayBot) {
+            if (bot != null)
                 bot.info();
             else
                 System.out.println("No hay botiquines en la mochila.");
         }
-        for (Arma arma : mochila.getArrayArmas())
-        {
-            if(arma != null)
+        for (Arma arma : mochila.getArrayArmas()) {
+            if (arma != null)
                 arma.info();
             else
                 System.out.println("No hay armas en la mochila.");
         }
-        for(Armadura armadura : mochila.getArrayArmaduras())
-        {
-            if(armadura != null)
+        for (Armadura armadura : mochila.getArrayArmaduras()) {
+            if (armadura != null)
                 armadura.info();
             else
                 System.out.println("No hay armaduras en la mochila.");
@@ -806,93 +729,91 @@ public class Personaje
      * Esta implementación de mover permite desplazar al personaje a cualquier casilla de manera horizontal y vertical
      * (menos a las no transitables). Sin embargo, esta función es llamada con num = 1 por lo que sólo permite mover a
      * las casillas adyacentes.
-     *
+     * <p>
      * Se ha decantado por un modelo más simple que el propuesto de ejemplo de introducir el comando mover
      * (y atacar, que sigue el mismo patrón). En lugar de numerar a las filas por un número y a las columnas por una
      * letra (o viceversa), se indica si se desea mover arriba, abajo, izquierda o derecha. Esto evita un problema:
      * <ul>
-     *     <li>Si tenemos un mapa muy grande (pongamos por caso 1000x1000), la numeración de las casillas sería engorrosa.
-     *     (¿mover 756zrt?), esto implicaría numerar las casiilas  a priori y mostrar dicho número/letras al usuario.</li>
+     * <li>Si tenemos un mapa muy grande (pongamos por caso 1000x1000), la numeración de las casillas sería engorrosa.
+     * (¿mover 756zrt?), esto implicaría numerar las casiilas  a priori y mostrar dicho número/letras al usuario.</li>
      * </ul>
-     *
+     * <p>
      * Si el personaje no es encontrado(cosa teóricamente imposible) mete el personaje en la casilla
      * 0,0 con el movimiento indicado en caso de que éste sea posible
+     *
      * @param mapa
      * @param num
      * @param dir
      */
-    public void mover(Mapa mapa,int num, char dir) {
+    public void mover(Mapa mapa, int num, char dir) {
         int ENERGIA_REQUERIDA = 5;
 
         boolean encontrado = false;
-        int j = 0,i = 0;
-        for (i = 0;i < mapa.getAlto();i++) {
-            for (j = 0;j < mapa.getAncho();j++) {
-                encontrado = mapa.getCelda(i,j).equals(this.getCelda());
-                if(encontrado)
+        int j = 0, i = 0;
+        for (i = 0; i < mapa.getAlto(); i++) {
+            for (j = 0; j < mapa.getAncho(); j++) {
+                encontrado = mapa.getCelda(i, j).equals(this.getCelda());
+                if (encontrado)
                     break;
             }
-            if(encontrado)
+            if (encontrado)
                 break;
         }
 
         /**
          * If que controla que quede suficiente energia para mover tantas celdas
          */
-        if((this.getEnergia() - ENERGIA_REQUERIDA * num) < 0) {
+        if ((this.getEnergia() - ENERGIA_REQUERIDA * num) < 0) {
             System.out.println("No hay suficiente energia para mover tantas casillas.");
             return;
         } else
-            this.setEnergia(this.getEnergia() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
+            this.setEnergia(this.getEnergia() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5) * num));
 
-        if(dir == 'u' && i-num >= 0)
-            if(mapa.getCelda(i-num,j).isTransitable())
-                celda = mapa.getCelda(i-num,j);
-            else
-            {
+        if (dir == 'u' && i - num >= 0)
+            if (mapa.getCelda(i - num, j).isTransitable())
+                celda = mapa.getCelda(i - num, j);
+            else {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
-                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
+                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5) * num));
             }
-        else if(dir == 'd' && i+num < mapa.getAlto())
-            if(mapa.getCelda(i+num,j).isTransitable())
-                celda = mapa.getCelda(i+num,j);
-            else
-            {
+        else if (dir == 'd' && i + num < mapa.getAlto())
+            if (mapa.getCelda(i + num, j).isTransitable())
+                celda = mapa.getCelda(i + num, j);
+            else {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
-                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
+                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5) * num));
             }
-        else if(dir == 'l' && j-num >= 0)
-            if(mapa.getCelda(i,j-num).isTransitable())
-                celda = mapa.getCelda(i,j-num);
-            else
-            {
+        else if (dir == 'l' && j - num >= 0)
+            if (mapa.getCelda(i, j - num).isTransitable())
+                celda = mapa.getCelda(i, j - num);
+            else {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
-                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
+                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5) * num));
             }
-        else if(dir == 'r' && j+num < mapa.getAncho())
-            if(mapa.getCelda(i,j+num).isTransitable())
-                celda = mapa.getCelda(i,j+num);
-            else
-            {
+        else if (dir == 'r' && j + num < mapa.getAncho())
+            if (mapa.getCelda(i, j + num).isTransitable())
+                celda = mapa.getCelda(i, j + num);
+            else {
                 System.out.println("ERROR, la celda a la que te pretendes mover no es transitable.");
-                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
+                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5) * num));
             }
-        else
-        {
+        else {
             System.out.println("ERROR, no puedes mover tantas casillas en esa dirección");
-            this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual()/5) * num));
+            this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5) * num));
         }
     }
 
     /**
      * Mira la celda especificada por la posicion y la direccion. Si se especifica un objeto solo imprime informacion sobre ese objeto
      *
-     * @param posicion Posicion a mirar. Si es null se mira la actual.
-     * @param direccion Direccion a mirar.
-     * @param objeto Objeto a mirar. Si es null se listan todos
+     * @param posicionX  Posicion a mirar. Si es 0 se mira la actual. (eje x)
+     * @param posicionX  Posicion a mirar. Si es 0 se mira la actual. (eje x)
+     * @param direccionX Direccion a mirar. (rIGHT,lEFT)
+     * @param direccionY Direccion a mirar. (uP,dOWN)
+     * @param objeto     Objeto a mirar. Si es null se listan todos
      */
     //TODO: probar objeto
-    public void mirar(Mapa mapa, Integer posicion, String direccion, String objeto) {
+    public void mirar(Mapa mapa, int posicionX, int posicionY, char direccionX, char direccionY, String objeto) {
         ArrayList<Binoculares> arrayBin;
         ArrayList<Botiquin> arrayBot;
         Celda celda;
@@ -902,83 +823,77 @@ public class Personaje
         int i = array[0];
         int j = array[1];
 
-        celda = mapa.getCelda(i,j);
-        if(posicion != null)
-        {
-            int celdaI = direccion.equals("u") ? i - posicion : i;
-            celdaI = direccion.equals("d") ? i + posicion : celdaI;
-            int celdaJ = (direccion.equals("l") ? j - posicion : j);
-            celdaJ = (direccion.equals("r") ? j + posicion : celdaJ);
-            //If importado de mapa
-            if (( celdaI >= i - getRangoVision() &&
-                    celdaI <= i + getRangoVision() &&
-                    celdaJ >= j - getRangoVision() &&
-                    celdaJ <= j + getRangoVision()))
-            {
-               celda = mapa.getCelda(celdaI,celdaJ);
-                System.out.println("Got celda: " + celdaI + "," + celdaJ + "!=null " + (celda!=null));
-            }
+        celda = mapa.getCelda(i, j);
+        int celdaI = direccionY == 'u' ? i - posicionY : i;
+        celdaI = direccionY == 'd' ? i + posicionY : celdaI;
+        int celdaJ = (direccionX == 'l' ? j - posicionX : j);
+        celdaJ = (direccionX == 'r' ? j + posicionX : celdaJ);
+        //Se necesitan los iguales porque esta en base 0
+        if (celdaJ < 0 || celdaJ >= mapa.getAncho() || celdaI < 0 || celdaI >= mapa.getAlto()) {
+            System.out.println("Mirar fuera de rango " + mapa.getAncho());
+            return;
         }
+        //If importado de mapa
+        if ((celdaI >= i - getRangoVision() &&
+                celdaI <= i + getRangoVision() &&
+                celdaJ >= j - getRangoVision() &&
+                celdaJ <= j + getRangoVision()))
+            celda = mapa.getCelda(celdaI, celdaJ);
 
+        System.out.println("Got celda: " + celdaI + "," + celdaJ + "!=null " + (celda != null));
+        if (celda != null) {
+            System.err.println("Segmentation fault.");
+            return;
+        }
         arrayBin = celda.getBinoculares();
         arrayBot = celda.getBotiquin();
         //Hay una serie de ifs que controlan si se imprime un objeto.
         //Si no se proporciona objeto se imprimen todos
         //Si se proporciona solo se imprime aquel que tenga el mismo nombre
+
         if (!arrayBin.isEmpty() || !arrayBot.isEmpty()) {
             for (Binoculares bin : arrayBin) {
-                if(objeto == null || (objeto.equals(bin.getNombre())))
+                if (objeto == null || (objeto.equals(bin.getNombre())))
                     bin.info();
             }
             for (Botiquin bot : arrayBot) {
-                if(objeto == null || (objeto.equals(bot.getNombre())))
+                if (objeto == null || (objeto.equals(bot.getNombre())))
                     bot.info();
             }
         }
         if (celda.getEnemigo() != null) {
             ArrayList<Enemigo> enemigos = celda.getEnemigo();
-            for(Enemigo enemigo : enemigos)
-            {
-                if(objeto == null || (objeto.equals(enemigo.getNombre())))
+            for (Enemigo enemigo : enemigos) {
+                if (objeto == null || (objeto.equals(enemigo.getNombre())))
                     enemigo.info();
             }
         }
-        if(celda.getArmaduras() != null)
-        {
+        if (celda.getArmaduras() != null) {
             ArrayList<Armadura> armaduras = celda.getArmaduras();
-            for(Armadura armadura : armaduras)
-            {
-               if(objeto == null || (objeto.equals(armadura.getNombre())))
-                   armadura.info();
+            for (Armadura armadura : armaduras) {
+                if (objeto == null || (objeto.equals(armadura.getNombre())))
+                    armadura.info();
             }
         }
-        if(celda.getArma() != null)
-        {
+        if (celda.getArma() != null) {
             ArrayList<Arma> armas = celda.getArma();
-            for(Arma arma : armas)
-            {
-                if(objeto == null || (objeto.equals(arma.getNombre())))
+            for (Arma arma : armas) {
+                if (objeto == null || (objeto.equals(arma.getNombre())))
                     arma.info();
             }
         }
     }
 
-    public void pasar(Mapa mapa,Personaje personaje)
-    {
+    public void pasar(Mapa mapa, Personaje personaje) {
         this.energia = MAXIMO_ENERGIA;
         ArrayList<Enemigo> arrayEnemigos = new ArrayList<>();
         ArrayList<Integer[]> arrayPos = new ArrayList<>();
-        for (int i = 0; i < mapa.getAlto(); i++)
-        {
-            for (int j = 0; j < mapa.getAncho(); j++)
-            {
-                Celda celda = mapa.getCelda(i,j);
-                if(celda.getEnemigo() != null)
-                {
-                    for (Enemigo enemigo : celda.getEnemigo())
-                    {
-                        if(enemigo != null)
-                        {
+        for (int i = 0; i < mapa.getAlto(); i++) {
+            for (int j = 0; j < mapa.getAncho(); j++) {
+                Celda celda = mapa.getCelda(i, j);
+                if (celda.getEnemigo() != null) {
+                    for (Enemigo enemigo : celda.getEnemigo()) {
+                        if (enemigo != null) {
                             arrayEnemigos.add(enemigo);
                             Integer[] pos = new Integer[2];
                             pos[0] = i;
@@ -989,36 +904,32 @@ public class Personaje
                 }
             }
         }
-        for (int i = 0; i < arrayEnemigos.size(); i++)
-        {
-            arrayEnemigos.get(i).mover(mapa,arrayPos.get(i)[0],arrayPos.get(i)[1],personaje);
+        for (int i = 0; i < arrayEnemigos.size(); i++) {
+            arrayEnemigos.get(i).mover(mapa, arrayPos.get(i)[0], arrayPos.get(i)[1], personaje);
         }
     }
 
     /**
      * Devuelve true si el personaje tiene vida <= 0
+     *
      * @return boolean
      */
     public boolean estaMuerto() {
         boolean muerto = false;
-        if(getPuntosVida() <= 0)
+        if (getPuntosVida() <= 0)
             muerto = true;
         return muerto;
     }
 
 
-    public void equiparArmadura(String nombreArmadura)
-    {
+    public void equiparArmadura(String nombreArmadura) {
         Armadura armaduraEncontrada = null;
-        for(Armadura armadura : mochila.getArrayArmaduras())
-        {
-            if(armadura.getNombre().equals(nombreArmadura))
-            {
-               armaduraEncontrada = armadura;
+        for (Armadura armadura : mochila.getArrayArmaduras()) {
+            if (armadura.getNombre().equals(nombreArmadura)) {
+                armaduraEncontrada = armadura;
             }
         }
-        if (armaduraEncontrada != null)
-        {
+        if (armaduraEncontrada != null) {
             mochila.quitarArmadura(armaduraEncontrada);
             setArmadura(armaduraEncontrada);
         }
@@ -1027,10 +938,8 @@ public class Personaje
     /**
      * Desequipa la armadura actual del personaje
      */
-    public void desequiparArmadura()
-    {
-        if(getArmadura() != null)
-        {
+    public void desequiparArmadura() {
+        if (getArmadura() != null) {
             setMAXIMO_ENERGIA(getMAXIMO_ENERGIA() - getArmadura().getIncrEnergia());
             setMAXIMO_VIDA(getMAXIMO_VIDA() - getArmadura().getIncrVida());
             mochila.anadirArmadura(getArmadura());
@@ -1038,11 +947,9 @@ public class Personaje
         }
     }
 
-    public void usarBotiquin(String nombre)
-    {
+    public void usarBotiquin(String nombre) {
         Botiquin botiquin = mochila.getBotiquin(nombre);
-        if(botiquin == null)
-        {
+        if (botiquin == null) {
             System.out.println("No hay ese botiquin");
             return;
         }
@@ -1050,47 +957,40 @@ public class Personaje
         mochila.quitarBotiquin(botiquin);
     }
 
-    public void equiparBinocular(String nombre)
-    {
+    public void equiparBinocular(String nombre) {
         Binoculares binocular = mochila.getBinocular(nombre);
-        if(this.binocular != null && binocular != null) //Desequipa y equipa
+        if (this.binocular != null && binocular != null) //Desequipa y equipa
         {
             this.binocular.disipar(this);
             this.binocular = binocular;
             mochila.anadirBinocular(this.binocular);
             binocular.usar(this);
-        }
-        else if(binocular != null && this.binocular == null) //Solo equipa
+        } else if (binocular != null && this.binocular == null) //Solo equipa
         {
             this.binocular = binocular;
             binocular.usar(this);
         }
     }
 
-    public void info()
-    {
+    public void info() {
         System.out.println("Personaje: " + getNombre());
         System.out.println("Energia maxima: " + getMAXIMO_ENERGIA());
         System.out.println("Salud maxima: " + getMAXIMO_VIDA());
         System.out.println("Energia actual: " + getEnergia());
         System.out.println("Salud actual: " + getPuntosVida());
-        if(getArmaDosM() != null)
-        {
-            System.out.println("Arma equipada de dos manos: " );
+        if (getArmaDosM() != null) {
+            System.out.println("Arma equipada de dos manos: ");
             getArmaDosM().info();
         }
-        if(getArmaDer() != null)
-        {
+        if (getArmaDer() != null) {
             System.out.println("Arma equipada de mano derecha: ");
             getArmaDer().info();
         }
-        if(getArmaIzq() != null)
-        {
+        if (getArmaIzq() != null) {
             System.out.println("Arma equipada de mano izquierda: ");
             getArmaIzq().info();
         }
-        if(getArmadura() != null)
-        {
+        if (getArmadura() != null) {
             getArmadura().info();
         }
         System.out.println("Puntos de ataque: " + getAtaque());
@@ -1099,31 +999,24 @@ public class Personaje
         ojearInventario();
     }
 
-        /**
+    /**
      * Desequipa el arma de la mano seleccionada. Si el arma detectada es de dos manos se ignora la mano.
      */
-    public void desequiparArma(String mano)
-    {
-        if(getArmas().size() > 0) {
-            if (getArmaDosM() != null){
+    public void desequiparArma(String mano) {
+        if (getArmas().size() > 0) {
+            if (getArmaDosM() != null) {
                 mochila.anadirArma(getArmas().get(0));
                 setArmaDosM(null);
                 return;
-            }
-            else if (mano.equals("derecha"))
-            {
-                if(getArmaDer() != null)
+            } else if (mano.equals("derecha")) {
+                if (getArmaDer() != null)
                     mochila.anadirArma(getArmaDer());
                 setArmaDer(null);
-            }
-            else if (mano.equals("izquierda"))
-            {
-                if(getArmaIzq() != null)
+            } else if (mano.equals("izquierda")) {
+                if (getArmaIzq() != null)
                     mochila.anadirArma(getArmaIzq());
                 setArmaIzq(null);
-            }
-            else
-            {
+            } else {
                 System.out.println("Mano mal escrita");
             }
         }
@@ -1131,51 +1024,37 @@ public class Personaje
 
     /**
      * Recorre la mochila buscando un arma que coincida con el nombre
+     *
      * @param nombre: nombre del arma a equipar
-     * @param mano: mano en la que equipar el arma
+     * @param mano:   mano en la que equipar el arma
      */
-    public void equiparArma (String nombre,String mano)
-    {
+    public void equiparArma(String nombre, String mano) {
         Arma armaEscogida = null;
-        for(Arma arma : mochila.getArrayArmas())
-        {
-            if(arma.getNombre().equals(nombre))
-            {
+        for (Arma arma : mochila.getArrayArmas()) {
+            if (arma.getNombre().equals(nombre)) {
                 armaEscogida = arma;
-                if(arma.isDosManos())
-                {
-                    if(getArmaDosM() != null)
-                    {
+                if (arma.isDosManos()) {
+                    if (getArmaDosM() != null) {
                         desequiparArma("");
-                    }
-                    else
-                    {
+                    } else {
                         desequiparArma("derecha");
                         desequiparArma("izquierda");
                     }
                     setArmaDosM(arma);
-                }
-                else
-                {
-                    if(mano.equals("derecha"))
-                    {
+                } else {
+                    if (mano.equals("derecha")) {
                         desequiparArma("derecha");
                         setArmaDer(arma);
-                    }
-                    else if(mano.equals("izquierda"))
-                    {
+                    } else if (mano.equals("izquierda")) {
                         desequiparArma("izquierda");
                         setArmaIzq(arma);
-                    }
-                    else
-                    {
+                    } else {
                         System.out.println("Mano mal escrita");
                     }
                 }
             }
         }
-        if(armaEscogida != null)
-        {
+        if (armaEscogida != null) {
             mochila.quitarArma(armaEscogida);
         }
     }

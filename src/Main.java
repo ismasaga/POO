@@ -1,8 +1,8 @@
-import Juego.*;
-import Objetos.*;
+import Juego.Bundle;
+import Juego.Mapa;
+import Juego.Parser;
+import Juego.Personaje;
 
-import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -25,7 +25,7 @@ public class Main {
          */
         Parser parser = new Parser();
         Bundle bundle = new Bundle();
-        bundle = parser.Parse("src/Juego/mapa.csv","src/Juego/npcs.csv","src/Juego/objetos.csv");
+        bundle = parser.Parse("src/Juego/mapa.csv", "src/Juego/npcs.csv", "src/Juego/objetos.csv");
 
         mapa = bundle.getMapa();
         personaje = bundle.getPersonaje();
@@ -77,15 +77,14 @@ public class Main {
             /**
              * Si se acaba la energía no se hace nada (ni imprimir)
              **/
-            if(personaje.getPuntosVida() == 0)
-            {
+            if (personaje.getPuntosVida() == 0) {
                 System.out.println("Has muerto pringao.");
                 System.exit(0);
             }
             mapa.imprimir(personaje);
-            System.out.println(personaje.getNombre()+"[Vida: " + personaje.getPuntosVida() + " Energia: " + personaje.getEnergia() + "]");
+            System.out.println(personaje.getNombre() + "[Vida: " + personaje.getPuntosVida() + " Energia: " + personaje.getEnergia() + "]");
             System.out.print(">");
-            sel =  entradaEscaner.nextLine();
+            sel = entradaEscaner.nextLine();
             cadeas = sel.split(" ");
             switch (cadeas[0]) {
                 case "ayuda":
@@ -106,56 +105,96 @@ public class Main {
                     System.out.println("/**********************************************/");
                     break;
                 case "mover":
-                    if(cadeas.length == 2 && cadeas[1].length() == 1)
-                        if(cadeas[1].charAt(0) == 'r' || cadeas[1].charAt(0) == 'l' || cadeas[1].charAt(0) == 'u' || cadeas[1].charAt(0) == 'd')
-                            personaje.mover(mapa,1,cadeas[1].charAt(0));
+                    if (cadeas.length == 2 && cadeas[1].length() == 1)
+                        if (cadeas[1].charAt(0) == 'r' || cadeas[1].charAt(0) == 'l' || cadeas[1].charAt(0) == 'u' || cadeas[1].charAt(0) == 'd')
+                            personaje.mover(mapa, 1, cadeas[1].charAt(0));
                         else
                             System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                     else
                         System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                     break;
                 case "mirar":
-                    if(cadeas.length == 1)
-                    {
-                            personaje.mirar(mapa,0,"",null);
+                    //Obtiene informacion de la propia casilla
+                    if (cadeas.length == 1) {
+                        personaje.mirar(mapa, 0, 0, ' ', ' ', null);
                     }
-                    if(cadeas.length == 2)
-                    {
-                        if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
-                        {
-                            if(Character.isDigit(cadeas[1].charAt(0)))
-                            personaje.mirar(mapa,Character.getNumericValue(cadeas[1].charAt(0)),cadeas[1].charAt(1) + "",null);
+                    //Mira
+                    if (cadeas.length == 2 && cadeas[1].length() != 2) {
+                        personaje.mirar(mapa, 0, 0, ' ', ' ', cadeas[1]);
+                    }
+                    //Obtiene informacion de una casilla lejana
+                    if (cadeas.length == 3 && cadeas[1].length() == 2 && cadeas[2].length() == 2) {
+                        personaje.mirar(mapa,
+                                Character.getNumericValue(cadeas[1].charAt(0)),
+                                Character.getNumericValue(cadeas[2].charAt(0)),
+                                cadeas[1].charAt(1),
+                                cadeas[2].charAt(1),
+                                null);
+                    }
+                    //Mira solo en una direccion una casilla lejana
+                    if (cadeas.length == 2 && cadeas[1].length() == 2) {
+                        if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
+                            personaje.mirar(mapa,
+                                    Character.getNumericValue(cadeas[1].charAt(0)),
+                                    0,
+                                    cadeas[1].charAt(1),
+                                    ' ',
+                                    null);
+                        }
+                        if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
+                            personaje.mirar(mapa,
+                                    0,
+                                    Character.getNumericValue(cadeas[1].charAt(0)),
+                                    ' ',
+                                    cadeas[1].charAt(1),
+                                    null);
                         }
                     }
-                    else if(cadeas.length == 3)
-                    {
-                        if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' || cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
-                        {
-                            if(Character.isDigit(cadeas[1].charAt(0)))
-                                personaje.mirar(mapa,Character.getNumericValue(cadeas[1].charAt(0)),cadeas[1].charAt(1) + "",cadeas[2]);
+                    //Se mira un objeto en una direccion
+                    if (cadeas.length == 3 && cadeas[2].length() != 2) {
+                        if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
+                            personaje.mirar(mapa,
+                                    Character.getNumericValue(cadeas[1].charAt(0)),
+                                    0,
+                                    cadeas[1].charAt(1),
+                                    ' ',
+                                    cadeas[2]);
                         }
+                        if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
+                            personaje.mirar(mapa,
+                                    0,
+                                    Character.getNumericValue(cadeas[1].charAt(0)),
+                                    ' ',
+                                    cadeas[1].charAt(1),
+                                    cadeas[2]);
+                        }
+                    }
+                    //Se mira un objeto en varias direcciones
+                    if (cadeas.length == 4 && cadeas[1].length() == 2 && cadeas[2].length() == 2) {
+                        personaje.mirar(mapa,
+                                Character.getNumericValue(cadeas[1].charAt(0)),
+                                Character.getNumericValue(cadeas[2].charAt(0)),
+                                cadeas[1].charAt(1),
+                                cadeas[2].charAt(1),
+                                cadeas[3]);
                     }
                     break;
                 case "atacar":
-                    if(cadeas.length == 2 && cadeas[1].length() == 2)
-                        if(cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l' )
-                        {
-                            personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)),0, cadeas[1].charAt(1), 'q', null);
-                        }
-                        else if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd')
-                        {
-                            personaje.atacar(mapa,0, Character.getNumericValue(cadeas[1].charAt(0)), 'q', cadeas[1].charAt(1), null);
-                        }
-                        else
+                    if (cadeas.length == 2 && cadeas[1].length() == 2)
+                        if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
+                            personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)), 0, cadeas[1].charAt(1), 'q', null);
+                        } else if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
+                            personaje.atacar(mapa, 0, Character.getNumericValue(cadeas[1].charAt(0)), 'q', cadeas[1].charAt(1), null);
+                        } else
                             System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
-                    if(cadeas.length == 3 && cadeas[1].length() == 2 && cadeas[1].length() == 2) //Quiere atacar en diagonal
+                    if (cadeas.length == 3 && cadeas[1].length() == 2 && cadeas[1].length() == 2) //Quiere atacar en diagonal
                     {
-                        personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)),Character.getNumericValue(cadeas[2].charAt(0))
-                                ,cadeas[1].charAt(1),cadeas[2].charAt(1),null);
+                        personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)), Character.getNumericValue(cadeas[2].charAt(0))
+                                , cadeas[1].charAt(1), cadeas[2].charAt(1), null);
                     }
                     break;
                 case "pasar":
-                    personaje.pasar(mapa,personaje);
+                    personaje.pasar(mapa, personaje);
                     break;
                 case "terminar":
                     break;
@@ -169,7 +208,7 @@ public class Main {
                     personaje.ojearInventario();
                     break;
                 case "coger":
-                    if(cadeas.length == 2) {
+                    if (cadeas.length == 2) {
                         /**Esperemos que no haya armas que se llamen igual que los botiquines**/
                         personaje.cogerArma(cadeas[1]);
                         personaje.cogerArmadura(cadeas[1]);
@@ -179,7 +218,7 @@ public class Main {
                         System.out.println("Formato del comando incorrecto, use ayuda para saber mas");
                     break;
                 case "tirar":
-                    if(cadeas.length == 2) {
+                    if (cadeas.length == 2) {
                         /**Esperemos que no haya armas que se llamen igual que los botiquines**/
                         personaje.tirarArma(cadeas[1]);
                         personaje.tirarArmadura(cadeas[1]);
@@ -189,33 +228,29 @@ public class Main {
                         System.out.println("Formato del comando incorrecto, use ayuda para saber mas");
                     break;
                 case "desequipar":
-                    if(cadeas[1].equals("arma"))
+                    if (cadeas[1].equals("arma"))
                         personaje.desequiparArma(cadeas[2]);
                     break;
                 case "equipar":
-                    if(cadeas.length == 3)
-                    {
+                    if (cadeas.length == 3) {
                         if (cadeas[1].equals("arma"))
                             personaje.equiparArma(cadeas[2], "");
                         if (cadeas[1].equals("armadura"))
                             personaje.equiparArmadura(cadeas[2]);
                         if (cadeas[1].equals("binocular"))
                             personaje.equiparBinocular(cadeas[2]);
-                    }
-                    else if (cadeas.length == 4)
-                    {
+                    } else if (cadeas.length == 4) {
                         if (cadeas[1].equals("arma"))
-                            personaje.equiparArma(cadeas[2],cadeas[3]);
+                            personaje.equiparArma(cadeas[2], cadeas[3]);
                     }
                     break;
                 case "usar":
-                    if(cadeas.length == 2)
+                    if (cadeas.length == 2)
                         personaje.usarBotiquin(cadeas[1]);
                     break;
                 case "cargar":
-                    if(cadeas.length == 2)
-                    {
-                        bundle = parser.Parse(cadeas[1]+"/mapa.csv",cadeas[1]+"/npcs.csv",cadeas[1]+"/objetos.csv");
+                    if (cadeas.length == 2) {
+                        bundle = parser.Parse(cadeas[1] + "/mapa.csv", cadeas[1] + "/npcs.csv", cadeas[1] + "/objetos.csv");
                         personaje = bundle.getPersonaje();
                         mapa = bundle.getMapa();
                     }
@@ -223,6 +258,6 @@ public class Main {
                 default:
                     System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
             }
-        } while(!sel.equals("terminar"));
+        } while (!sel.equals("terminar"));
     }
 }

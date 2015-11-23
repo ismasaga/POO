@@ -1,14 +1,18 @@
 package Juego;
 
-import Objetos.*;
+import Objetos.Arma;
+import Objetos.Armadura;
+import Objetos.Binoculares;
+import Objetos.Botiquin;
+
 import java.util.ArrayList;
 
 /**
  * Os set tanto de arrayBinoculares como de arrayBotiquin non son definidos porque non precisamos pasarlle
  * o array completo en ningún momento e chegamos o acordo de que non o imos facer
- *
+ * <p>
  * A destacar:
- *
+ * <p>
  * Los setters de celda añaden elementos uno a uno y son setEnemigo, setBinoculares y setBotiquin
  */
 
@@ -33,7 +37,7 @@ public class Celda {
      * Anhade un binocular a la celda
      */
     public void setBinoculares(Binoculares binocular) {
-        if(binocular != null)
+        if (binocular != null)
             arrayBinoculares.add(binocular);
         else
             System.out.println("ERROR asignando binocular a la celda");
@@ -41,14 +45,14 @@ public class Celda {
 
     /**
      * Devolve os binoculares que ten a celda
+     *
      * @return
      */
     public ArrayList<Binoculares> getBinoculares() {
         return arrayBinoculares;
     }
 
-    public ArrayList<Botiquin> getBotiquin()
-    {
+    public ArrayList<Botiquin> getBotiquin() {
         return arrayBotiquin;
     }
 
@@ -56,71 +60,64 @@ public class Celda {
         arrayBinoculares.remove(binocular);
     }
 
-    public void setBotiquin(Botiquin botiquin)
-    {
+    public void setBotiquin(Botiquin botiquin) {
         arrayBotiquin.add(botiquin);
     }
 
-    public void eliminarBotiquin(Botiquin botiquin)
-    {
+    public void eliminarBotiquin(Botiquin botiquin) {
         arrayBotiquin.remove(botiquin);
     }
 
-    public void eliminarArma (Arma arma)
-    {
+    public void eliminarArma(Arma arma) {
         arrayArma.remove(arma);
     }
 
-    public void eliminarArmadura (Armadura armadura)
-    {
+    public void eliminarArmadura(Armadura armadura) {
         arrayArmadura.remove(armadura);
     }
 
     /**
      * Devolve todos os inimigos da celda.
+     *
      * @return Enemigo
      */
     public ArrayList<Enemigo> getEnemigo() {
-        if(arrayEnemigos.isEmpty())
+        if (arrayEnemigos.isEmpty())
             return null;
         else
             return arrayEnemigos; //Necesitamos el aliasing
     }
 
     public void setEnemigo(Enemigo enemigo) {
-        if(enemigo != null)
+        if (enemigo != null)
             arrayEnemigos.add(enemigo);
         else
             System.out.println("ERROR insertando enemigo en la casilla");
     }
 
-    public void setArma(Arma arma)
-    {
-        if(arma != null)
+    public void setArma(Arma arma) {
+        if (arma != null)
             arrayArma.add(arma);
         else
             System.out.println("ERROR insertando arma en la casilla");
     }
 
-    public ArrayList<Arma> getArma()
-    {
-        if(arrayArma.isEmpty())
+    public ArrayList<Arma> getArma() {
+        if (arrayArma.isEmpty())
             return null;
         else
             return arrayArma; //Necesitamos el aliasing
     }
 
-    public void setArmadura(Armadura armadura)
-    {
-        if(armadura != null)
+    public void setArmadura(Armadura armadura) {
+        if (armadura != null)
             arrayArmadura.add(armadura);
         else
             System.out.println("ERROR insertando armadura en la casilla");
     }
 
-    public ArrayList<Armadura> getArmaduras()
-    {
-        if(arrayArmadura.isEmpty())
+    public ArrayList<Armadura> getArmaduras() {
+        if (arrayArmadura.isEmpty())
             return null;
         else
             return arrayArmadura; //Necesitamos el aliasing
@@ -130,17 +127,15 @@ public class Celda {
      * Elimina el enemigo de la celda
      */
     public void eliminarEnemigo(Enemigo enemigo) {
-        if(!arrayEnemigos.remove(enemigo))
+        if (!arrayEnemigos.remove(enemigo))
             System.out.println("ERROR eliminando enemigo");
     }
 
-    public boolean isTransitable()
-    {
+    public boolean isTransitable() {
         return transitable;
     }
 
-    public void setTransitable(boolean transitable)
-    {
+    public void setTransitable(boolean transitable) {
         this.transitable = transitable;
     }
 }

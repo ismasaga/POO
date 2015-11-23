@@ -4,20 +4,18 @@ import Juego.Personaje;
 
 /**
  * Implementa la clase botiquín
- *
+ * <p>
  * Vision, peso y espacio son final pues no se pueden modificar mediante mecánicas del juego esos valores (en este caso
  * no tendría sentido).
  */
-public class Botiquin
-{
+public class Botiquin {
     private final int curacion;
     private final float peso;
     private final int espacio;
     private String descripcion;
     private String nombre;
 
-    public Botiquin(String nombre, String descripcion, int curacion, float peso, int espacio)
-    {
+    public Botiquin(String nombre, String descripcion, int curacion, float peso, int espacio) {
         setNombre(nombre);
         setDescripcion(descripcion);
         this.curacion = curacion > 0 ? curacion : 10;
@@ -25,8 +23,7 @@ public class Botiquin
         this.espacio = espacio > 0 ? espacio : 1;
     }
 
-    public Botiquin(int curacion)
-    {
+    public Botiquin(int curacion) {
         setNombre("default");
         setDescripcion("null");
         this.curacion = curacion > 0 ? curacion : 10;
@@ -56,7 +53,7 @@ public class Botiquin
      * Asigna nombre al botiquin
      */
     public void setNombre(String nombre) {
-        if(nombre != null)
+        if (nombre != null)
             this.nombre = new String(nombre);
         else
             System.out.println("ERROR asignando nombre al botiquin");
@@ -73,37 +70,32 @@ public class Botiquin
      * Asigna descripcion al botiquin
      */
     public void setDescripcion(String descripcion) {
-        if(descripcion != null)
+        if (descripcion != null)
             this.descripcion = new String(descripcion);
         else
             System.out.println("ERROR asignando descripcion al botiquin");
     }
 
-    public int getCuracion()
-    {
+    public int getCuracion() {
         return curacion;
     }
 
-    public float getPeso()
-    {
+    public float getPeso() {
         return peso;
     }
 
-    public int getEspacio()
-    {
+    public int getEspacio() {
         return espacio;
     }
 
-    public void usar(Personaje personaje)
-    {
+    public void usar(Personaje personaje) {
         personaje.setPuntosVida(personaje.getPuntosVida() + curacion);
     }
 
     /**
      * Imprime informacion sobre el binocular
      */
-    public void info()
-    {
+    public void info() {
         System.out.println("Botiquin:\n");
         System.out.println("\tPeso: " + getPeso() + "\n");
         System.out.println("\tEspacio: " + getEspacio() + "\n");

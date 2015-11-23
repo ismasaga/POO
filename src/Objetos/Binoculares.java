@@ -4,14 +4,13 @@ import Juego.Personaje;
 
 /**
  * Implementa un binocular
- *
+ * <p>
  * A destacar
- *
+ * <p>
  * Vision, peso y espacio son final pues no se pueden modificar mediante mecánicas del juego esos valores (en este caso
  * no tendría sentido).
  */
-public class Binoculares
-{
+public class Binoculares {
     /**
      * Aumento en el rango de vision del binocular. El rango de vision del personaje se calcularia como: rangoVision = vision + rangoPorDefecto
      */
@@ -22,8 +21,7 @@ public class Binoculares
     private String nombre;
 
 
-    public Binoculares(String nombre, String descripcion, int vision, int peso, int espacio)
-    {
+    public Binoculares(String nombre, String descripcion, int vision, int peso, int espacio) {
         //Se agrega un valor por defecto
         setNombre(nombre);
         setDescripcion(descripcion);
@@ -32,8 +30,7 @@ public class Binoculares
         this.espacio = espacio > 0 ? espacio : 1;
     }
 
-    public Binoculares(int vision)
-    {
+    public Binoculares(int vision) {
         //Se agrega un valor por defecto
         setNombre("default");
         setDescripcion("null");
@@ -61,7 +58,7 @@ public class Binoculares
      * Asigna nombre al binocular
      */
     public void setNombre(String nombre) {
-        if(nombre != null)
+        if (nombre != null)
             this.nombre = new String(nombre);
         else
             System.out.println("ERROR asignando nombre al binocular");
@@ -75,48 +72,43 @@ public class Binoculares
      * Asigna descripcion al binocular
      */
     public void setDescripcion(String descripcion) {
-        if(descripcion != null)
+        if (descripcion != null)
             this.descripcion = new String(descripcion);
         else
             System.out.println("ERROR asignando descripcion al binocular");
     }
 
     //No se implementan setters, pues los valores del binocular no cambia durante su existencia.
-    public int getVision()
-    {
+    public int getVision() {
         return vision;
     }
 
-    public int getPeso()
-    {
+    public int getPeso() {
         return peso;
     }
 
-    public int getEspacio()
-    {
+    public int getEspacio() {
         return espacio;
     }
 
-    public void usar(Personaje personaje)
-    {
+    public void usar(Personaje personaje) {
         //El nuevo rango de vision del personaje sera: rangoVisionNuevo = rangoVisionViejo + aumento
         personaje.setRangoVision(personaje.getRangoVision() + vision);
     }
 
     /**
      * Restaura el valor por defecto del rango de vision del personaje.
+     *
      * @param personaje Personaje a aplicar la disipacion
      */
-    public void disipar(Personaje personaje)
-    {
-        personaje.setRangoVision(personaje.getRangoVision()-vision);
+    public void disipar(Personaje personaje) {
+        personaje.setRangoVision(personaje.getRangoVision() - vision);
     }
 
     /**
      * Imprime informacion sobre el binocular:
      */
-    public void info()
-    {
+    public void info() {
         System.out.println("Binocular:\n");
         System.out.println("\tNombre: " + getNombre());
         System.out.println("\tPeso: " + getPeso() + "\n");

@@ -2,7 +2,7 @@ package Objetos;
 
 public class Armadura {
     private String nombre;
-    private int incrVida,incrEnergia,defensa;
+    private int incrVida, incrEnergia, defensa;
     private String descripcion;
     private float peso;
     private int espacio;
@@ -51,7 +51,7 @@ public class Armadura {
      * Asigna o espacio que ocupa a armadura
      */
     public void setEspacio(int espacio) {
-        if(espacio < 0)
+        if (espacio < 0)
             this.espacio = 0;
         else
             this.espacio = espacio;
@@ -76,7 +76,7 @@ public class Armadura {
      * Asigna descripcion a la armadura
      */
     public void setDescripcion(String descripcion) {
-        if(descripcion != null)
+        if (descripcion != null)
             this.descripcion = new String(descripcion);
         else
             System.out.println("ERROR asignando descripcion a la armadura");
@@ -93,7 +93,7 @@ public class Armadura {
      * Asigna nome a armadura
      */
     public void setNombre(String nombre) {
-        if(nombre != null)
+        if (nombre != null)
             this.nombre = nombre;
         else
             System.out.println("ERROR asignando nombre a la armadura");
@@ -126,7 +126,7 @@ public class Armadura {
      * Asigna los puntos de defensa que tiene la armadura
      */
     public void setDefensa(int defensa) {
-        if(defensa < 0)
+        if (defensa < 0)
             this.defensa = 0;
         else
             this.defensa = defensa;
@@ -135,8 +135,7 @@ public class Armadura {
     /**
      * Proporciona informacion sobre la armadura
      */
-    public void info()
-    {
+    public void info() {
         System.out.println("Armadura:");
         System.out.println("\tNombre: " + getNombre());
         System.out.println("\tDefensa: " + getDefensa());

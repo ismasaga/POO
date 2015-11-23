@@ -19,7 +19,7 @@ public class Arma {
         setAlcance(1);
     }
 
-    public Arma(String nombre,String descripcion, boolean dosManos,int dano, float peso, int espacio) {
+    public Arma(String nombre, String descripcion, boolean dosManos, int dano, float peso, int espacio) {
         setNombre(nombre);
         setDano(dano);
         setDescripcion(descripcion);
@@ -37,9 +37,9 @@ public class Arma {
         setDescripcion(descripcion);
         setDano(dano);
         setAlcance(alcance);
-        if(manos == 1)
+        if (manos == 1)
             setDosManos(false);
-        else if(manos == 2)
+        else if (manos == 2)
             setDosManos(true);
         else
             System.out.println("ERROR definiendo de cuántas manos és le arma");
@@ -58,19 +58,17 @@ public class Arma {
      * Asigna alcance a la arma
      */
     public void setAlcance(int alcance) {
-        if(alcance < 0)
+        if (alcance < 0)
             this.alcance = 0;
         else
             this.alcance = alcance;
     }
 
-    public int getEspacio()
-    {
+    public int getEspacio() {
         return espacio;
     }
 
-    public void setEspacio(int espacio)
-    {
+    public void setEspacio(int espacio) {
         this.espacio = espacio;
     }
 
@@ -93,7 +91,7 @@ public class Arma {
      * Asigna la descripcion del arma
      */
     public void setDescripcion(String descripcion) {
-        if(descripcion != null)
+        if (descripcion != null)
             this.descripcion = new String(descripcion);
         else
             System.out.println("ERROR asignando la descripcion al arma");
@@ -125,7 +123,7 @@ public class Arma {
      * Asigna nombre al arma
      */
     public void setNombre(String nombre) {
-        if(nombre != null)
+        if (nombre != null)
             this.nombre = nombre;
         else
             System.out.println("ERROR asignando nombre al arma");
@@ -133,6 +131,7 @@ public class Arma {
 
     /**
      * Devuelve los puntos de ataque del arma
+     *
      * @return dano
      */
     public int getDano() {
@@ -143,7 +142,7 @@ public class Arma {
      * Asigna los puntos de daño al arma
      */
     public void setDano(int dano) {
-        if(dano < 0)
+        if (dano < 0)
             this.dano = 0;
         else
             this.dano = dano;
@@ -152,8 +151,7 @@ public class Arma {
     /**
      * Imprime informacion sobre el arma
      */
-    public void info()
-    {
+    public void info() {
         System.out.println("Arma:" + getNombre());
         System.out.println("\tDaño" + getDano());
         System.out.println("\tPeso" + getPeso());

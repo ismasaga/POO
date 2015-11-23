@@ -1,11 +1,12 @@
 package Juego;
 
-import Juego.*;
-import Objetos.*;
+import Objetos.Arma;
+import Objetos.Armadura;
+import Objetos.Binoculares;
+import Objetos.Botiquin;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 /**
  * Created by efren on 23/11/15.
  */
@@ -15,10 +16,8 @@ import java.util.Scanner;
  * Clase auxiliar.
  * Lee un archivo y devuelve el personaje y el mapa creado a partir de el.
  */
-public class Parser
-{
-    public Bundle Parse(String rutaMapa, String rutaNpcs, String rutaObjetos)
-    {
+public class Parser {
+    public Bundle Parse(String rutaMapa, String rutaNpcs, String rutaObjetos) {
         String sel, linea;
         String[] cadeas;
         BufferedReader buffer;
@@ -28,15 +27,11 @@ public class Parser
         Mapa mapa;
         Personaje personaje = null;
 
-        try
-        {
+        try {
             buffer = new BufferedReader(new FileReader(new File(rutaMapa)));
-            try
-            {
-                while ((linea = buffer.readLine()) != null)
-                {
-                    if (linea.length() != 0 && linea.charAt(0) != '#')
-                    {
+            try {
+                while ((linea = buffer.readLine()) != null) {
+                    if (linea.length() != 0 && linea.charAt(0) != '#') {
                         cadeas = linea.split(",");
                         tamano[0] = tamano[1] = 0;
                         if (tamano[0] < Integer.parseInt(cadeas[0]))
@@ -46,13 +41,11 @@ public class Parser
                     }
                 }
                 buffer.close();
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 System.out.println("ERROR leyendo el fichero : " + ex);
                 System.exit(1);
             }
-        } catch (FileNotFoundException ex)
-        {
+        } catch (FileNotFoundException ex) {
             System.out.println("ERROR abriendo el fichero : " + ex);
             System.exit(1);
         }
@@ -70,27 +63,21 @@ public class Parser
         /**
          * Tras crear o mapa poñemos a transitables as casillas que nos indica o arquivo
          */
-        try
-        {
+        try {
             buffer = new BufferedReader(new FileReader(new File(rutaMapa)));
-            try
-            {
-                while ((linea = buffer.readLine()) != null)
-                {
-                    if (linea.length() != 0 && linea.charAt(0) != '#')
-                    {
+            try {
+                while ((linea = buffer.readLine()) != null) {
+                    if (linea.length() != 0 && linea.charAt(0) != '#') {
                         cadeas = linea.split(",");
                         mapa.getCelda(Integer.parseInt(cadeas[0]), Integer.parseInt(cadeas[1])).setTransitable(true);
                     }
                 }
                 buffer.close();
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 System.out.println("ERROR leyendo el fichero" + ex);
                 System.exit(1);
             }
-        } catch (FileNotFoundException ex)
-        {
+        } catch (FileNotFoundException ex) {
             System.out.println("ERROR abriendo el fichero" + ex);
             System.exit(1);
         }
@@ -98,24 +85,18 @@ public class Parser
         /**
          * Leo e creo as persoaxes
          */
-        try
-        {
+        try {
             buffer = new BufferedReader(new FileReader(new File(rutaNpcs)));
-            try
-            {
-                while ((linea = buffer.readLine()) != null)
-                {
-                    if (linea.length() != 0 && linea.charAt(0) != '#')
-                    {
+            try {
+                while ((linea = buffer.readLine()) != null) {
+                    if (linea.length() != 0 && linea.charAt(0) != '#') {
                         cadeas = linea.split(";");
                         tamano[0] = Integer.parseInt(cadeas[0].split(",")[0]);
                         tamano[1] = Integer.parseInt(cadeas[0].split(",")[1]);
-                        if (!(cadeas[1].equals("enemigo") || cadeas[1].equals("jugador")))
-                        {
+                        if (!(cadeas[1].equals("enemigo") || cadeas[1].equals("jugador"))) {
                             System.out.println("ERROR, el tipo de personaje no está contemplado");
                         }
-                        switch (cadeas[1])
-                        {
+                        switch (cadeas[1]) {
                             case "enemigo":
                                 mapa.getCelda(tamano[0], tamano[1]).setEnemigo(new Enemigo(cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4])));
                                 break;
@@ -127,20 +108,17 @@ public class Parser
                     }
                 }
                 buffer.close();
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 System.out.println("ERROR leyendo el fichero" + ex);
                 System.exit(1);
             }
-        } catch (FileNotFoundException ex)
-        {
+        } catch (FileNotFoundException ex) {
             System.out.println("ERROR abriendo el fichero" + ex);
             System.exit(1);
         }
 
         //Asegurome de que o persoaxe sempre é creado
-        if (personaje == null)
-        {
+        if (personaje == null) {
             System.out.println("El personaje ha sido creado por defecto");
             armaMasBuena = new Arma("bazoka", "lanzamisiles 2.0", true, 80, 1, 1);
             ArrayList<Arma> armas2 = new ArrayList<>();
@@ -151,24 +129,18 @@ public class Parser
         /**
          * Leo, creo e asigno os obxetos
          */
-        try
-        {
+        try {
             buffer = new BufferedReader(new FileReader(new File(rutaObjetos)));
-            try
-            {
-                while ((linea = buffer.readLine()) != null)
-                {
-                    if (linea.length() != 0 && linea.charAt(0) != '#')
-                    {
+            try {
+                while ((linea = buffer.readLine()) != null) {
+                    if (linea.length() != 0 && linea.charAt(0) != '#') {
 
                         cadeas = linea.split(";");
                         tamano[0] = Integer.parseInt(cadeas[0].split(",")[0]);
                         tamano[1] = Integer.parseInt(cadeas[0].split(",")[1]);
-                        switch (cadeas[1])
-                        {
+                        switch (cadeas[1]) {
                             case ".":
-                                switch (cadeas[2])
-                                {
+                                switch (cadeas[2]) {
                                     case "binoculares":
                                         mapa.getCelda(tamano[0], tamano[1]).setBinoculares(new Binoculares(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
                                         break;
@@ -189,8 +161,7 @@ public class Parser
                                 }
                                 break;
                             case "jugador":
-                                switch (cadeas[2])
-                                {
+                                switch (cadeas[2]) {
                                     case "binoculares":
                                         if (personaje.getMochila() != null)
                                             personaje.getMochila().anadirBinocular(new Binoculares(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
@@ -224,16 +195,13 @@ public class Parser
                                 break;
                             default:
                                 Celda celda = mapa.getCelda(tamano[0], tamano[1]);
-                                for (Enemigo enemigo : celda.getEnemigo())
-                                {
-                                    switch (cadeas[2])
-                                    {
+                                for (Enemigo enemigo : celda.getEnemigo()) {
+                                    switch (cadeas[2]) {
                                         case "arma":
                                             ArrayList armas = new ArrayList<>();
                                             Arma arma = new Arma(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Float.parseFloat(cadeas[8]));
                                             armas.add(arma);
-                                            if (enemigo.getNombre().equals(cadeas[1]))
-                                            {
+                                            if (enemigo.getNombre().equals(cadeas[1])) {
                                                 enemigo.setArmas(armas);
                                             }
                                             break;
@@ -250,13 +218,11 @@ public class Parser
                     }
                 }
                 buffer.close();
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 System.out.println("ERROR leyendo el fichero" + ex);
                 System.exit(1);
             }
-        } catch (FileNotFoundException ex)
-        {
+        } catch (FileNotFoundException ex) {
             System.out.println("ERROR abriendo el fichero" + ex);
             System.exit(1);
         }
