@@ -12,6 +12,16 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        String ANSI_RESET = "\u001B[0m";
+        String ANSI_BLACK = "\u001B[30m";
+        String ANSI_RED = "\u001B[31m";
+        String ANSI_BLUE = "\u001B[34m";
+        String ANSI_PURPLE = "\u001B[35m";
+        String ANSI_CYAN = "\u001B[36m";
+        String ANSI_WHITE = "\u001B[37m";
+
+
+
         String sel;
         String[] cadeas;
         Scanner entradaEscaner;
@@ -88,21 +98,68 @@ public class Main {
             cadeas = sel.split(" ");
             switch (cadeas[0]) {
                 case "ayuda":
-                    System.out.println("/**********************************************/");
-                    System.out.println("/- Introduce 'terminar' para finalizar el juego/");
-                    System.out.println("/- Introduce 'mover' seguido de un espacio y la/");
-                    System.out.println("/  dirección :                                 /");
-                    System.out.println("/  *r=derecha *l=izquierda *u=arriba *d=abajo  /");
-                    System.out.println("/     ejemplo : 'mover 3u' = 'mover 3 arriba'  /");
-                    System.out.println("/- Introduce 'atacar' seguido de un espacio y  /");
-                    System.out.println("/  las casillas con la dirección(como mover)   /");
-                    System.out.println("/- Introudce 'pasar' para pasar de turno y     /");
-                    System.out.println("/  regenerar tu energia                        /");
-                    System.out.println("/- Introduce 'mirar' para obtener todos los    /");
-                    System.out.println("/  objetos de tu casilla actual.               /");
-                    System.out.println("/- Introduce descripcion para ver a descripción/");
-                    System.out.println("/  del mapa(su nombre y dimensiones)           /");
-                    System.out.println("/**********************************************/");
+                    //System.out.println("/**********************************************/");
+                    //System.out.println("/- Introduce 'terminar' para finalizar el juego/");
+                    //System.out.println("/- Introduce 'mover' seguido de un espacio y la/");
+                    //System.out.println("/  dirección :                                 /");
+                    //System.out.println("/  *r=derecha *l=izquierda *u=arriba *d=abajo  /");
+                    //System.out.println("/     ejemplo : 'mover 3u' = 'mover 3 arriba'  /");
+                    //System.out.println("/- Introduce 'atacar' seguido de un espacio y  /");
+                    //System.out.println("/  las casillas con la dirección(como mover)   /");
+                    //System.out.println("/- Introudce 'pasar' para pasar de turno y     /");
+                    //System.out.println("/  regenerar tu energia                        /");
+                    //System.out.println("/- Introduce 'mirar' para obtener todos los    /");
+                    //System.out.println("/  objetos de tu casilla actual.               /");
+                    //System.out.println("/- Introduce descripcion para ver a descripción/");
+                    //System.out.println("/  del mapa(su nombre y dimensiones)           /");
+                    //System.out.println("/**********************************************/");
+                    System.out.println(ANSI_BLUE + "\t\tGame Player Manual\t\t\n" + ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "mover: " + ANSI_RESET + "mueve un personaje el numero de casillas adyacentes. Para seleccionar la direccion hay que usar d, l, r o u");
+                    System.out.println("\tEjemplos:");
+                    System.out.println(ANSI_CYAN + "\t\tmover 2r: mover dos posiciones a la derecha");
+                    System.out.println(ANSI_CYAN + "\t\tmover 1d: mover una posicion abajo");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "mirar: " + ANSI_RESET + "mira la posicion designada. Puede listar todos los objetos de cualquier casilla visible o obtener detalles de un objeto de su casilla actual. ");
+                    System.out.println("Si no consigue mirar obtiene la casilla actual.");
+                    System.out.println("\tEjemplos:");
+                    System.out.println(ANSI_CYAN + "\t\tmirar: lista los objetos de la casilla actual");
+                    System.out.println(ANSI_CYAN + "\t\tmirar escopeta_1: obtiene detalles de la escopeta_1 de la casilla actual");
+                    System.out.println(ANSI_CYAN + "\t\tmirar 2r,1d: mira la casilla dos posiciones a la derecha y una abajo de la actual.");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "atacar: " + ANSI_RESET + "ataca al personaje de la celda designada. Sigue el mismo patron que mirar");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "pasar: " + ANSI_RESET + "termina tu turno");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "terminar: " + ANSI_RESET + "termina una partida");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "descripcion: " + ANSI_RESET + "imprime la descripcion del mapa");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "estado: " + ANSI_RESET + "imprime toda la informacion disponible sobre el personaje");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "inventario: " + ANSI_RESET + "imprime los contenidos de la mochila");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "coger: " + ANSI_RESET + "coge el objeto de la casilla actual");
+                    System.out.println("\tEjemplo:");
+                    System.out.println(ANSI_CYAN + "\t\tcoger escopeta_1: coge la escopeta_1 de la casilla actual");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "tirar: " + ANSI_RESET + "tira el objeto designado de la mochila en la celda actual. Es como el comando coger");
+                    System.out.println(ANSI_RESET);
+                    //TODO: cambiar este
+                    System.out.println(ANSI_PURPLE + "desequipar: " + ANSI_RESET + "desequipa un arma, armadura o binocular equipado");
+                    System.out.println(ANSI_RESET);
+                    //TODO: cambiar este
+                    System.out.println(ANSI_PURPLE + "equipar: " + ANSI_RESET + "equipa un arma, armadura o binocular de la mochila");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "usar: " + ANSI_RESET + "usa un botiquin de la mochila");
+                    System.out.println(ANSI_RESET);
+                    System.out.println(ANSI_PURPLE + "cargar: " + ANSI_RESET + "carga los archivos de la ruta especificada");
+                    System.out.println(ANSI_RESET);
+                    System.out.println("\tEjemplo:");
+                    System.out.println(ANSI_CYAN + "\t\tcargar src/Juego/: carga los archivos de src/Juego/");
+                    System.out.println(ANSI_RESET);
+
+
+
                     break;
                 case "mover":
                     if (cadeas.length == 2 && cadeas[1].length() == 1)
