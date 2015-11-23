@@ -639,22 +639,17 @@ public class Personaje
     public void tirarArmadura (String nombreArmadura)
     {
         Armadura armaduraATirar = null;
-        if(celda.getArmaduras() == null)
-            return;
-        for(Armadura armadura : celda.getArmaduras())
+        for(Armadura armadura : mochila.getArrayArmaduras())
         {
             if(armadura.getNombre().equals(nombreArmadura))
             {
-                if(armadura.getNombre().equals(nombreArmadura))
-                {
-                    armaduraATirar = armadura;
-                }
+                armaduraATirar = armadura;
             }
         }
         if(armaduraATirar != null)
         {
-            mochila.quitarArmadura(armadura);
-            celda.setArmadura(armadura);
+            mochila.quitarArmadura(armaduraATirar);
+            celda.setArmadura(armaduraATirar);
         }
     }
 
