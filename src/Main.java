@@ -171,34 +171,36 @@ public class Main {
                         }
                         break;
                     case "atacar":
-                        /*if (cadeas.length == 2 && cadeas[1].length() == 2)
+                        if (cadeas.length == 2 && cadeas[1].length() == 2)
                             if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
                                 personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)), 0, cadeas[1].charAt(1), 'q', null);
                             } else if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
                                 personaje.atacar(mapa, 0, Character.getNumericValue(cadeas[1].charAt(0)), 'q', cadeas[1].charAt(1), null);
                             } else
                                 System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
-                        if (cadeas.length == 3 && cadeas[2].length() != 2 && cadeas[1].length() == 2) //Ataca de frente o a los lados.
+                        else if (cadeas.length == 3 && cadeas[2].length() != 2 && cadeas[1].length() == 2) //Ataca de frente o a los lados.
                             if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
                                 personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)), 0, cadeas[1].charAt(1), 'q', cadeas[2]);
                             } else if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
                                 personaje.atacar(mapa, 0, Character.getNumericValue(cadeas[1].charAt(0)), 'q', cadeas[1].charAt(1), cadeas[2]);
                             } else
                                 System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
-                        if (cadeas.length == 3 && cadeas[1].length() == 2 && cadeas[1].length() == 2) //Quiere atacar en diagonal
+                        else if (cadeas.length == 3 && cadeas[1].length() == 2 && cadeas[1].length() == 2) //Quiere atacar en diagonal
                         {
                             personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)), Character.getNumericValue(cadeas[2].charAt(0))
                                     , cadeas[1].charAt(1), cadeas[2].charAt(1), null);
                         }
-                        if (cadeas.length == 4 && cadeas[1].length() == 2 && cadeas[1].length() == 2) //Quiere atacar en diagonal a un enemigo
+                        else if (cadeas.length == 4 && cadeas[1].length() == 2 && cadeas[1].length() == 2) //Quiere atacar en diagonal a un enemigo
                         {
                             personaje.atacar(mapa, Character.getNumericValue(cadeas[1].charAt(0)), Character.getNumericValue(cadeas[2].charAt(0))
                                     , cadeas[1].charAt(1), cadeas[2].charAt(1), cadeas[3]);
-                        }*/
+                        }
+                        /*
                         if(cadeas.length == 3 && cadeas[1].length() == 1 && cadeas[2].length() == 1)
                             personaje.atacar(mapa, Integer.parseInt(cadeas[1]), Integer.parseInt(cadeas[2]),null);
                         else if(cadeas.length == 4  && cadeas[1].length() == 1 && cadeas[2].length() == 1)
                             personaje.atacar(mapa, Integer.parseInt(cadeas[1]), Integer.parseInt(cadeas[2]), cadeas[3]);
+                            */
                         else
                             System.out.println("Formato de comando incorrecto, seleccione ayuda para saber mas");
                         break;

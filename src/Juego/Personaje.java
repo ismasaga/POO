@@ -381,7 +381,7 @@ public class Personaje {
      * @param dirY: direccion de ataque en el eje de las Y
      */
     //FIXME: bug
-    public void atacar(Mapa mapa, int numX, int numY, /*char dirX, char dirY,*/ String nombre) {
+    public void atacar(Mapa mapa, int numX, int numY, char dirX, char dirY, String nombre) {
         final int ENERGIA_REQUERIDA = 20; //Energia requerida para atacar
         ArrayList<Enemigo> enemigos = null;
         boolean atacado = false, encontrado = false;
@@ -414,27 +414,34 @@ public class Personaje {
                 System.out.println("No tienes suficiente rango de vision");
                 return;
             } else {
+
                 /* Miro se teño armas */
                 if(getArmas().isEmpty()) {
                     System.out.println("No tienes armas con las que atacar!!");
                     return;
                 } else {
+                    /*
                     boolean alcanza = false;
-                    /* Miro se algunha arma das equipadas alcanza o enemigo */
+                    // Miro se algunha arma das equipadas alcanza o enemigo
                     for(Arma arma : getArmas()) {
-                        if(arma.getAlcance() <= numX || arma.getAlcance() <= numY) {
+                        if(arma.getAlcance() <= numX && arma.getAlcance() <= numY) {
                             alcanza = true;
                             break;
                         }
                     }
-                    // Comprobo que as direccions existan
-                    /*if (!((dirX == 'q' || dirX == 'r' || dirX == 'l') && (dirY == 'u' || dirY == 'd' || dirY == 'q'))) {
-                        System.out.println("Has introducido mal la dirección, consulata la ayuda");
+                    if(!alcanza){
+                        System.out.println("No tienes suficiente rango de ataque.");
                         return;
                     }
+                    // Comprobo que as direccions existan
+                    if (!((dirX == 'q' || dirX == 'r' || dirX == 'l') && (dirY == 'u' || dirY == 'd' || dirY == 'q'))) {
+                        System.out.println("Has introducido mal la dirección, consulta la ayuda");
+                        return;
+                    }
+                    */
 
                     /* Calculo componentes da celda a atacar */
-                    /*if (dirY == 'q')
+                    if (dirY == 'q')
                         componenteI = i;
                     if (dirX == 'q')
                         componenteJ = j;
@@ -442,25 +449,26 @@ public class Personaje {
                         componenteI = i - numY;
                     if (dirY == 'd' && i + numY < mapa.getAlto())
                         componenteI = i + numY;
-                    if (dirX == 'l' && j - numY >= 0)
-                        componenteJ = j - numY;
-                    if (dirX == 'r' && j + numY < mapa.getAncho())
-                        componenteJ = j + numY;*/
+                    if (dirX == 'l' && j - numX >= 0)
+                        componenteJ = j - numX;
+                    if (dirX == 'r' && j + numX < mapa.getAncho())
+                        componenteJ = j + numX;
                 }
             }
-            this.setEnergia(this.getEnergia() - ENERGIA_REQUERIDA);
         }
 
         /**Buscamos el maximo de casillas atacables (eje x)**/
-        /*int minX = numX;
+        int minX = numX;
         if (minX > getRangoVision()) {
             System.out.println("No tienes suficiente rango de vision");
             minX = getRangoVision();
+            return;
         }
         if (armaDer != null) {
             if (minX > armaDer.getAlcance()) {
                 minX = armaDer.getAlcance();
                 System.out.println("Tu arma derecha no tiene suficiente alcance.");
+                return;
             }
 
         }
@@ -468,25 +476,28 @@ public class Personaje {
             if (minX > armaIzq.getAlcance()) {
                 minX = armaIzq.getAlcance();
                 System.out.println("Tu arma izquierda no tiene suficiente alcance.");
+                return;
             }
         }
         if (armaDosM != null) {
             if (minX > armaDosM.getAlcance()) {
                 minX = armaDosM.getAlcance();
                 System.out.println("Tu arma de dos manos no tiene suficiente alcance.");
+                return;
             }
         }
 
         /**Buscamos el maximo de casillas atacables (eje y)**/
-        /*int minY = numY;
+        int minY = numY;
         if (minY > getRangoVision()) {
             System.out.println("No tienes suficiente rango de vision");
-            minY = getRangoVision();
+            return;
         }
         if (armaDer != null) {
             if (minY > armaDer.getAlcance()) {
                 minY = armaDer.getAlcance();
                 System.out.println("Tu arma derecha no tiene suficiente alcance.");
+                return;
             }
 
         }
@@ -494,14 +505,16 @@ public class Personaje {
             if (minY > armaIzq.getAlcance()) {
                 minY = armaIzq.getAlcance();
                 System.out.println("Tu arma izquierda no tiene suficiente alcance.");
+                return;
             }
         }
         if (armaDosM != null) {
             if (minY > armaDosM.getAlcance()) {
                 minY = armaDosM.getAlcance();
                 System.out.println("Tu arma no tiene suficiente alcance.");
+                return;
             }
-        }*/
+        }
 
         /*if (!((dirX == 'q' || dirX == 'r' || dirX == 'l') && (dirY == 'u' || dirY == 'd' || dirY == 'q'))) {
             //Si las direcciones estan mal pues se sale del programa
@@ -511,16 +524,17 @@ public class Personaje {
             return;
         }*/
 
-        /*System.out.println("ComponenteI " + componenteI + "ComponenteJ" + componenteJ);
+        System.out.println("ComponenteI " + componenteI + "ComponenteJ" + componenteJ);
         celdaObtenida = mapa.getCelda(componenteI, componenteJ);
         enemigos = celdaObtenida.getEnemigo();
         if (enemigos == null) {
             System.out.println("No hay un enemigo en esa celda.");
             this.setEnergia(this.getEnergia() + ENERGIA_REQUERIDA);
             return;
-        }*/
+        }
 
-        System.out.println("Vas atacar a casilla que esté na fila : " + numY + ", columna : " + numX);
+        this.setEnergia(this.getEnergia() - ENERGIA_REQUERIDA);
+        /*
         celdaObtenida = mapa.getCelda(numY, numX);
         enemigos = celdaObtenida.getEnemigo();
         if (enemigos == null) {
@@ -528,6 +542,7 @@ public class Personaje {
             this.setEnergia(this.getEnergia() + ENERGIA_REQUERIDA);
             return;
         }
+        */
 
         int coeficienteAtaque; //Previene que se sume vida al atacar
         Random random = new Random();
