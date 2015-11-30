@@ -1,5 +1,5 @@
 # mochila: celda, portador, tipo, nombre, descripcion, capacidad (num objetos), peso max (kg).
-0,0;jugador;mochila;mochila;tu mochila espacial;5;40
+0,0;jugador;mochila;mochila;tu mochila espacial;5;6
 
 # binoculares: celda, portador, tipo, nombre, descripcion, alcance, peso
 4,7;.;binoculares;binoculares_1;unos binoculares de corto alcance;10;1
@@ -46,7 +46,7 @@
 7,11;heavy_floater_1;arma;canon_25;un cañón de plasma;80;5;2;10
 7,11;heavy_floater_1;armadura;armadura_25;un chaleco alienígena básico;5;30;10;2
 
-0,0;jugador;armadura;armadura_25;un chaleco alienígena básico;5;30;10;2
+4,12;jugador;binoculares;binoculares_2;unos binoculares de largo alcance;20;2
 
 
 

@@ -158,5 +158,6 @@ public class Arma {
         System.out.println("\tEspacio: " + getEspacio());
         System.out.println("\tDescripcion: " + getDescripcion());
         System.out.println("\tMano: " + (isDosManos() ? "Dos Manos" : "Una mano"));
+        System.out.println("\tAlcance: "+getAlcance());
     }
 }

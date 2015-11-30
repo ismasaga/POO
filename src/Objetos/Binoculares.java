@@ -109,11 +109,11 @@ public class Binoculares {
      * Imprime informacion sobre el binocular:
      */
     public void info() {
-        System.out.println("Binocular:\n");
+        System.out.println("Binocular:");
         System.out.println("\tNombre: " + getNombre());
-        System.out.println("\tPeso: " + getPeso() + "\n");
-        System.out.println("\tEspacio: " + getEspacio() + "\n");
-        System.out.println("\tAumento de rango de vision: " + getVision() + "\n");
+        System.out.println("\tPeso: " + getPeso());
+        System.out.println("\tEspacio: " + getEspacio());
+        System.out.println("\tAumento de rango de vision: " + getVision());
         System.out.println("\tDescripcion: " + getDescripcion());
     }
 }
