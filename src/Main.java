@@ -243,13 +243,16 @@ public class Main {
                                 case "binocular":
                                     personaje.desequiparBinocular();
                                     break;
+                                case "arma":
+                                    personaje.desequiparArma("");
+                                    break;
                                 default:
                                     System.out.println("Comando no reconocido.");
                             }
                         }
                         if (cadeas.length == 3) {
-                            if (cadeas[1] == "arma")
-                                personaje.desequiparArma(cadeas[1]);
+                            if (cadeas[1].equals("arma"))
+                                personaje.desequiparArma(cadeas[2]);
                         }
                         break;
                     case "equipar":

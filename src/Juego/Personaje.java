@@ -1086,23 +1086,21 @@ public class Personaje {
      * Desequipa el arma de la mano seleccionada. Si el arma detectada es de dos manos se ignora la mano.
      */
     public void desequiparArma(String mano) {
-        if (getArmas().size() > 0) {
             if (getArmaDosM() != null) {
                 mochila.anadirArma(getArmas().get(0));
-                setArmaDosM(null);
+                armaDosM = null; //El setter no funciona
                 return;
             } else if (mano.equals("derecha")) {
                 if (getArmaDer() != null)
                     mochila.anadirArma(getArmaDer());
-                setArmaDer(null);
+                armaDer = null;
             } else if (mano.equals("izquierda")) {
                 if (getArmaIzq() != null)
                     mochila.anadirArma(getArmaIzq());
-                setArmaIzq(null);
+                armaIzq = null;
             } else {
                 System.out.println("Mano mal escrita");
             }
-        }
     }
 
     /**
