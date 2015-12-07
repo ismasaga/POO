@@ -1,7 +1,7 @@
 import Juego.Bundle;
 import Juego.Mapa;
 import Juego.Parser;
-import Juego.Personaje;
+import Personajes.Personaje;
 
 import java.util.Scanner;
 

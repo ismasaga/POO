@@ -1,9 +1,9 @@
 package Objetos;
 
-public class Arma {
-    private String nombre;
+import Personajes.Personaje;
+
+public class Arma extends Objeto{
     private boolean dosManos;
-    private String descripcion;
     private int dano;
     private float peso; //Crashea ó ler o arquivo
     private int espacio;
@@ -81,23 +81,6 @@ public class Arma {
     }
 
     /**
-     * Devuelve la descripcion del arma
-     */
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    /**
-     * Asigna la descripcion del arma
-     */
-    public void setDescripcion(String descripcion) {
-        if (descripcion != null)
-            this.descripcion = new String(descripcion);
-        else
-            System.out.println("ERROR asignando la descripcion al arma");
-    }
-
-    /**
      * Devuleve true si el arma es a dos manos y false en caso contrario
      */
     public boolean isDosManos() {
@@ -110,23 +93,6 @@ public class Arma {
      */
     public void setDosManos(boolean dosManos) {
         this.dosManos = dosManos;
-    }
-
-    /**
-     * Devuelve el nombre del arma
-     */
-    public String getNombre() {
-        return nombre;
-    }
-
-    /**
-     * Asigna nombre al arma
-     */
-    public void setNombre(String nombre) {
-        if (nombre != null)
-            this.nombre = nombre;
-        else
-            System.out.println("ERROR asignando nombre al arma");
     }
 
     /**
@@ -159,5 +125,10 @@ public class Arma {
         System.out.println("\tDescripcion: " + getDescripcion());
         System.out.println("\tMano: " + (isDosManos() ? "Dos Manos" : "Una mano"));
         System.out.println("\tAlcance: "+getAlcance());
+    }
+
+    public void usar(Personaje personaje){
+        //TODO: tirar una excepcion como dios manda
+        throw new UnsupportedOperationException("Error fatal");
     }
 }

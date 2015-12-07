@@ -1,9 +1,9 @@
 package Objetos;
 
-public class Armadura {
-    private String nombre;
+import Personajes.Personaje;
+
+public class Armadura extends Objeto{
     private int incrVida, incrEnergia, defensa;
-    private String descripcion;
     private float peso;
     private int espacio;
 
@@ -65,40 +65,6 @@ public class Armadura {
         this.peso = peso;
     }
 
-    /**
-     * Devuelve la descripcion de la armadura
-     */
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    /**
-     * Asigna descripcion a la armadura
-     */
-    public void setDescripcion(String descripcion) {
-        if (descripcion != null)
-            this.descripcion = new String(descripcion);
-        else
-            System.out.println("ERROR asignando descripcion a la armadura");
-    }
-
-    /**
-     * Devolve o nome da armadura
-     */
-    public String getNombre() {
-        return nombre;
-    }
-
-    /**
-     * Asigna nome a armadura
-     */
-    public void setNombre(String nombre) {
-        if (nombre != null)
-            this.nombre = nombre;
-        else
-            System.out.println("ERROR asignando nombre a la armadura");
-    }
-
     public int getIncrVida() {
         return incrVida;
     }
@@ -146,4 +112,10 @@ public class Armadura {
         System.out.println("\tIncremento de vida: " + getIncrVida());
         System.out.println("\tDescripción: " + getDescripcion());
     }
+
+    public void usar(Personaje personaje){
+        //TODO: tirar una excepción como dios manda.
+        throw new UnsupportedOperationException("Error fatal");
+    }
+
 }

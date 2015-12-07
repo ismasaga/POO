@@ -1,6 +1,6 @@
 package Objetos;
 
-import Juego.Personaje;
+import Personajes.Personaje;
 
 /**
  * Implementa la clase botiquín
@@ -8,12 +8,10 @@ import Juego.Personaje;
  * Vision, peso y espacio son final pues no se pueden modificar mediante mecánicas del juego esos valores (en este caso
  * no tendría sentido).
  */
-public class Botiquin {
+public class Botiquin extends Objeto {
     private final int curacion;
     private final float peso;
     private final int espacio;
-    private String descripcion;
-    private String nombre;
 
     public Botiquin(String nombre, String descripcion, int curacion, float peso, int espacio) {
         setNombre(nombre);
@@ -40,40 +38,6 @@ public class Botiquin {
         this.curacion = curacion;
         this.peso = peso > 0 ? peso : 0;
         this.espacio = 1;
-    }
-
-    /**
-     * Devuelve el nombre del botiquin
-     */
-    public String getNombre() {
-        return nombre;
-    }
-
-    /**
-     * Asigna nombre al botiquin
-     */
-    public void setNombre(String nombre) {
-        if (nombre != null)
-            this.nombre = new String(nombre);
-        else
-            System.out.println("ERROR asignando nombre al botiquin");
-    }
-
-    /**
-     * Devuelve la descripcion del botiquin
-     */
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    /**
-     * Asigna descripcion al botiquin
-     */
-    public void setDescripcion(String descripcion) {
-        if (descripcion != null)
-            this.descripcion = new String(descripcion);
-        else
-            System.out.println("ERROR asignando descripcion al botiquin");
     }
 
     public int getCuracion() {

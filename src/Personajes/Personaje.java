@@ -1,5 +1,8 @@
-package Juego;
+package Personajes;
 
+import Juego.Celda;
+import Juego.Mapa;
+import Juego.Mochila;
 import Objetos.Arma;
 import Objetos.Armadura;
 import Objetos.Binoculares;

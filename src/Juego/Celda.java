@@ -4,6 +4,7 @@ import Objetos.Arma;
 import Objetos.Armadura;
 import Objetos.Binoculares;
 import Objetos.Botiquin;
+import Personajes.Enemigo;
 
 import java.util.ArrayList;
 

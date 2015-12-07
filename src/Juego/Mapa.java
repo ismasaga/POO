@@ -1,5 +1,7 @@
 package Juego;
 
+import Personajes.Personaje;
+
 import java.util.ArrayList;
 
 /**

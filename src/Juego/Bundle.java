@@ -1,5 +1,7 @@
 package Juego;
 
+import Personajes.Personaje;
+
 /**
  * Clase auxiliar de una clase auxiliar (debería ser una innerclass).
  * Esta clase proporciona un medio seguro para obtener el mapa y el personaje de parser.

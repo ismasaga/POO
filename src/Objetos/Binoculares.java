@@ -1,6 +1,6 @@
 package Objetos;
 
-import Juego.Personaje;
+import Personajes.Personaje;
 
 /**
  * Implementa un binocular
@@ -10,15 +10,14 @@ import Juego.Personaje;
  * Vision, peso y espacio son final pues no se pueden modificar mediante mecánicas del juego esos valores (en este caso
  * no tendría sentido).
  */
-public class Binoculares {
+public class Binoculares extends Objeto{
     /**
      * Aumento en el rango de vision del binocular. El rango de vision del personaje se calcularia como: rangoVision = vision + rangoPorDefecto
      */
     private final int vision;
     private final int peso;
     private final int espacio;
-    private String descripcion;
-    private String nombre;
+
 
 
     public Binoculares(String nombre, String descripcion, int vision, int peso, int espacio) {
@@ -50,34 +49,14 @@ public class Binoculares {
         this.espacio = 1;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
     /**
      * Asigna nombre al binocular
      */
-    public void setNombre(String nombre) {
-        if (nombre != null)
-            this.nombre = new String(nombre);
-        else
-            System.out.println("ERROR asignando nombre al binocular");
-    }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
 
     /**
      * Asigna descripcion al binocular
      */
-    public void setDescripcion(String descripcion) {
-        if (descripcion != null)
-            this.descripcion = new String(descripcion);
-        else
-            System.out.println("ERROR asignando descripcion al binocular");
-    }
-
     //No se implementan setters, pues los valores del binocular no cambia durante su existencia.
     public int getVision() {
         return vision;
