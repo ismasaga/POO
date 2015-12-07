@@ -204,7 +204,6 @@ public class Personaje {
      * Devuelve un arraylist de las armas que lleva equipadas el personaje
      * ATENCION : si no lleva ninguna devuelve el conjunto pero vacio
      */
-    /* TODO :¿Porque? Este metodo es muerte. Si quieres desequipar el arma de mano izquierda no se puede.*/
     public ArrayList<Arma> getArmas() {
         ArrayList<Arma> conjuntoArmas = new ArrayList<>();
         if (armaDer != null)
