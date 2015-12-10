@@ -1,5 +1,6 @@
 package Objetos;
 
+import Excepciones.InusableException;
 import Personajes.Personaje;
 
 public class Armadura extends Objeto{
@@ -113,9 +114,9 @@ public class Armadura extends Objeto{
         System.out.println("\tDescripción: " + getDescripcion());
     }
 
-    public void usar(Personaje personaje){
+    public void usar(Personaje personaje) throws InusableException{
         //TODO: tirar una excepción como dios manda.
-        throw new UnsupportedOperationException("Error fatal");
+        throw new InusableException("armadura");
     }
 
 }

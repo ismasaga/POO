@@ -1,5 +1,6 @@
 package Objetos;
 
+import Excepciones.InusableException;
 import Personajes.Personaje;
 
 public class Arma extends Objeto{
@@ -127,8 +128,8 @@ public class Arma extends Objeto{
         System.out.println("\tAlcance: "+getAlcance());
     }
 
-    public void usar(Personaje personaje){
+    public void usar(Personaje personaje) throws InusableException{
         //TODO: tirar una excepcion como dios manda
-        throw new UnsupportedOperationException("Error fatal");
+        throw new InusableException("arma");
     }
 }

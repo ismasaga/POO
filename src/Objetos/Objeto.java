@@ -1,5 +1,6 @@
 package Objetos;
 
+import Excepciones.InusableException;
 import Personajes.Personaje;
 
 /**
@@ -27,5 +28,5 @@ public abstract class Objeto {
             this.nombre = nombre;
     }
 
-    public abstract void usar(Personaje personaje);
+    public abstract void usar(Personaje personaje) throws InusableException;
 }
