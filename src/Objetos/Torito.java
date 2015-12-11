@@ -13,7 +13,7 @@ public class Torito extends Objeto{
     }
 
     public void usar(Personaje personaje){
-        personaje.setEnergia(personaje.getEnergia() + incrementoEnergia);
+        personaje.setEnergiaActual(personaje.getEnergiaActual() + incrementoEnergia);
     }
 
     /**
@@ -21,7 +21,7 @@ public class Torito extends Objeto{
      * @param personaje Personaje a aplicar el efecto
      */
     public void disipar(Personaje personaje){
-        personaje.setEnergia((int)0.9*personaje.getEnergia());
+        personaje.setEnergiaActual((int)0.9*personaje.getEnergiaActual());
     }
 
 }
