@@ -100,20 +100,20 @@ public class Parser {
                         }
                         switch (cadeas[1]) {
                             case "enemigo":
-                                mapa.getCelda(tamano[0], tamano[1]).setEnemigo(new Enemigo(cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4])));
+                                mapa.getCelda(tamano[0], tamano[1]).setEnemigo(new Enemigo(mapa, new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4])));
                                 break;
                             case "jugador":
                                 switch (consola.leer("Que tipo de personaje desea?")) {
                                     case "marine":
-                                        personaje = new Marine(new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
+                                        personaje = new Marine(mapa, new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
                                         mapa.getCelda(tamano[0], tamano[1]).setJugador(personaje);
                                         break;
                                     case "francotirador":
-                                        personaje = new Francotirador(new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
+                                        personaje = new Francotirador(mapa ,new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
                                         mapa.getCelda(tamano[0], tamano[1]).setJugador(personaje);
                                         break;
                                     case "zapador":
-                                        personaje = new Zapador(new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
+                                        personaje = new Zapador(mapa, new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
                                         mapa.getCelda(tamano[0], tamano[1]).setJugador(personaje);
                                         break;
                                     default:
@@ -274,16 +274,16 @@ public class Parser {
         System.out.println(mapa.getDescripcion());
 
         mapa.getCelda(0,0).setBotiquin(new Botiquin("botiquin_grande", "botiquin mas grande que tu cabeza", 1, 2, 3));
-        mapa.getCelda(5,0).setEnemigo(new Enemigo(100, 100, armaMala, null, armaduraEnergy, "desconocido"));
+        //mapa.getCelda(5,0).setEnemigo(new Enemigo(100, 100, armaMala, null, armaduraEnergy, "desconocido"));
 
         mapa.getCelda(1,1).setBinoculares(new Binocular("binoculares","mira a lo lejos",2, 3, 4));
         mapa.getCelda(6,1).setBotiquin(new Botiquin("botiquin_grande","botiquin mas grande que tu cabeza", 1, 2, 3));
 
-        mapa.getCelda(1,2).setEnemigo(new Enemigo(100,100,armaBuena,null,armaduraEnergy,"Fulgensio"));
+        //mapa.getCelda(1,2).setEnemigo(new Enemigo(100,100,armaBuena,null,armaduraEnergy,"Fulgensio"));
         mapa.getCelda(5,2).setTransitable(false);
 
         mapa.getCelda(3,3).setTransitable(false);
-        mapa.getCelda(7,3).setEnemigo(new Enemigo(100,100,armas,armaduraVida));
+        //mapa.getCelda(7,3).setEnemigo(new Enemigo(100,100,armas,armaduraVida));
 
         mapa.getCelda(4,5).setBotiquin(new Botiquin("botiquin","asf",1, 2, 3));
         mapa.getCelda(6,5).setTransitable(false);
@@ -291,25 +291,25 @@ public class Parser {
         mapa.getCelda(1,6).setTransitable(false);
         mapa.getCelda(7,6).setBinoculares(new Binocular("binocular","asf",2,3,4));
 
-        mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,null,armaBuena,armaduraEnergy,"Enemyger"));
+        //mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,null,armaBuena,armaduraEnergy,"Enemyger"));
 
         mapa.getCelda(1,8).setBinoculares(new Binocular("binocular","asdfx2",2,3,4));
 
-        mapa.getCelda(3,3).setEnemigo(new Enemigo(100,100,armas,armaduraEnergy));
+        //mapa.getCelda(3,3).setEnemigo(new Enemigo(100,100,armas,armaduraEnergy));
 
         Celda celdaActual = mapa.getCelda(5,5);
         Jugador personaje = null;
         switch (consola.leer("Que tipo de personaje desea?")) {
             case "marine":
-                personaje = new Marine(new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
+                personaje = new Marine(mapa, new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
                 celdaActual.setJugador(personaje);
                 break;
             case "francotirador":
-                personaje = new Francotirador(new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
+                personaje = new Francotirador(mapa, new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
                 celdaActual.setJugador(personaje);
                 break;
             case "zapador":
-                personaje = new Zapador(new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
+                personaje = new Zapador(mapa, new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
                 celdaActual.setJugador(personaje);
                 break;
             default:

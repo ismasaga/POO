@@ -572,9 +572,9 @@ public class Personaje_old {
                 {
                     ataqueEjecutado = 0;
                 }
-                enemigo.setPuntosVida(enemigo.getPuntosVida() - ataqueEjecutado);
-                System.out.println("El enemigo " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getPuntosVida());
-                if (enemigo.getPuntosVida() <= 0) {
+                //enemigo.setPuntosVida(enemigo.getPuntosVida() - ataqueEjecutado);
+                System.out.println("El enemigo " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getVidaActual());
+                if (enemigo.getVidaActual() <= 0) {
                     System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
                     enemigosAbatidos.add(enemigo);
                 }
@@ -604,9 +604,9 @@ public class Personaje_old {
                     {
                         ataqueEjecutado = 0;
                     }
-                    enemigo.setPuntosVida(enemigo.getPuntosVida() - ataqueEjecutado);
-                    System.out.println("El enemigo " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getPuntosVida());
-                    if (enemigo.getPuntosVida() <= 0) {
+                    enemigo.setVidaActual(enemigo.getVidaActual() - ataqueEjecutado);
+                    System.out.println("El enemigo " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getVidaActual());
+                    if (enemigo.getVidaActual() <= 0) {
                         System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
                         enemigo.soltarObjetos(celdaObtenida);
                         celdaObtenida.eliminarEnemigo(enemigo);

@@ -106,14 +106,6 @@ public class Main {
                         } catch (InsuficienteEnergiaException e) {
                             consola.imprimirError("Error de energia : "+e.getMessage());
                         }
-                        /*if (cadeas.length == 2 && cadeas[1].length() == 1)
-                            if (cadeas[1].charAt(0) == 'r' || cadeas[1].charAt(0) == 'l' || cadeas[1].charAt(0) == 'u' || cadeas[1].charAt(0) == 'd')
-                                personaje.mover(mapa, 1, cadeas[1].charAt(0));
-                            else
-                                System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
-                        else
-                            System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
-                        */
                         break;
                     /*case "mirar":
                         //Obtiene informacion de la propia casilla

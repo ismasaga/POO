@@ -1,5 +1,6 @@
 package Personajes;
 
+import Juego.Mapa;
 import Objetos.Binocular;
 
 import java.awt.*;
@@ -10,10 +11,11 @@ public class Jugador extends Personaje {
     /**
      * Constructor para archivo parseado
      */
-    public Jugador(Point punto, String nombre, int vidaMaxAct, int energiaMaxAct) {
-        super(punto,nombre,vidaMaxAct,energiaMaxAct);
+    public Jugador(Mapa mapa, Point punto, String nombre, int vidaMaxAct, int energiaMaxAct) {
+        super(mapa,punto,nombre,vidaMaxAct,energiaMaxAct);
         setBinocular(null); //Por defecto
     }
+
 
     /**
      * Devolve null cando non ten equipado ningun binocular

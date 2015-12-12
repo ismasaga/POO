@@ -9,6 +9,7 @@ import Objetos.Armadura;
 import Objetos.Objeto;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 /**
  * setMapa() non implementado para evita que se cambie o mapa dun persoaxe unha vez foi creado
@@ -42,6 +43,28 @@ public class Personaje {
         setMochila(new Mochila(20, 5)); //Por defecto
         setPunto(punto);
         this.mapa = mapa;
+    }
+
+    public Personaje(Mapa mapa, Point punto, String nombre, int vidaMaxAct, int energiaMaxAct, Arma armaIzq, Arma armaDer, Armadura armadura) {
+        setEnergiaMaxima(energiaMaxAct);
+        setNombre(nombre);
+        setVidaMaxima(vidaMaxAct);
+        setVidaActual(vidaMaxAct);
+        setEnergiaActual(energiaMaxAct);
+        setRangoVision(2);              //Por defecto
+        setArmaIzq(armaIzq);               //Por defecto
+        setArmaDer(armaDer);               //Por defecto
+        setArmaDosM(null);              //Por defecto
+        setArmadura(armadura);              //Por defecto
+        setMochila(new Mochila(20, 5)); //Por defecto
+        setPunto(punto);
+        this.mapa = mapa;
+    }
+
+    public Personaje(Mapa mapa, Point punto, String nombre, int vidaMaxAct, int energiaMaxAct, Arma armaDosM, Armadura armadura) {
+        this(mapa,punto,nombre,vidaMaxAct,energiaMaxAct);
+        setArmaDosM(armaDosM);
+        setArmadura(armadura);
     }
 
     public Mapa getMapa() {
@@ -230,7 +253,6 @@ public class Personaje {
     public void mover(char direccion) throws MoverException, InsuficienteEnergiaException {
         final int ENERGIA_REQUERIDA = 5;
 
-        //getMapa().get
 
         /*boolean encontrado = false;
         int j = 0, i = 0;
@@ -243,47 +265,78 @@ public class Personaje {
             if (encontrado)
                 break;
         }*/
+        int i = (int)punto.getX();
+        int j = (int)punto.getY();
+
 
         /**
          * If que controla que quede suficiente energia para mover tantas celdas
          */
-        /*if ((this.getEnergiaActual() - ENERGIA_REQUERIDA) < 0)
+        if ((this.getEnergiaActual() - ENERGIA_REQUERIDA) < 0)
             throw new InsuficienteEnergiaException("Energia insuficiente para moverse.");
         else
-            this.setEnergiaActual(this.getEnergiaActual() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5)));
+            this.setEnergiaActual((int)(this.getEnergiaActual() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5))));
 
         if (direccion == 'u' && i - 1 >= 0)
-            if (mapa.getCelda(i - 1, j).isTransitable())
-                celda = mapa.getCelda(i - 1, j);
+            if (mapa.getCelda(i - 1, j).isTransitable()) {
+                if (this instanceof Jugador) {
+                    mapa.getCelda(i,j).setJugador(null);
+                    mapa.getCelda(i - 1, j).setJugador((Jugador) this);
+                    punto.setLocation(i-1,j);
+                }
+                else
+                    mapa.getCelda(i - 1, j).setEnemigo((Enemigo) this);
+            }
             else {
-                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5)));
+                this.setEnergiaActual((int)(this.getEnergiaActual() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5))));
                 throw new MoverException("La celda de arriba es intransitable.");
             }
         else if (direccion == 'd' && i + 1 < mapa.getAlto())
-            if (mapa.getCelda(i + 1, j).isTransitable())
-                celda = mapa.getCelda(i + 1, j);
+            if (mapa.getCelda(i + 1, j).isTransitable()) {
+                if (this instanceof Jugador) {
+                    mapa.getCelda(i, j).setJugador(null);
+                    mapa.getCelda(i + 1, j).setJugador((Jugador) this);
+                    punto.setLocation(i + 1,j);
+                }
+                else
+                    mapa.getCelda(i + 1, j).setEnemigo((Enemigo) this);
+            }
             else {
-                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5)));
-                throw new MoverException("La celda de abajo es intransitable.");
+                this.setEnergiaActual((int)(this.getEnergiaActual() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5))));
+                throw new MoverException("La celda de arriba es intransitable.");
             }
         else if (direccion == 'l' && j - 1 >= 0)
-            if (mapa.getCelda(i, j - 1).isTransitable())
-                celda = mapa.getCelda(i, j - 1);
+            if (mapa.getCelda(i, j - 1).isTransitable()) {
+                if (this instanceof Jugador) {
+                    mapa.getCelda(i, j).setJugador(null);
+                    mapa.getCelda(i, j - 1).setJugador((Jugador) this);
+                    punto.setLocation(i,j - 1);
+                }
+                else
+                    mapa.getCelda(i, j - 1).setEnemigo((Enemigo) this);
+            }
             else {
-                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5)));
-                throw new MoverException("La celda izquierda es intransitable.");
+                this.setEnergiaActual((int)(this.getEnergiaActual() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5))));
+                throw new MoverException("La celda de arriba es intransitable.");
             }
         else if (direccion == 'r' && j + 1 < mapa.getAncho())
-            if (mapa.getCelda(i, j + 1).isTransitable())
-                celda = mapa.getCelda(i, j + 1);
+            if (mapa.getCelda(i, j + 1).isTransitable()) {
+                if (this instanceof Jugador) {
+                    mapa.getCelda(i,j).setJugador(null);
+                    mapa.getCelda(i, j + 1).setJugador((Jugador) this);
+                    punto.setLocation(i,j + 1);
+                }
+                else
+                    mapa.getCelda(i, j + 1).setEnemigo((Enemigo) this);
+            }
             else {
-                this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5)));
-                throw new MoverException("La celda derecha es intransitable.");
+                this.setEnergiaActual((int)(this.getEnergiaActual() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5))));
+                throw new MoverException("La celda de arriba es intransitable.");
             }
         else {
-            System.out.println("ERROR, no puedes mover tantas casillas en esa dirección");
-            this.setEnergia(this.getEnergia() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5)));
-        }*/
+            this.setEnergiaActual((int)(this.getEnergiaActual() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5))));
+            throw new MoverException("Error moviendo");
+        }
     }
 
     public void coger(Objeto objeto) {}
@@ -299,4 +352,68 @@ public class Personaje {
     public void desequipar(Arma arma) {}
 
     public void desequipar(Armadura armadura) {}
+
+    /**
+     * Devuelve un entero con el ataque total del enemigo tenga las armas que tenga
+     *
+     * @return ataque
+     */
+    public int getAtaque() {
+        ArrayList<Arma> armas = getArmas();
+        int ataque = 0;
+        if (armas.size() > 0 && armas.size() <= 2)
+            for (Arma arma : armas)
+                ataque += arma.getDano();
+        else
+            System.out.println("ERROR, no hay armas con las que atacar.");
+        return ataque;
+    }
+
+    /**
+     * Devuelve un arraylist de las armas que lleva equipadas el enemigo
+     * ATENCION : si no lleva ninguna devuelve el conjunto pero vacio
+     *
+     * @return conjuntoArmas
+     */
+    public ArrayList<Arma> getArmas() {
+        ArrayList<Arma> conjuntoArmas = new ArrayList<>();
+        if (armaDer != null)
+            conjuntoArmas.add(armaDer);
+        if (armaIzq != null)
+            conjuntoArmas.add(armaIzq);
+        if (armaDosM != null)
+            conjuntoArmas.add(armaDosM);
+        return conjuntoArmas;
+    }
+
+    /**
+     * Este método equipa las armas al enemigo dado un array de ellas(1 de dos manos o 2 de una mano).
+     * ATENCIÓN : si se usa éste método se eliminarán las armas que el enemigo ya portaba
+     * ATENCIÓN : si se usa para mandar solo una arma de una mano ésta quedará equipada en la mano derecha.
+     * ATENCIÓN : en caso de ser dos armas a una mano la primera irá a la mano derecha.
+     */
+    public void setArmas(ArrayList<Arma> armas) {
+        if (armas != null) {
+            if (armas.size() == 1) {
+                if (armas.get(0).isDosManos()) {
+                    armaDosM = armas.get(0);
+                    armaDer = null;
+                    armaIzq = null;
+                } else {
+                    armaDer = armas.get(0);
+                    armaDosM = null;
+                }
+            } else if (armas.size() == 2) {
+                if (armas.get(0).isDosManos() || armas.get(1).isDosManos())
+                    System.out.println("ERROR, quieres equipar dos armas pero una de ellas es a dos manos(El enemigo solo tiene dos manos)");
+                else {
+                    armaDer = armas.get(0);
+                    armaIzq = armas.get(1);
+                    armaDosM = null;
+                }
+            } else
+                System.out.println("ERROR en el número de armas que quieres equipar al enemigo");
+        } else
+            System.out.println("ERROR asignando las armas al enemigo");
+    }
 }
