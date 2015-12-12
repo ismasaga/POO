@@ -2,17 +2,15 @@ package Juego;
 
 import Personajes.Personaje;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
  * Clase Mapa. Realiza las siguientes funciones:
- * - Imprime los limites del mapa, las casillas visibles y los enemigos visibles y las casillas transitables.
- * <p>
+ *  Imprime los limites del mapa, las casillas visibles y los enemigos visibles y las casillas transitables.
  * Consideraciones:
- * <p>
- * ancho y alto son constantes pues no se puede modificar una vez creado el mapa.
- * <p>
- * Set mapa no es definido para no modificar el mapa una vez inciado (idem getter, aliasing).
+ *  ancho y alto son constantes pues no se puede modificar una vez creado el mapa.
+ *  Set mapa no es definido para no modificar el mapa una vez inciado (idem getter, aliasing).
  */
 public class Mapa {
 
@@ -24,7 +22,7 @@ public class Mapa {
      * Comparar las referencias del objeto, habiendo, previamente, asignado "a pelo" (e.g: personaje.setCelda = mapa.getCelda(i,j)).
      * </strong>
      */
-    private ArrayList<ArrayList<Celda>> mapa = new ArrayList<ArrayList<Celda>>();
+    private ArrayList<ArrayList<Celda>> mapa = new ArrayList<>();
 
     public Mapa(int alto, int ancho, String nombre) {
         this.alto = alto > 0 ? alto : 10;
@@ -32,7 +30,7 @@ public class Mapa {
         for (int i = 0; i < alto; i++) {
             ArrayList<Celda> arrayC = new ArrayList<>();
             for (int j = 0; j < ancho; j++) {
-                arrayC.add(new Celda(false));
+                arrayC.add(new Celda(false,new Point(i,j)));
             }
             mapa.add(arrayC);
         }
@@ -45,7 +43,7 @@ public class Mapa {
         for (int i = 0; i < alto; i++) {
             ArrayList<Celda> arrayC = new ArrayList<>();
             for (int j = 0; j < ancho; j++) {
-                arrayC.add(new Celda(false));
+                arrayC.add(new Celda(false,new Point(i,j)));
             }
             mapa.add(arrayC);
         }
@@ -62,8 +60,6 @@ public class Mapa {
 
     /**
      * Devuelve un String que incluye el nombre del mapa y sus dimensiones
-     *
-     * @return
      */
     public String getDescripcion() {
         return "Esta jugando en el mapa " + getNombre() + " que cuenta con " + getAlto() + " filas y " + getAncho() + " columnas";
@@ -75,8 +71,6 @@ public class Mapa {
 
     /**
      * Asigna nome o mapa
-     *
-     * @param nombre
      */
     public void setNombre(String nombre) {
         if (nombre != null)
@@ -87,8 +81,6 @@ public class Mapa {
 
     /**
      * Devolve o nome do mapa, no caso de que non fose definido, devolvería null
-     *
-     * @return nombre
      */
     public String getNombre() {
         return nombre;
@@ -97,11 +89,9 @@ public class Mapa {
     /**
      * setAncho y setAlto no serán definidos ya que no queremos que puedan ser cambiados tras ser definidos
      */
-
     public int getAncho() {
         return ancho;
     }
-
     public int getAlto() {
         return alto;
     }
@@ -129,30 +119,26 @@ public class Mapa {
     /**
      * Imprime el mapa en la posicion del personaje pasado por parametro
      * Leyenda
-     * B: binocular
-     * V: botiquin
+     * O: objeto
      * E: enemigo
-     * T: situación del personaje
-     *
-     * @param personaje
+     * P: situación del personaje
      */
     public void imprimir(Personaje personaje) {
-        /**
-         * Interesa saber en que posicion esta el personaje
-         */
-        int i = 0;
-        int j = 0;
-        int[] array = new int[2];
+        /*int i;
+        int j;
+        int[] array;
         array = posicionPersonaje(personaje);
         i = array[0];
-        j = array[1];
+        j = array[1];*/
+        int i = (int)personaje.getPunto().getX();
+        int j = (int)personaje.getPunto().getY();
 
-        for (int fila = 0; fila < alto; fila++) {
-            for (int columna = 0; columna < ancho; columna++) {
+        for (int fila = 0; fila < getAlto(); fila++) {
+            for (int columna = 0; columna < getAncho(); columna++) {
                 String imprimir = "";
                 System.out.print("|");
                 if (i == fila && j == columna) {
-                    imprimir = " T |";
+                    imprimir = " P |";
                     System.out.print(imprimir);
                     continue;
                 }
@@ -210,8 +196,8 @@ public class Mapa {
      *
      * @return int[0] = alto, int[1] = ancho
      */
-    public int[] posicionPersonaje(Personaje personaje) {
-        int i = 0;
+    /*public int[] posicionPersonaje(Personaje personaje) {
+        int i;
         int j = 0;
         boolean encontrado = false;
         int[] array = new int[2];
@@ -219,7 +205,7 @@ public class Mapa {
             for (j = 0; j < this.ancho; j++) {
                 encontrado = mapa.get(i).get(j).equals(personaje.getCelda());
                 if (encontrado) {
-                    /**Hemos obtenido la posicion del personaje**/
+                    //Hemos obtenido la posicion del personaje
                     break;
                 }
             }
@@ -229,5 +215,5 @@ public class Mapa {
         array[0] = i;
         array[1] = j;
         return array;
-    }
+    }*/
 }

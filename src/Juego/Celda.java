@@ -2,10 +2,12 @@ package Juego;
 
 import Objetos.Arma;
 import Objetos.Armadura;
-import Objetos.Binoculares;
+import Objetos.Binocular;
 import Objetos.Botiquin;
 import Personajes.Enemigo;
+import Personajes.Jugador;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -13,31 +15,67 @@ import java.util.ArrayList;
  * o array completo en ningún momento e chegamos o acordo de que non o imos facer
  * <p>
  * A destacar:
- * <p>
+ *  setMapa() non implementado para que so se poida cambiar o mapa dunha casilla cando esta e creada
  * Los setters de celda añaden elementos uno a uno y son setEnemigo, setBinoculares y setBotiquin
  */
 
 public class Celda {
-    private ArrayList<Binoculares> arrayBinoculares;
+    private ArrayList<Binocular> arrayBinoculares;
     private ArrayList<Botiquin> arrayBotiquin;
     private ArrayList<Enemigo> arrayEnemigos;
     private ArrayList<Arma> arrayArma;
     private ArrayList<Armadura> arrayArmadura;
+    private Jugador jugador;
     private boolean transitable;
+    private Point punto;
 
-    public Celda(boolean transitable) {
+    public Celda(boolean transitable, Point punto) {
         this.transitable = transitable;
         arrayBinoculares = new ArrayList<>();
         arrayBotiquin = new ArrayList<>();
         arrayEnemigos = new ArrayList<>();
         arrayArma = new ArrayList<>();
         arrayArmadura = new ArrayList<>();
+        setJugador(null);
+        setPunto(punto);
+    }
+
+    /**
+     * Devolve o punto que contén as coordenadas da celda(pode ser nulo)
+     */
+    public Point getPunto() {
+        return punto;
+    }
+
+    /**
+     * Engade ou actualiza o punto onde se atopa a casilla,
+     * se o punto esta a nulo creariase un co constructor por defecto
+     */
+    public void setPunto(Point punto) {
+        if(punto != null)
+            this.punto = punto;
+        else
+            this.punto = new Point();//Crea o punto coas coordenadas (0,0)
+    }
+
+    /**
+     * Obten o xogador, que pode ser null no caso que non este nesta celda
+     */
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    /**
+     * Mete o xogador na celda ou null no caso de que non estea nesta celda
+     */
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
     }
 
     /**
      * Anhade un binocular a la celda
      */
-    public void setBinoculares(Binoculares binocular) {
+    public void setBinoculares(Binocular binocular) {
         if (binocular != null)
             arrayBinoculares.add(binocular);
         else
@@ -46,10 +84,8 @@ public class Celda {
 
     /**
      * Devolve os binoculares que ten a celda
-     *
-     * @return
      */
-    public ArrayList<Binoculares> getBinoculares() {
+    public ArrayList<Binocular> getBinoculares() {
         return arrayBinoculares;
     }
 
@@ -57,7 +93,7 @@ public class Celda {
         return arrayBotiquin;
     }
 
-    public void eliminarBinocular(Binoculares binocular) {
+    public void eliminarBinocular(Binocular binocular) {
         arrayBinoculares.remove(binocular);
     }
 
@@ -79,8 +115,6 @@ public class Celda {
 
     /**
      * Devolve todos os inimigos da celda.
-     *
-     * @return Enemigo
      */
     public ArrayList<Enemigo> getEnemigo() {
         if (arrayEnemigos.isEmpty())

@@ -1,6 +1,6 @@
 package Juego;
 
-import Personajes.Personaje;
+import Personajes.Jugador;
 
 /**
  * Clase auxiliar de una clase auxiliar (debería ser una innerclass).
@@ -8,7 +8,7 @@ import Personajes.Personaje;
  */
 public class Bundle {
     Mapa mapa = null;
-    Personaje personaje = null;
+    Jugador personaje = null;
 
     public Mapa getMapa() {
         return mapa;
@@ -18,11 +18,11 @@ public class Bundle {
         this.mapa = mapa;
     }
 
-    public Personaje getPersonaje() {
+    public Jugador getPersonaje() {
         return personaje;
     }
 
-    public void setPersonaje(Personaje personaje) {
+    public void setPersonaje(Jugador personaje) {
         this.personaje = personaje;
     }
 }

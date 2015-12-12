@@ -2,7 +2,7 @@ package Juego;
 
 import Objetos.Arma;
 import Objetos.Armadura;
-import Objetos.Binoculares;
+import Objetos.Binocular;
 import Objetos.Botiquin;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class Mochila {
     private final float pesoMaximo;
     private final int objetosMaximos;
-    private ArrayList<Binoculares> arrayBinoculares;
+    private ArrayList<Binocular> arrayBinoculares;
     private ArrayList<Botiquin> arrayBotiquin;
     private ArrayList<Arma> arrayArmas;
     private ArrayList<Armadura> arrayArmaduras;
@@ -144,7 +144,7 @@ public class Mochila {
         return objetosMaximos;
     }
 
-    public ArrayList<Binoculares> getArrayBinoculares() {
+    public ArrayList<Binocular> getArrayBinoculares() {
         return arrayBinoculares;
     }
 
@@ -201,7 +201,7 @@ public class Mochila {
      * Se sustituye el setter por defecto por un método que añade un binocular a la lista.
      * Devolve true se foi engadido e false en caso contrario
      */
-    public boolean anadirBinocular(Binoculares binocular) {
+    public boolean anadirBinocular(Binocular binocular) {
         if (binocular != null) {
             if (getPesoActual() + binocular.getPeso() > this.getPesoMaximo()) {
                 System.err.println("Se ha sobrepasado el peso maximo");
@@ -234,8 +234,8 @@ public class Mochila {
         return null;
     }
 
-    public Binoculares getBinocular(String nombre) {
-        for (Binoculares binocular : arrayBinoculares) {
+    public Binocular getBinocular(String nombre) {
+        for (Binocular binocular : arrayBinoculares) {
             if (binocular.getNombre().equals(nombre)) {
                 return binocular;
             }
@@ -274,7 +274,7 @@ public class Mochila {
 
     }
 
-    public void quitarBinocular(Binoculares binocular) {
+    public void quitarBinocular(Binocular binocular) {
         if(binocular != null) {
             arrayBinoculares.remove(binocular);
             setPesoActual(getPesoActual() - binocular.getPeso());

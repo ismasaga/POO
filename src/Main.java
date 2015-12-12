@@ -1,21 +1,23 @@
 import Excepciones.ComandoException;
+import Excepciones.InsuficienteEnergiaException;
+import Excepciones.MoverException;
 import Juego.*;
+import Personajes.Jugador;
 import Personajes.Personaje;
-
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         String sel;
         String[] cadeas;
-        //Scanner entradaEscaner = new Scanner(System.in);
         Mapa mapa;
-        Personaje personaje = null;
+        Jugador personaje = null;
+        ConsolaNormal consola = new ConsolaNormal();
         Parser parser = new Parser();
         Bundle bundle = new Bundle();
-        ConsolaNormal consola = new ConsolaNormal();
+        bundle = parser.Parse("src/Juego/mapa.csv", "src/Juego/npcs.csv", "src/Juego/objetos.csv",consola);
+        mapa = bundle.getMapa();
+        personaje = bundle.getPersonaje();
         /**
          * Colores para terminal
          */
@@ -27,26 +29,20 @@ public class Main {
         String ANSI_CYAN = "\u001B[36m";
         String ANSI_WHITE = "\u001B[37m";
 
-        bundle = parser.Parse("src/Juego/mapa.csv", "src/Juego/npcs.csv", "src/Juego/objetos.csv");
-        mapa = bundle.getMapa();
-        personaje = bundle.getPersonaje();
-        //entradaEscaner = new Scanner(System.in);
-
         do {
             /**
              * Si se acaba la energía no se hace nada (ni imprimir)
              **/
             if (personaje.estaMuerto()){
-                System.out.println("Has muerto pringao.");
+                consola.imprimir("Has muerto pringao.");
                 System.exit(0);
             }
 
             mapa.imprimir(personaje);
-            consola.imprimir(personaje.getNombre() + "[Vida: " + personaje.getPuntosVida() + " Energia: " + personaje.getEnergia() + "]");
-            //System.out.print(">");
+            consola.imprimir(personaje.getNombre() + "[Vida: " + personaje.getVidaActual() + " Energia: " + personaje.getEnergiaActual() + "]");
             sel = consola.leer("Introduza comando : ");
-            //sel = entradaEscaner.nextLine();
             cadeas = sel.split(" ");
+
             if(cadeas.length > 0) {
                 switch (cadeas[0]) {
                     case "ayuda":
@@ -99,12 +95,16 @@ public class Main {
                         break;
                     case "mover":
                         try {
-                            new ComandoMover(mapa, personaje, cadeas[1].charAt(0));
+                            new ComandoMover(mapa, personaje, cadeas[1].charAt(0)).ejecutar();
                         } catch (ComandoException e) {
                             consola.imprimirError("Error de comando : "+e.getMessage());
                         } catch (ArrayIndexOutOfBoundsException e) {
                             consola.imprimirError("Error introduciendo el comando, mire la ayuda");
                             e.printStackTrace();
+                        } catch (MoverException e) {
+                            consola.imprimirError("Error moviendo : "+e.getMessage());
+                        } catch (InsuficienteEnergiaException e) {
+                            consola.imprimirError("Error de energia : "+e.getMessage());
                         }
                         /*if (cadeas.length == 2 && cadeas[1].length() == 1)
                             if (cadeas[1].charAt(0) == 'r' || cadeas[1].charAt(0) == 'l' || cadeas[1].charAt(0) == 'u' || cadeas[1].charAt(0) == 'd')
@@ -112,9 +112,10 @@ public class Main {
                             else
                                 System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
                         else
-                            System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");*/
+                            System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
+                        */
                         break;
-                    case "mirar":
+                    /*case "mirar":
                         //Obtiene informacion de la propia casilla
                         if (cadeas.length == 1) {
                             personaje.mirar(mapa, 0, 0, ' ', ' ', null);
@@ -211,7 +212,7 @@ public class Main {
                         else if(cadeas.length == 4  && cadeas[1].length() == 1 && cadeas[2].length() == 1)
                             personaje.atacar(mapa, Integer.parseInt(cadeas[1]), Integer.parseInt(cadeas[2]), cadeas[3]);
                             */
-                        else
+                        /*else
                             System.out.println("Formato de comando incorrecto, seleccione ayuda para saber mas");
                         break;
                     case "pasar":
@@ -286,12 +287,12 @@ public class Main {
                             personaje = bundle.getPersonaje();
                             mapa = bundle.getMapa();
                         }
-                        break;
+                        break;*/
                     default:
-                        System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
+                        consola.imprimirError("La opción seleccionada no existe, seleccione ayuda para saber más");
                 }
             } else
-                System.out.println("Debes introducir algún comando");
+                consola.imprimirError("Debes introducir algún comando");
         } while (!sel.equals("terminar"));
     }
 }

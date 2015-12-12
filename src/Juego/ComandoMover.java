@@ -1,44 +1,27 @@
 package Juego;
 
 import Excepciones.ComandoException;
-import Personajes.Personaje;
+import Excepciones.InsuficienteEnergiaException;
+import Excepciones.MoverException;
+import Personajes.Jugador;
 
 public class ComandoMover implements Comando {
-    Mapa mapa;
-    Personaje personaje;
+    Jugador personaje;
     char direccion;
 
-    public ComandoMover(Mapa mapa, Personaje personaje, char direccion) throws ComandoException {
+    public ComandoMover(Mapa mapa, Jugador personaje, char direccion) throws ComandoException {
         if(mapa != null && personaje != null) {
-            this.mapa = mapa;
             this.personaje = personaje;
         } else
-            throw new ComandoException("Se ha pasado el mapa o el personaje nulos");
-        this.direccion = direccion;
+            throw new ComandoException("Se ha pasado el personaje nulo");
+        if(direccion == 'd' || direccion == 'u' || direccion == 'r' || direccion == 'l')
+            this.direccion = direccion;
+        else
+            throw new ComandoException("Dirección a mover incorrecta, mas info en la ayuda");
     }
 
     @Override
-    public void ejecutar() throws Exception {
-
-    }
-
-    @Override
-    public void mover() {
-
-    }
-
-    @Override
-    public void coger() {
-
-    }
-
-    @Override
-    public void atacar() {
-
-    }
-
-    @Override
-    public void usar() {
-
+    public void ejecutar() throws ComandoException,MoverException,InsuficienteEnergiaException {
+        personaje.mover(direccion);
     }
 }

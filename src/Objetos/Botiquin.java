@@ -53,7 +53,7 @@ public class Botiquin extends Objeto {
     }
 
     public void usar(Personaje personaje) {
-        personaje.setPuntosVida(personaje.getPuntosVida() + curacion);
+        personaje.setVidaActual(personaje.getVidaActual() + curacion);
     }
 
     /**

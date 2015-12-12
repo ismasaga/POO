@@ -1,29 +1,11 @@
 package Juego;
 
+import Excepciones.ComandoException;
+
 public class ComandoCoger implements Comando {
 
     @Override
-    public void ejecutar() throws Exception {
-
-    }
-
-    @Override
-    public void mover() {
-
-    }
-
-    @Override
-    public void coger() {
-
-    }
-
-    @Override
-    public void atacar() {
-
-    }
-
-    @Override
-    public void usar() {
+    public void ejecutar() throws ComandoException {
 
     }
 }

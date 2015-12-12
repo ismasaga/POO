@@ -10,7 +10,7 @@ import Personajes.Personaje;
  * Vision, peso y espacio son final pues no se pueden modificar mediante mecánicas del juego esos valores (en este caso
  * no tendría sentido).
  */
-public class Binoculares extends Objeto{
+public class Binocular extends Objeto{
     /**
      * Aumento en el rango de vision del binocular. El rango de vision del personaje se calcularia como: rangoVision = vision + rangoPorDefecto
      */
@@ -20,7 +20,7 @@ public class Binoculares extends Objeto{
 
 
 
-    public Binoculares(String nombre, String descripcion, int vision, int peso, int espacio) {
+    public Binocular(String nombre, String descripcion, int vision, int peso, int espacio) {
         //Se agrega un valor por defecto
         setNombre(nombre);
         setDescripcion(descripcion);
@@ -29,7 +29,7 @@ public class Binoculares extends Objeto{
         this.espacio = espacio > 0 ? espacio : 1;
     }
 
-    public Binoculares(int vision) {
+    public Binocular(int vision) {
         //Se agrega un valor por defecto
         setNombre("default");
         setDescripcion("null");
@@ -41,7 +41,7 @@ public class Binoculares extends Objeto{
     /**
      * Constructor para objetos parseados de archivo
      */
-    public Binoculares(String nombre, String descripcion, int vision, int peso) {
+    public Binocular(String nombre, String descripcion, int vision, int peso) {
         setNombre(nombre);
         setDescripcion(descripcion);
         this.vision = vision > 0 ? vision : 1;

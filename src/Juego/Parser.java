@@ -2,37 +2,30 @@ package Juego;
 
 import Objetos.Arma;
 import Objetos.Armadura;
-import Objetos.Binoculares;
+import Objetos.Binocular;
 import Objetos.Botiquin;
-import Personajes.Enemigo;
-import Personajes.Personaje;
+import Personajes.*;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-/**
- * Created by efren on 23/11/15.
- */
-
 
 /**
  * Clase auxiliar.
  * Lee un archivo y devuelve el personaje y el mapa creado a partir de el.
  */
 public class Parser {
-    public Bundle Parse(String rutaMapa, String rutaNpcs, String rutaObjetos) {
-        String sel, linea;
+    public Bundle Parse(String rutaMapa, String rutaNpcs, String rutaObjetos, Consola consola) {
+        String linea;
         String[] cadeas;
         BufferedReader buffer;
         int[] tamano = new int[2];
         Arma armaMasBuena;
-
         Mapa mapa;
-        Personaje personaje = null;
-
-
-
+        Jugador personaje = null;
         Bundle bundle = new Bundle();
 
+        //Leo o tamanho que vai ter o mapa
         try {
             buffer = new BufferedReader(new FileReader(new File(rutaMapa)));
             try {
@@ -48,26 +41,22 @@ public class Parser {
                 }
                 buffer.close();
             } catch (IOException ex) {
-                System.out.println("ERROR leyendo el fichero : " + ex);
-                System.out.println("Loading defaults");
-                bundle = loadDefault();
+                consola.imprimir("ERROR leyendo el fichero : " + ex);
+                consola.imprimir("Loading defaults");
+                bundle = loadDefault(consola);
                 return bundle;
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("ERROR abriendo el fichero : " + ex);
-            bundle = loadDefault();
+            consola.imprimir("ERROR abriendo el fichero : " + ex);
+            consola.imprimir("Loading defaults");
+            bundle = loadDefault(consola);
             return bundle;
         }
-        System.out.println("Os mapa vai ter : " + tamano[0] + " filas por : " + tamano[1] + " columnas");
 
-        sel = "A Perouta"; /** Nombre del mapa**/
-        /*
-        System.out.print("Introduzca el nombre del mapa : ");
-        sel = entradaEscaner.nextLine();
-        */
+        consola.imprimir("El mapa va a tener : " + tamano[0] + " filas por : " + tamano[1] + " columnas");
 
-        //Sumamos un porque creamos sin facelo en base cero no constructor
-        mapa = new Mapa(tamano[0] + 1, tamano[1] + 1, sel);
+        /**Sumamos un porque creamos sin facelo en base cero no constructor**/
+        mapa = new Mapa(tamano[0] + 1, tamano[1] + 1, "A Perouta");
 
         /**
          * Tras crear o mapa poñemos a transitables as casillas que nos indica o arquivo
@@ -83,13 +72,15 @@ public class Parser {
                 }
                 buffer.close();
             } catch (IOException ex) {
-                System.out.println("ERROR leyendo el fichero" + ex);
-                bundle = loadDefault();
+                consola.imprimir("ERROR leyendo el fichero" + ex);
+                consola.imprimir("Loading defaults");
+                bundle = loadDefault(consola);
                 return bundle;
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("ERROR abriendo el fichero" + ex);
-            bundle = loadDefault();
+            consola.imprimir("ERROR abriendo el fichero" + ex);
+            consola.imprimir("Loading defaults");
+            bundle = loadDefault(consola);
             return bundle;
         }
 
@@ -105,38 +96,55 @@ public class Parser {
                         tamano[0] = Integer.parseInt(cadeas[0].split(",")[0]);
                         tamano[1] = Integer.parseInt(cadeas[0].split(",")[1]);
                         if (!(cadeas[1].equals("enemigo") || cadeas[1].equals("jugador"))) {
-                            System.out.println("ERROR, el tipo de personaje no está contemplado");
+                            consola.imprimir("ERROR, el tipo de personaje no está contemplado");
                         }
                         switch (cadeas[1]) {
                             case "enemigo":
                                 mapa.getCelda(tamano[0], tamano[1]).setEnemigo(new Enemigo(cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4])));
                                 break;
                             case "jugador":
-                                personaje = new Personaje(mapa.getCelda(tamano[0], tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
+                                switch (consola.leer("Que tipo de personaje desea?")) {
+                                    case "marine":
+                                        personaje = new Marine(new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
+                                        mapa.getCelda(tamano[0], tamano[1]).setJugador(personaje);
+                                        break;
+                                    case "francotirador":
+                                        personaje = new Francotirador(new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
+                                        mapa.getCelda(tamano[0], tamano[1]).setJugador(personaje);
+                                        break;
+                                    case "zapador":
+                                        personaje = new Zapador(new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4]));
+                                        mapa.getCelda(tamano[0], tamano[1]).setJugador(personaje);
+                                        break;
+                                    default:
+                                        consola.imprimir("Tipo de personaje incorrecto, mire la ayuda para saber mas.");
+                                }
                                 break;
-
                         }
                     }
                 }
                 buffer.close();
             } catch (IOException ex) {
-                System.out.println("ERROR leyendo el fichero" + ex);
-                bundle = loadDefault();
+                consola.imprimir("ERROR leyendo el fichero" + ex);
+                consola.imprimir("Loading defaults");
+                bundle = loadDefault(consola);
                 return bundle;
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("ERROR abriendo el fichero" + ex);
-            bundle = loadDefault();
+            consola.imprimir("ERROR abriendo el fichero" + ex);
+            consola.imprimir("Loading defaults");
+            bundle = loadDefault(consola);
             return bundle;
         }
 
         //Asegurome de que o persoaxe sempre é creado
         if (personaje == null) {
-            System.out.println("El personaje ha sido creado por defecto");
-            armaMasBuena = new Arma("bazoka", "lanzamisiles 2.0", true, 80, 1, 1);
-            ArrayList<Arma> armas2 = new ArrayList<>();
-            armas2.add(armaMasBuena);
-            personaje = new Personaje(100, 100, new Armadura("armadura rapida", "armadura de energia", 0, 10, 3, 4, 4), mapa.getCelda(5, 5), new Mochila(10, 20), 3, armas2, 100, 100, sel);
+            //consola.imprimir("El personaje ha sido creado por defecto");
+            consola.imprimir("Error, el personaje no ha sido creado");
+            //armaMasBuena = new Arma("bazoka", "lanzamisiles 2.0", true, 80, 1, 1);
+            //ArrayList<Arma> armas2 = new ArrayList<>();
+            //armas2.add(armaMasBuena);
+            //personaje = new Personaje(100, 100, new Armadura("armadura rapida", "armadura de energia", 0, 10, 3, 4, 4), mapa.getCelda(5, 5), new Mochila(10, 20), 3, armas2, 100, 100, sel);
         }
 
         /**
@@ -147,7 +155,6 @@ public class Parser {
             try {
                 while ((linea = buffer.readLine()) != null) {
                     if (linea.length() != 0 && linea.charAt(0) != '#') {
-
                         cadeas = linea.split(";");
                         tamano[0] = Integer.parseInt(cadeas[0].split(",")[0]);
                         tamano[1] = Integer.parseInt(cadeas[0].split(",")[1]);
@@ -155,7 +162,7 @@ public class Parser {
                             case ".":
                                 switch (cadeas[2]) {
                                     case "binoculares":
-                                        mapa.getCelda(tamano[0], tamano[1]).setBinoculares(new Binoculares(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
+                                        mapa.getCelda(tamano[0], tamano[1]).setBinoculares(new Binocular(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
                                         break;
                                     case "arma":
                                         mapa.getCelda(tamano[0], tamano[1]).setArma(new Arma(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Float.parseFloat(cadeas[8])));
@@ -177,7 +184,7 @@ public class Parser {
                                 switch (cadeas[2]) {
                                     case "binoculares":
                                         if (personaje.getMochila() != null)
-                                            personaje.getMochila().anadirBinocular(new Binoculares(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
+                                            personaje.getMochila().anadirBinocular(new Binocular(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
                                         else
                                             System.out.println("ERROR, el personaje intenta coger un binocular pero tiene que tener mochila para hacerlo");
                                         break;
@@ -246,8 +253,10 @@ public class Parser {
         return bundle;
     }
 
-    public Bundle loadDefault ()
-    {
+    /**
+     * Metodo que carga o xogo por defecto
+     */
+    public Bundle loadDefault (Consola consola) {
         Mapa mapa = new Mapa(20,20,"Default conlleira");
 
         Arma armaMala = new Arma("pistolita","pistola pequeña",false,20,1,1);
@@ -256,9 +265,9 @@ public class Parser {
         armas.add(armaBuena);
         armas.add(armaMala);
 
-        Arma armaMasBuena = new Arma("bazoka","lanzamisiles 2.0",true,80,1,1);
-        ArrayList<Arma> armas2 = new ArrayList<>();
-        armas2.add(armaMasBuena);
+        //Arma armaMasBuena = new Arma("bazoka","lanzamisiles 2.0",true,80,1,1);
+        //ArrayList<Arma> armas2 = new ArrayList<>();
+        //armas2.add(armaMasBuena);
         Armadura armaduraVida = new Armadura("armadura curadora","armadura de vida",10,0,3,5,5);
         Armadura armaduraEnergy = new Armadura("armadura rapida","armadura de energia",0,10,3,4,4);
 
@@ -267,7 +276,7 @@ public class Parser {
         mapa.getCelda(0,0).setBotiquin(new Botiquin("botiquin_grande", "botiquin mas grande que tu cabeza", 1, 2, 3));
         mapa.getCelda(5,0).setEnemigo(new Enemigo(100, 100, armaMala, null, armaduraEnergy, "desconocido"));
 
-        mapa.getCelda(1,1).setBinoculares(new Binoculares("binoculares","mira a lo lejos",2, 3, 4));
+        mapa.getCelda(1,1).setBinoculares(new Binocular("binoculares","mira a lo lejos",2, 3, 4));
         mapa.getCelda(6,1).setBotiquin(new Botiquin("botiquin_grande","botiquin mas grande que tu cabeza", 1, 2, 3));
 
         mapa.getCelda(1,2).setEnemigo(new Enemigo(100,100,armaBuena,null,armaduraEnergy,"Fulgensio"));
@@ -280,16 +289,32 @@ public class Parser {
         mapa.getCelda(6,5).setTransitable(false);
 
         mapa.getCelda(1,6).setTransitable(false);
-        mapa.getCelda(7,6).setBinoculares(new Binoculares("binocular","asf",2,3,4));
+        mapa.getCelda(7,6).setBinoculares(new Binocular("binocular","asf",2,3,4));
 
         mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,null,armaBuena,armaduraEnergy,"Enemyger"));
 
-        mapa.getCelda(1,8).setBinoculares(new Binoculares("binocular","asdfx2",2,3,4));
+        mapa.getCelda(1,8).setBinoculares(new Binocular("binocular","asdfx2",2,3,4));
 
         mapa.getCelda(3,3).setEnemigo(new Enemigo(100,100,armas,armaduraEnergy));
 
         Celda celdaActual = mapa.getCelda(5,5);
-        Personaje personaje = new Personaje(celdaActual,"Chiquito",1000000,1000000000);
+        Jugador personaje = null;
+        switch (consola.leer("Que tipo de personaje desea?")) {
+            case "marine":
+                personaje = new Marine(new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
+                celdaActual.setJugador(personaje);
+                break;
+            case "francotirador":
+                personaje = new Francotirador(new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
+                celdaActual.setJugador(personaje);
+                break;
+            case "zapador":
+                personaje = new Zapador(new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
+                celdaActual.setJugador(personaje);
+                break;
+            default:
+                consola.imprimir("Tipo de personaje incorrecto, mire la ayuda para saber mas.");
+        }
 
         Bundle bundle = new Bundle();
         bundle.setPersonaje(personaje);

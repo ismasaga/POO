@@ -5,9 +5,8 @@ import Juego.Mapa;
 import Juego.Mochila;
 import Objetos.Arma;
 import Objetos.Armadura;
-import Objetos.Binoculares;
+import Objetos.Binocular;
 import Objetos.Botiquin;
-import Personajes.Personaje;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,20 +22,20 @@ import java.util.Random;
  * del juego )en esta versión.
  */
 public class Enemigo {
-    private final int VIDA_MAXIMA;
-    private final int ENERGIA_MAXIMA;
-    private int puntosVida;
-    private int energia;
-    private Arma armaDer;
-    private Arma armaIzq;
-    private Arma armaDosM;
+    private final int VIDA_MAXIMA;//
+    private final int ENERGIA_MAXIMA;//
+    private int puntosVida;//
+    private int energia;//
+    private Arma armaDer;//
+    private Arma armaIzq;//
+    private Arma armaDosM;//
     /**
      * El daño se calcula como: daño = ataque - armadura
      */
-    private Armadura armadura;
-    private Mochila mochila;
-    private String nombre;
-    private final int rangoVision;
+    private Armadura armadura;//
+    private Mochila mochila;//
+    private String nombre;//
+    private final int rangoVision;//
 
 
     public Enemigo(int VIDA_MAXIMA, int puntosVida, Arma armaIzq, Arma armaDer, Armadura armadura, String nombre) {
@@ -139,7 +138,7 @@ public class Enemigo {
     public void atacar(Personaje personaje) {
         int coeficienteAtaque; //Esta variable previene que un ataque sume puntos de vida (armadura > ataque)
         coeficienteAtaque = (getAtaque() - personaje.getArmadura().getDefensa() >= 0) ? getAtaque() - personaje.getArmadura().getDefensa() : 0;
-        personaje.setPuntosVida(personaje.getPuntosVida() - coeficienteAtaque);
+        personaje.setVidaActual(personaje.getVidaActual() - coeficienteAtaque);
         System.out.println(personaje.getNombre() + " atacado con" + coeficienteAtaque + " puntos de daño");
     }
 
@@ -328,7 +327,7 @@ public class Enemigo {
             }
         }
         mochila.setArrayArmaduras(null);
-        for (Binoculares bin : mochila.getArrayBinoculares()) {
+        for (Binocular bin : mochila.getArrayBinoculares()) {
             if (bin != null) {
                 celda.setBinoculares(bin);
                 mochila.getArrayBinoculares().remove(bin);
@@ -358,7 +357,7 @@ public class Enemigo {
      * @param personaje Personaje al que atacar
      */
     public void mover(Mapa mapa, int iE, int jE, Personaje personaje) {
-        Random numero = new Random();
+        /*Random numero = new Random();
 
         int numeroMovimientos = numero.nextInt(4);
         int direccion;
@@ -407,6 +406,6 @@ public class Enemigo {
                 atacar(personaje);
                 return;
             }
-        }
+        }*/
     }
 }
