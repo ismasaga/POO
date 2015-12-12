@@ -229,13 +229,13 @@ public class Main {
                     case "descripcion":
                         System.out.println(mapa.getDescripcion());
                         break;
+                        */
                     case "estado":
                         personaje.info();
                         break;
                     case "inventario":
                         personaje.ojearInventario();
                         break;
-                        */
                     case "coger":
                         if (cadeas.length == 2) {
                             try {

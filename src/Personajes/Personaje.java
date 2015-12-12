@@ -337,19 +337,28 @@ public class Personaje {
      */
     public void coger(Objeto objeto) throws SegmentationFaultException {
         if(objeto != null) {
-            if (objeto instanceof Arma)
-                mochila.anadirArma((Arma) objeto);
-            else if (objeto instanceof Armadura)
-                mochila.anadirArmadura((Armadura) objeto);
-            else if (objeto instanceof Binocular)
-                mochila.anadirBinocular((Binocular) objeto);
-            else if (objeto instanceof Botiquin)
-                mochila.anadirBotiquin((Botiquin) objeto);
-            else if (objeto instanceof Torito)
-                mochila.anadirTorito((Torito)objeto);
+            if (objeto instanceof Arma) {
+                if(mochila.anadirArma((Arma) objeto))
+                    mapa.getCelda(this.getPunto().x,this.getPunto().y).getArrayObjetos().remove(objeto);
+            }
+            else if (objeto instanceof Armadura) {
+                if(mochila.anadirArmadura((Armadura) objeto))
+                    mapa.getCelda(this.getPunto().x,this.getPunto().y).getArrayObjetos().remove(objeto);
+            }
+            else if (objeto instanceof Binocular) {
+                if(mochila.anadirBinocular((Binocular) objeto))
+                    mapa.getCelda(this.getPunto().x,this.getPunto().y).getArrayObjetos().remove(objeto);
+            }
+            else if (objeto instanceof Botiquin) {
+                if(mochila.anadirBotiquin((Botiquin) objeto))
+                    mapa.getCelda(this.getPunto().x,this.getPunto().y).getArrayObjetos().remove(objeto);
+            }
+            else if (objeto instanceof Torito) {
+                if(mochila.anadirTorito((Torito) objeto))
+                    mapa.getCelda(this.getPunto().x,this.getPunto().y).getArrayObjetos().remove(objeto);
+            }
             else
                 throw new SegmentationFaultException();
-            mapa.getCelda(this.getPunto().x,this.getPunto().y).getArrayObjetos().remove(objeto);
         }
 
     }
@@ -538,5 +547,61 @@ public class Personaje {
     }
     */
 
+    public void info() {
+        System.out.println("Personaje: " + getNombre());
+        System.out.println("Energia maxima: " + getEnergiaMaxima());
+        System.out.println("Salud maxima: " + getVidaMaxima());
+        System.out.println("Energia actual: " + getEnergiaActual());
+        System.out.println("Salud actual: " + getVidaActual());
+        if (getArmaDosM() != null) {
+            System.out.println("Arma equipada de dos manos: ");
+            getArmaDosM().info();
+        }
+        if (getArmaDer() != null) {
+            System.out.println("Arma equipada de mano derecha: ");
+            getArmaDer().info();
+        }
+        if (getArmaIzq() != null) {
+            System.out.println("Arma equipada de mano izquierda: ");
+            getArmaIzq().info();
+        }
+        if (getArmadura() != null) {
+            getArmadura().info();
+        }
+        System.out.println("Puntos de ataque: " + getAtaque());
+        System.out.println("Rango vision: " + getRangoVision());
+        System.out.println("Inventario: ");
+        ojearInventario();
+    }
 
+    public void ojearInventario() {
+        ArrayList<Binocular> arrayBin = mochila.getArrayBinoculares();
+        ArrayList<Botiquin> arrayBot = mochila.getArrayBotiquin();
+        System.out.println("Capacidad restante: " + (mochila.getObjetosMaximos() - mochila.getObjetosActuales()) + " objetos");
+        System.out.println("Peso actual: " + mochila.getPesoActual() + " kilogramos (Max : "+getMochila().getPesoMaximo()+")");
+        for (Binocular bin : arrayBin) {
+            if (bin != null)
+                bin.info();
+            else
+                System.out.println("No hay botiquines en la mochila.");
+        }
+        for (Botiquin bot : arrayBot) {
+            if (bot != null)
+                bot.info();
+            else
+                System.out.println("No hay botiquines en la mochila.");
+        }
+        for (Arma arma : mochila.getArrayArmas()) {
+            if (arma != null)
+                arma.info();
+            else
+                System.out.println("No hay armas en la mochila.");
+        }
+        for (Armadura armadura : mochila.getArrayArmaduras()) {
+            if (armadura != null)
+                armadura.info();
+            else
+                System.out.println("No hay armaduras en la mochila.");
+        }
+    }
 }

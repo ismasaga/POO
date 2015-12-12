@@ -724,36 +724,6 @@ public class Personaje_old {
 
 
 */
-    public void ojearInventario() {
-        ArrayList<Binocular> arrayBin = mochila.getArrayBinoculares();
-        ArrayList<Botiquin> arrayBot = mochila.getArrayBotiquin();
-        System.out.println("Capacidad restante: " + (mochila.getObjetosMaximos() - mochila.getObjetosActuales()) + " objetos");
-        System.out.println("Peso actual: " + mochila.getPesoActual() + " kilogramos (Max : "+getMochila().getPesoMaximo()+")");
-        for (Binocular bin : arrayBin) {
-            if (bin != null)
-                bin.info();
-            else
-                System.out.println("No hay botiquines en la mochila.");
-        }
-        for (Botiquin bot : arrayBot) {
-            if (bot != null)
-                bot.info();
-            else
-                System.out.println("No hay botiquines en la mochila.");
-        }
-        for (Arma arma : mochila.getArrayArmas()) {
-            if (arma != null)
-                arma.info();
-            else
-                System.out.println("No hay armas en la mochila.");
-        }
-        for (Armadura armadura : mochila.getArrayArmaduras()) {
-            if (armadura != null)
-                armadura.info();
-            else
-                System.out.println("No hay armaduras en la mochila.");
-        }
-    }
 
     /**
      * Esta implementación de mover permite desplazar al personaje a cualquier casilla de manera horizontal y vertical
@@ -1072,7 +1042,7 @@ public class Personaje_old {
         System.out.println("Puntos de ataque: " + getAtaque());
         System.out.println("Rango vision: " + getRangoVision());
         System.out.println("Inventario: ");
-        ojearInventario();
+        //ojearInventario();
     }
 
     /**
