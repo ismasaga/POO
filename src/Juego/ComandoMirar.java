@@ -8,11 +8,11 @@ import Personajes.Jugador;
  */
 public class ComandoMirar implements Comando{
 
-    Mapa mapa;
-    Jugador jugador;
-    int posicionX,posicionY;
-    char direccionX, direccionY;
-    String objeto;
+    private Mapa mapa;
+    private Jugador jugador;
+    private int posicionX,posicionY;
+    private char direccionX, direccionY;
+    private String objeto;
 
     public ComandoMirar(Mapa mapa, Jugador jugador, int posicionX, int posicionY, char direccionX, char direccionY, String objeto) {
         this.mapa = mapa;

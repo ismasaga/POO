@@ -53,7 +53,7 @@ public class Personaje_old {
     private Armadura armadura;//
     private Binocular binocular;
 
-
+/*
     public Personaje_old(int MAXIMO_VIDA, int puntosVida, Armadura armadura, Celda celda, Mochila mochila, int rangoVision, Arma armaIzq, Arma armaDer, int energia, int MAXIMO_ENERGIA, String nombre) {
         this.MAXIMO_VIDA = MAXIMO_VIDA > 0 ? MAXIMO_VIDA : 100;
         this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA) ? puntosVida : this.MAXIMO_VIDA;
@@ -72,6 +72,7 @@ public class Personaje_old {
     /**
      * Constructor para archivo parseado
      */
+    /*
     public Personaje_old(Celda celda, String nombre, int puntosVida, int MAXIMO_ENERGIA) {
         this.MAXIMO_VIDA = puntosVida > 0 ? puntosVida : 100;
         setPuntosVida(puntosVida);
@@ -85,7 +86,8 @@ public class Personaje_old {
         setNombre(nombre);
         binocular = null;
     }
-
+    */
+/*
     public Personaje_old(int MAXIMO_VIDA, int puntosVida, Armadura armadura, Celda celda, Mochila mochila, int rangoVision, ArrayList<Arma> armas, int energia, int MAXIMO_ENERGIA, String nombre) {
         this.MAXIMO_VIDA = MAXIMO_VIDA > 0 ? MAXIMO_VIDA : 100;
         this.puntosVida = (puntosVida > 0 && puntosVida <= this.MAXIMO_VIDA) ? puntosVida : this.MAXIMO_VIDA;
@@ -98,7 +100,7 @@ public class Personaje_old {
         this.energia = (energia > 0 && energia <= this.MAXIMO_ENERGIA) ? energia : 100;
         setNombre(nombre);
         binocular = null;
-    }
+    }*/
 
     public void setMAXIMO_VIDA(int MAXIMO_VIDA) {
         this.MAXIMO_VIDA = MAXIMO_VIDA > 0 ? MAXIMO_VIDA : 100;
@@ -192,6 +194,7 @@ public class Personaje_old {
      *
      * @param armadura
      */
+    /*
     public void setArmadura(Armadura armadura) {
         if (armadura != null) {
             desequiparArmadura();
@@ -201,6 +204,7 @@ public class Personaje_old {
         } else
             System.out.println("ERROR asignando armadura al personaje");
     }
+    */
 
     /**
      * Devuelve un arraylist de las armas que lleva equipadas el personaje
@@ -908,44 +912,9 @@ public class Personaje_old {
     }
 
 */
-    public void pasar(Mapa mapa, Personaje personaje) {
-        this.energia = MAXIMO_ENERGIA;
-        ArrayList<Enemigo> arrayEnemigos = new ArrayList<>();
-        ArrayList<Integer[]> arrayPos = new ArrayList<>();
-        for (int i = 0; i < mapa.getAlto(); i++) {
-            for (int j = 0; j < mapa.getAncho(); j++) {
-                Celda celda = mapa.getCelda(i, j);
-                if (celda.getEnemigo() != null) {
-                    for (Enemigo enemigo : celda.getEnemigo()) {
-                        if (enemigo != null) {
-                            arrayEnemigos.add(enemigo);
-                            Integer[] pos = new Integer[2];
-                            pos[0] = i;
-                            pos[1] = j;
-                            arrayPos.add(pos);
-                        }
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < arrayEnemigos.size(); i++) {
-            arrayEnemigos.get(i).mover(mapa, arrayPos.get(i)[0], arrayPos.get(i)[1], personaje);
-        }
-    }
-
-    /**
-     * Devuelve true si el personaje tiene vida <= 0
-     *
-     * @return boolean
-     */
-    public boolean estaMuerto() {
-        boolean muerto = false;
-        if (getPuntosVida() <= 0)
-            muerto = true;
-        return muerto;
-    }
 
 
+    /*
     public void equiparArmadura(String nombreArmadura) {
         Armadura armaduraEncontrada = null;
         for (Armadura armadura : mochila.getArrayArmaduras()) {
@@ -961,21 +930,11 @@ public class Personaje_old {
             }
         }
     }
+    *7
 
     /**
      * Desequipa la armadura actual del personaje
      */
-    public void desequiparArmadura() {
-        if (getArmadura() != null) {
-            if(mochila.getObjetosMaximos() > mochila.getObjetosActuales() + getArmadura().getEspacio()
-                    && mochila.getPesoMaximo() > mochila.getPesoActual() + getArmadura().getPeso()) {
-                setMAXIMO_ENERGIA(getMAXIMO_ENERGIA() - getArmadura().getIncrEnergia());
-                setMAXIMO_VIDA(getMAXIMO_VIDA() - getArmadura().getIncrVida());
-                mochila.anadirArmadura(getArmadura());
-                armadura = null; //Para indicar que no hay nada
-            }
-        }
-    }
 
     /*public void desequiparBinocular() {
         if(getBinocular() != null) {

@@ -156,6 +156,11 @@ public class Mapa {
                     System.out.print(imprimir);
                     continue;
                 }
+                if(mapa.get(fila).get(columna).getEnemigo() != null) {
+                    imprimir += " E |";
+                    System.out.print(imprimir);
+                    continue;
+                }
                 if(!mapa.get(fila).get(columna).getArrayObjetos().isEmpty()) {
                     for (Objeto objeto : mapa.get(fila).get(columna).getArrayObjetos()) {
                         if (objeto instanceof Binocular) {
@@ -173,10 +178,7 @@ public class Mapa {
                     }
                     if(imprimir.length() == 1)
                         imprimir += " ";
-                    if(mapa.get(fila).get(columna).getEnemigo() != null)
-                        imprimir += "E";
-                    else
-                        imprimir += " ";
+                    imprimir += " ";
                 }
                 else{
                     imprimir = "   ";

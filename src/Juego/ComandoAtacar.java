@@ -7,15 +7,15 @@ import Personajes.Jugador;
 import Personajes.Personaje;
 
 public class ComandoAtacar implements Comando {
-    Mapa mapa;
-    Personaje personaje;
-    char dirX;
-    char dirY;
-    int numX;
-    int numY;
-    String nombre;
+    private Mapa mapa;
+    private Jugador personaje;
+    private char dirX;
+    private char dirY;
+    private int numX;
+    private int numY;
+    private String nombre;
 
-    public ComandoAtacar(Mapa mapa, Personaje personaje, int numX, int numY, char dirX, char dirY, String nombre) {
+    public ComandoAtacar(Mapa mapa, Jugador personaje, int numX, int numY, char dirX, char dirY, String nombre) {
         this.mapa = mapa;
         this.personaje = personaje;
         this.numX = numX;
@@ -109,7 +109,7 @@ public class ComandoAtacar implements Comando {
         celdaObtenida = mapa.getCelda(componenteI,componenteJ);
         if(nombre == null) //Se ataca a todos los enemigos
         {
-            ((Jugador)personaje).atacar(celdaObtenida);
+            (personaje).atacar(celdaObtenida);
         }
         else {
             for (Enemigo enemigo : celdaObtenida.getEnemigo()) {

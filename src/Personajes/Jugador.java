@@ -52,8 +52,6 @@ public class Jugador extends Personaje {
      */
     public void mirar(Mapa mapa, int posicionX, int posicionY, char direccionX, char direccionY, String objeto) throws SegmentationFaultException, FueraDeRangoException {
         Consola consola = new ConsolaNormal();
-        ArrayList<Binocular> arrayBin;
-        ArrayList<Botiquin> arrayBot;
         Celda celda;
         int[] array = new int[2];
         //Si esta fuera del rango de vision
@@ -83,12 +81,25 @@ public class Jugador extends Personaje {
 
         if(objeto == null) //Imprimir solo los nombres de lo que hay en la celda
         {
+            if(celda.getEnemigo() != null){
+                for(Enemigo enemigo : celda.getEnemigo()){
+                    consola.imprimir(enemigo.getNombre());
+                }
+            }
             for (Objeto obj : celda.getArrayObjetos()) {
                 consola.imprimir(obj.getNombre());
             }
         }
         else //Imprimir solo el objeto
         {
+            if(celda.getEnemigo() != null){
+                for(Enemigo enemigo : celda.getEnemigo()){
+                    if(enemigo.getNombre().equals(objeto)){
+                        enemigo.info();
+                        return;
+                    }
+                }
+            }
             for(Objeto obj : celda.getArrayObjetos()) {
                 if(obj.getNombre().equals(objeto)) { //Hemos obtenido el objeto
                     if(obj instanceof Arma)
@@ -137,6 +148,7 @@ public class Jugador extends Personaje {
                     ataqueEjecutado = 0;
                 }
                 enemigo.setVidaActual(enemigo.getVidaActual() - ataqueEjecutado);
+                consola.imprimir("El personaje " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getVidaActual());
                 if (enemigo.getVidaActual() <= 0) {
                     System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
                     enemigosAbatidos.add(enemigo);

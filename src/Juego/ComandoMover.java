@@ -6,8 +6,8 @@ import Excepciones.MoverException;
 import Personajes.Jugador;
 
 public class ComandoMover implements Comando {
-    Jugador personaje;
-    char direccion;
+    private Jugador personaje;
+    private char direccion;
 
     public ComandoMover(Mapa mapa, Jugador personaje, char direccion) throws ComandoException {
         if(mapa != null && personaje != null) {

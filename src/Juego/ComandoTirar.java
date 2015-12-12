@@ -9,9 +9,9 @@ import Personajes.Personaje;
  */
 public class ComandoTirar implements Comando{
 
-    Mapa mapa;
-    Personaje personaje;
-    String objeto;
+    private Mapa mapa;
+    private Personaje personaje;
+    private String objeto;
 
     public ComandoTirar(Mapa mapa, Personaje personaje, String objeto) {
         this.mapa = mapa;

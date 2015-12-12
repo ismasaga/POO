@@ -1,12 +1,7 @@
 package Personajes;
 
-import Excepciones.InsuficienteEnergiaException;
-import Excepciones.MoverException;
-import Excepciones.SegmentationFaultException;
-import Juego.Consola;
-import Juego.ConsolaNormal;
-import Juego.Mapa;
-import Juego.Mochila;
+import Excepciones.*;
+import Juego.*;
 import Objetos.*;
 
 import java.awt.Point;
@@ -115,6 +110,8 @@ public class Personaje {
     public void setVidaActual(int vidaActual) {
         if(vidaActual > 0 && vidaActual <= getVidaMaxima())
             this.vidaActual = vidaActual;
+        else if (vidaActual < 0)
+            this.vidaActual = 0;
         else
             this.vidaActual = getVidaMaxima();
     }
@@ -126,6 +123,8 @@ public class Personaje {
     public void setEnergiaActual(int energiaActual) {
         if(energiaActual > 0 && energiaActual <= getEnergiaMaxima())
             this.energiaActual = energiaActual;
+        else if (energiaActual < 0)
+            this.energiaActual = 0;
         else
             this.energiaActual = getEnergiaMaxima();
     }
@@ -335,7 +334,12 @@ public class Personaje {
      * @param objeto Objeto a coger.
      * @throws SegmentationFaultException
      */
-    public void coger(Objeto objeto) throws SegmentationFaultException {
+    public void coger(Objeto objeto) throws SegmentationFaultException, PesoMaximoException, EspacioMaximoException{
+        if(objeto.getPeso() + mochila.getPesoActual() > mochila.getPesoMaximo())
+            throw new PesoMaximoException("Peso maximo excedido");
+        if(objeto.getEspacio() + mochila.getObjetosActuales() > mochila.getObjetosMaximos())
+            throw new EspacioMaximoException("Espacio maximo excedido");
+
         if(objeto != null) {
             if (objeto instanceof Arma) {
                 if(mochila.anadirArma((Arma) objeto))
@@ -386,11 +390,11 @@ public class Personaje {
             ataqueEjecutado = 0;
         }
 
-        personaje.setVidaActual(personaje.getVidaActual() - ataqueEjecutado);
         if(this.getEnergiaActual() - 20 < 0)
             throw new InsuficienteEnergiaException("Insuficiente energia para atacar");
         else
             this.setEnergiaActual(this.getEnergiaActual() - 20);
+        personaje.setVidaActual(personaje.getVidaActual() - ataqueEjecutado);
         consola.imprimir("El personaje " + personaje.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + personaje.getVidaActual());
     }
 
@@ -411,14 +415,81 @@ public class Personaje {
     }
 
 
-    public void equipar(Arma arma) {}
+    //ACHTUNG: Es distinto del requerimiento
+    public void equipar(Arma arma, String mano) throws SegmentationFaultException {
+        Arma armaEscogida = null;
+        for (Arma arm : mochila.getArrayArmas()) {
+            if (arm.equals(arma)) {
+                armaEscogida = arm;
+            }
+        }
+        if(armaEscogida != null) {
+            if (armaEscogida.isDosManos()) {
+                if (getArmaDosM() != null) {
+                    desequipar(armaDosM);
+                } else {
+                    desequipar(armaIzq);
+                    desequipar(armaDer);
+                }
+                setArmaDosM(armaEscogida);
+            } else {
+                switch (mano) {
+                    case "derecha":
+                        desequipar(armaDer);
+                        desequipar(armaDosM);
+                        setArmaDer(armaEscogida);
+                        break;
+                    case "izquierda":
+                        desequipar(armaIzq);
+                        desequipar(armaDosM);
+                        setArmaIzq(armaEscogida);
+                        break;
+                    default:
+                        throw new SegmentationFaultException();
+                }
+            }
+            mochila.quitarArma(armaEscogida);
+        }
+    }
 
-    public void equipar(Armadura armadura) {}
+    public void equipar(Armadura armadura){
+        if (armadura != null) {
+            desequipar(new Armadura());
+            if(this.armadura == null) { //Desequipada correctamente
+                mochila.quitarArmadura(armadura);
+                setArmadura(armadura);
+            }
+        }
+    }
 
-    public void desequipar(Arma arma) {}
+    public void desequipar(Arma arma) {
+        if (arma != null) {
+            if (arma.equals(armaDosM)) {
+                mochila.anadirArma(armaDosM);
+                armaDosM = null; //El setter no funciona
+            } else if (arma.equals(armaDer)) {
+                mochila.anadirArma(getArmaDer());
+                armaDer = null;
+            } else if (arma.equals(armaIzq)){
+                mochila.anadirArma(getArmaIzq());
+                armaIzq = null;
+            }
+        }
+    }
 
-    public void desequipar(Armadura armadura) {}
-
+    //ACHTUNG: este metodo no es exacto a la especificacion
+    //Da igual lo que pases por parametro que pasa de el
+    public void desequipar(Armadura armadura) {
+        if (getArmadura() != null) {
+            if(mochila.getObjetosMaximos() > mochila.getObjetosActuales() + getArmadura().getEspacio()
+                    && mochila.getPesoMaximo() > mochila.getPesoActual() + getArmadura().getPeso()) {
+                setEnergiaMaxima(getEnergiaMaxima() - getArmadura().getIncrEnergia());
+                setVidaMaxima(getVidaMaxima() - getArmadura().getIncrVida());
+                mochila.anadirArmadura(getArmadura());
+                armadura = null; //Para indicar que no hay nada
+            }
+        }
+    }
     /**
      * Devuelve un entero con el ataque total del enemigo tenga las armas que tenga
      *
@@ -483,70 +554,6 @@ public class Personaje {
             System.out.println("ERROR asignando las armas al enemigo");
     }
 
-
-
-    /*
-    public void cogerBinocular(String nombreBinocular) {
-        Binocular binocularACoger = null;
-        if (mapa.getCelda(punto.x,punto.y).getBinoculares() == null)
-            return;
-        for (Binocular bin : mapa.getCelda(punto.x,punto.y).getBinoculares()) {
-            if (bin.getNombre().equals(nombreBinocular)) {
-                binocularACoger = bin;
-            }
-        }
-        if (binocularACoger != null) {
-            if(mochila.anadirBinocular(binocularACoger))
-                mapa.getCelda(punto.x,punto.y).eliminarBinocular(binocularACoger);
-        }
-    }
-
-    public void cogerBotiquin(String nombreBotiquin) {
-        Botiquin botiquinACoger = null;
-        if (mapa.getCelda(punto.x,punto.y).getBotiquin() == null)
-            return;
-        for (Botiquin bot : mapa.getCelda(punto.x,punto.y).getBotiquin()) {
-            if (bot.getNombre().equals(nombreBotiquin)) {
-                botiquinACoger = bot;
-            }
-        }
-        if (botiquinACoger != null) {
-            if(mochila.anadirBotiquin(botiquinACoger))
-                mapa.getCelda(punto.x,punto.y).eliminarBotiquin(botiquinACoger);
-        }
-    }
-
-    public void cogerArma(String nombreArma) {
-        Arma armaACoger = null; //Hay que hacerlo asi que da una excepcion
-        if (mapa.getCelda(punto.x,punto.y).getArma() == null)
-            return;
-        for (Arma arma : mapa.getCelda(punto.x,punto.y).getArma()) {
-            if (arma.getNombre().equals(nombreArma)) {
-                armaACoger = arma;
-            }
-        }
-        if (armaACoger != null) {
-            if(mochila.anadirArma(armaACoger))
-                mapa.getCelda(punto.x,punto.y).eliminarArma(armaACoger);
-        }
-    }
-
-    public void cogerArmadura(String nombreArmadura) {
-        Armadura armaduraACoger = null;
-        if (mapa.getCelda(punto.x,punto.y).getArmaduras() == null)
-            return;
-        for (Armadura armadura : mapa.getCelda(punto.x,punto.y).getArmaduras()) {
-            if (armadura.getNombre().equals(nombreArmadura)) {
-                armaduraACoger = armadura;
-            }
-        }
-        if (armaduraACoger != null) {
-            if(mochila.anadirArmadura(armaduraACoger))
-                mapa.getCelda(punto.x,punto.y).eliminarArmadura(armaduraACoger);
-        }
-    }
-    */
-
     public void info() {
         System.out.println("Personaje: " + getNombre());
         System.out.println("Energia maxima: " + getEnergiaMaxima());
@@ -602,6 +609,31 @@ public class Personaje {
                 armadura.info();
             else
                 System.out.println("No hay armaduras en la mochila.");
+        }
+    }
+
+    public void pasar(Mapa mapa, Personaje personaje) {
+        this.energiaActual = getEnergiaMaxima();
+        ArrayList<Enemigo> arrayEnemigos = new ArrayList<>();
+        ArrayList<Integer[]> arrayPos = new ArrayList<>();
+        for (int i = 0; i < mapa.getAlto(); i++) {
+            for (int j = 0; j < mapa.getAncho(); j++) {
+                Celda celda = mapa.getCelda(i, j);
+                if (celda.getEnemigo() != null) {
+                    for (Enemigo enemigo : celda.getEnemigo()) {
+                        if (enemigo != null) {
+                            arrayEnemigos.add(enemigo);
+                            Integer[] pos = new Integer[2];
+                            pos[0] = i;
+                            pos[1] = j;
+                            arrayPos.add(pos);
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < arrayEnemigos.size(); i++) {
+            arrayEnemigos.get(i).mover(mapa, arrayPos.get(i)[0], arrayPos.get(i)[1], personaje);
         }
     }
 }
