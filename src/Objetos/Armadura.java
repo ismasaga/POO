@@ -5,8 +5,6 @@ import Personajes.Personaje;
 
 public class Armadura extends Objeto{
     private int incrVida, incrEnergia, defensa;
-    private float peso;
-    private int espacio;
 
     public Armadura() {
         setNombre("desconocida");
@@ -39,31 +37,6 @@ public class Armadura extends Objeto{
         setIncrEnergia(incrEnergia);
         setPeso(peso);
         setEspacio(1);
-    }
-
-    /**
-     * Devolve o espacio que ocupa a armadura
-     */
-    public int getEspacio() {
-        return espacio;
-    }
-
-    /**
-     * Asigna o espacio que ocupa a armadura
-     */
-    public void setEspacio(int espacio) {
-        if (espacio < 0)
-            this.espacio = 0;
-        else
-            this.espacio = espacio;
-    }
-
-    public float getPeso() {
-        return peso;
-    }
-
-    public void setPeso(float peso) {
-        this.peso = peso;
     }
 
     public int getIncrVida() {

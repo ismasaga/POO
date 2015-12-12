@@ -6,8 +6,6 @@ import Personajes.Personaje;
 public class Arma extends Objeto{
     private boolean dosManos;
     private int dano;
-    private float peso; //Crashea ó ler o arquivo
-    private int espacio;
     private int alcance;
 
     public Arma() {
@@ -63,22 +61,6 @@ public class Arma extends Objeto{
             this.alcance = 0;
         else
             this.alcance = alcance;
-    }
-
-    public int getEspacio() {
-        return espacio;
-    }
-
-    public void setEspacio(int espacio) {
-        this.espacio = espacio;
-    }
-
-    public float getPeso() {
-        return peso;
-    }
-
-    public void setPeso(float peso) {
-        this.peso = peso > 0 ? peso : 1;
     }
 
     /**

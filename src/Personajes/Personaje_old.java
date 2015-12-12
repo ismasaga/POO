@@ -620,6 +620,7 @@ public class Personaje_old {
         }
     }
 
+    /*
     public void tirarBinocular(String nombreBinocular) {
         Binocular binocularATirar = null;
         if (celda.getBinoculares() == null)
@@ -632,25 +633,6 @@ public class Personaje_old {
         if (binocularATirar != null) {
             celda.setBinoculares(binocularATirar);
             mochila.quitarBinocular(binocularATirar);
-        }
-        /*Se elimina porque el binocular procede del array de binoculares*/
-    }
-
-    /**
-     * Mete binocular na mochila e eliminao da celda no caso de que exista
-     */
-    public void cogerBinocular(String nombreBinocular) {
-        Binocular binocularACoger = null;
-        if (celda.getBinoculares() == null)
-            return;
-        for (Binocular bin : celda.getBinoculares()) {
-            if (bin.getNombre().equals(nombreBinocular)) {
-                binocularACoger = bin;
-            }
-        }
-        if (binocularACoger != null) {
-            if(mochila.anadirBinocular(binocularACoger))
-                celda.eliminarBinocular(binocularACoger);
         }
     }
 
@@ -669,9 +651,6 @@ public class Personaje_old {
         }
     }
 
-    /**
-     * Mete botiquin na mochila e eliminao da celda no caso de que exista
-     */
     public void cogerBotiquin(String nombreBotiquin) {
         Botiquin botiquinACoger = null;
         if (celda.getBotiquin() == null)
@@ -687,9 +666,6 @@ public class Personaje_old {
         }
     }
 
-    /**
-     * Mete arma na mochila e eliminaa da celda no caso de que exista
-     */
     public void cogerArma(String nombreArma) {
         Arma armaACoger = null; //Hay que hacerlo asi que da una excepcion
         if (celda.getArma() == null)
@@ -718,9 +694,6 @@ public class Personaje_old {
         }
     }
 
-    /**
-     * Mete armadura na mochila e eliminaa da celda no caso de que exista
-     */
     public void cogerArmadura(String nombreArmadura) {
         Armadura armaduraACoger = null;
         if (celda.getArmaduras() == null)
@@ -749,6 +722,8 @@ public class Personaje_old {
         }
     }
 
+
+*/
     public void ojearInventario() {
         ArrayList<Binocular> arrayBin = mochila.getArrayBinoculares();
         ArrayList<Botiquin> arrayBot = mochila.getArrayBotiquin();
@@ -856,7 +831,7 @@ public class Personaje_old {
         }
     }
 
-    /*/**
+    /*
      * Mira la celda especificada por la posicion y la direccion. Si se especifica un objeto solo imprime informacion sobre ese objeto
      *
      * @param posicionX  Posicion a mirar. Si es 0 se mira la actual. (eje x)
@@ -865,8 +840,8 @@ public class Personaje_old {
      * @param direccionY Direccion a mirar. (uP,dOWN)
      * @param objeto     Objeto a mirar. Si es null se listan todos
      */
-    //TODO: probar objeto
-    /*public void mirar(Mapa mapa, int posicionX, int posicionY, char direccionX, char direccionY, String objeto) {
+    /*
+    public void mirar(Mapa mapa, int posicionX, int posicionY, char direccionX, char direccionY, String objeto) {
         ArrayList<Binocular> arrayBin;
         ArrayList<Botiquin> arrayBot;
         Celda celda;
@@ -960,8 +935,9 @@ public class Personaje_old {
                 }
             }
         }
-    }*/
+    }
 
+*/
     public void pasar(Mapa mapa, Personaje personaje) {
         this.energia = MAXIMO_ENERGIA;
         ArrayList<Enemigo> arrayEnemigos = new ArrayList<>();

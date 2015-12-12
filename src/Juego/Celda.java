@@ -1,9 +1,6 @@
 package Juego;
 
-import Objetos.Arma;
-import Objetos.Armadura;
-import Objetos.Binocular;
-import Objetos.Botiquin;
+import Objetos.*;
 import Personajes.Enemigo;
 import Personajes.Jugador;
 
@@ -20,25 +17,31 @@ import java.util.ArrayList;
  */
 
 public class Celda {
-    private ArrayList<Binocular> arrayBinoculares;
-    private ArrayList<Botiquin> arrayBotiquin;
+    private ArrayList<Objeto> arrayObjetos;
     private ArrayList<Enemigo> arrayEnemigos;
-    private ArrayList<Arma> arrayArma;
-    private ArrayList<Armadura> arrayArmadura;
     private Jugador jugador;
     private boolean transitable;
     private Point punto;
 
     public Celda(boolean transitable, Point punto) {
         this.transitable = transitable;
-        arrayBinoculares = new ArrayList<>();
-        arrayBotiquin = new ArrayList<>();
         arrayEnemigos = new ArrayList<>();
-        arrayArma = new ArrayList<>();
-        arrayArmadura = new ArrayList<>();
+        arrayObjetos = new ArrayList<>();
         setJugador(null);
         setPunto(punto);
     }
+
+    public ArrayList<Objeto> getArrayObjetos() {
+        return arrayObjetos;
+    }
+
+    /**
+     * Añade un objeto a la celda
+     */
+    public void anadirObjeto(Objeto objeto){
+        arrayObjetos.add(objeto);
+    }
+
 
     /**
      * Devolve o punto que contén as coordenadas da celda(pode ser nulo)
@@ -72,46 +75,6 @@ public class Celda {
         this.jugador = jugador;
     }
 
-    /**
-     * Anhade un binocular a la celda
-     */
-    public void setBinoculares(Binocular binocular) {
-        if (binocular != null)
-            arrayBinoculares.add(binocular);
-        else
-            System.out.println("ERROR asignando binocular a la celda");
-    }
-
-    /**
-     * Devolve os binoculares que ten a celda
-     */
-    public ArrayList<Binocular> getBinoculares() {
-        return arrayBinoculares;
-    }
-
-    public ArrayList<Botiquin> getBotiquin() {
-        return arrayBotiquin;
-    }
-
-    public void eliminarBinocular(Binocular binocular) {
-        arrayBinoculares.remove(binocular);
-    }
-
-    public void setBotiquin(Botiquin botiquin) {
-        arrayBotiquin.add(botiquin);
-    }
-
-    public void eliminarBotiquin(Botiquin botiquin) {
-        arrayBotiquin.remove(botiquin);
-    }
-
-    public void eliminarArma(Arma arma) {
-        arrayArma.remove(arma);
-    }
-
-    public void eliminarArmadura(Armadura armadura) {
-        arrayArmadura.remove(armadura);
-    }
 
     /**
      * Devolve todos os inimigos da celda.
@@ -130,33 +93,6 @@ public class Celda {
             System.out.println("ERROR insertando enemigo en la casilla");
     }
 
-    public void setArma(Arma arma) {
-        if (arma != null)
-            arrayArma.add(arma);
-        else
-            System.out.println("ERROR insertando arma en la casilla");
-    }
-
-    public ArrayList<Arma> getArma() {
-        if (arrayArma.isEmpty())
-            return null;
-        else
-            return arrayArma; //Necesitamos el aliasing
-    }
-
-    public void setArmadura(Armadura armadura) {
-        if (armadura != null)
-            arrayArmadura.add(armadura);
-        else
-            System.out.println("ERROR insertando armadura en la casilla");
-    }
-
-    public ArrayList<Armadura> getArmaduras() {
-        if (arrayArmadura.isEmpty())
-            return null;
-        else
-            return arrayArmadura; //Necesitamos el aliasing
-    }
 
     /**
      * Elimina el enemigo de la celda

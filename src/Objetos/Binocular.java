@@ -15,8 +15,6 @@ public class Binocular extends Objeto{
      * Aumento en el rango de vision del binocular. El rango de vision del personaje se calcularia como: rangoVision = vision + rangoPorDefecto
      */
     private final int vision;
-    private final int peso;
-    private final int espacio;
 
 
 
@@ -25,8 +23,8 @@ public class Binocular extends Objeto{
         setNombre(nombre);
         setDescripcion(descripcion);
         this.vision = vision > 0 ? vision : 1;
-        this.peso = peso > 0 ? peso : 2;
-        this.espacio = espacio > 0 ? espacio : 1;
+        setPeso(peso > 0 ? peso : 2);
+        setEspacio(espacio > 0 ? espacio : 1);
     }
 
     public Binocular(int vision) {
@@ -34,8 +32,8 @@ public class Binocular extends Objeto{
         setNombre("default");
         setDescripcion("null");
         this.vision = vision > 0 ? vision : 1;
-        this.peso = 2;
-        this.espacio = 1;
+        setPeso(2);
+        setEspacio(1);
     }
 
     /**
@@ -45,8 +43,8 @@ public class Binocular extends Objeto{
         setNombre(nombre);
         setDescripcion(descripcion);
         this.vision = vision > 0 ? vision : 1;
-        this.peso = peso > 0 ? peso : 2;
-        this.espacio = 1;
+        setPeso(peso > 0 ? peso : 2);
+        setEspacio(1);
     }
 
     /**
@@ -60,14 +58,6 @@ public class Binocular extends Objeto{
     //No se implementan setters, pues los valores del binocular no cambia durante su existencia.
     public int getVision() {
         return vision;
-    }
-
-    public int getPeso() {
-        return peso;
-    }
-
-    public int getEspacio() {
-        return espacio;
     }
 
     public void usar(Personaje personaje) {

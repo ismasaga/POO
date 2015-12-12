@@ -1,5 +1,9 @@
 package Juego;
 
+import Objetos.Binocular;
+import Objetos.Botiquin;
+import Objetos.Objeto;
+import Personajes.Enemigo;
 import Personajes.Personaje;
 
 import java.awt.*;
@@ -152,18 +156,31 @@ public class Mapa {
                     System.out.print(imprimir);
                     continue;
                 }
-                if (mapa.get(fila).get(columna).getBinoculares().size() > 0)
-                    imprimir = imprimir + "B";
-                else
-                    imprimir = imprimir + " ";
-                if (mapa.get(fila).get(columna).getBotiquin().size() > 0)
-                    imprimir = imprimir + "V";
-                else
-                    imprimir = imprimir + " ";
-                if (mapa.get(fila).get(columna).getEnemigo() != null)
-                    imprimir = imprimir + "E";
-                else
-                    imprimir = imprimir + " ";
+                if(!mapa.get(fila).get(columna).getArrayObjetos().isEmpty()) {
+                    for (Objeto objeto : mapa.get(fila).get(columna).getArrayObjetos()) {
+                        if (objeto instanceof Binocular) {
+                            imprimir = imprimir + "B";
+                            break;
+                        }
+                    }
+                    if (imprimir.equals(""))
+                        imprimir += " ";
+                    for (Objeto objeto : mapa.get(fila).get(columna).getArrayObjetos()) {
+                        if (objeto instanceof Botiquin) {
+                            imprimir = imprimir + "V";
+                            break;
+                        }
+                    }
+                    if(imprimir.length() == 1)
+                        imprimir += " ";
+                    if(mapa.get(fila).get(columna).getEnemigo() != null)
+                        imprimir += "E";
+                    else
+                        imprimir += " ";
+                }
+                else{
+                    imprimir = "   ";
+                }
 
                 System.out.print(imprimir);
                 System.out.print("|");

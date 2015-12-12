@@ -78,7 +78,7 @@ public class Enemigo extends Personaje{
     public void soltarObjetos(Celda celda) {
         for (Arma arma : this.getArmas()) {
             if (arma != null) {
-                celda.setArma(arma);
+                celda.anadirObjeto(arma);
                 System.out.println("Soltando:");
                 arma.info();
             }
@@ -87,14 +87,14 @@ public class Enemigo extends Personaje{
             setArmaDosM(null);
         }
         if (getArmadura() != null) {
-            celda.setArmadura(getArmadura());
+            celda.anadirObjeto(getArmadura());
             System.out.println("Soltando:");
             getArmadura().info();
             setArmadura(null);
         }
         for (Arma arma : getMochila().getArrayArmas()) {
             if (arma != null) {
-                celda.setArma(arma);
+                celda.anadirObjeto(arma);
                 System.out.println("Soltando:");
                 arma.info();
             }
@@ -102,7 +102,7 @@ public class Enemigo extends Personaje{
         //mochila.setArrayArmas(null); //Se marca para eliminacion
         for (Armadura armadura : getMochila().getArrayArmaduras()) {
             if (armadura != null) {
-                celda.setArmadura(armadura);
+                celda.anadirObjeto(armadura);
                 System.out.println("Soltando:");
                 armadura.info();
             }
@@ -110,7 +110,7 @@ public class Enemigo extends Personaje{
         getMochila().setArrayArmaduras(null);
         for (Binocular bin : getMochila().getArrayBinoculares()) {
             if (bin != null) {
-                celda.setBinoculares(bin);
+                celda.anadirObjeto(bin);
                 getMochila().getArrayBinoculares().remove(bin);
                 System.out.println("Soltando:");
                 bin.info();
@@ -118,7 +118,7 @@ public class Enemigo extends Personaje{
         }
         for (Botiquin bot : getMochila().getArrayBotiquin()) {
             if (bot != null) {
-                celda.setBotiquin(bot);
+                celda.anadirObjeto(bot);
                 getMochila().getArrayBotiquin().remove(bot);
                 System.out.println("Soltando:");
                 bot.info();

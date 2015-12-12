@@ -162,16 +162,16 @@ public class Parser {
                             case ".":
                                 switch (cadeas[2]) {
                                     case "binoculares":
-                                        mapa.getCelda(tamano[0], tamano[1]).setBinoculares(new Binocular(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
+                                        mapa.getCelda(tamano[0], tamano[1]).anadirObjeto(new Binocular(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
                                         break;
                                     case "arma":
-                                        mapa.getCelda(tamano[0], tamano[1]).setArma(new Arma(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Float.parseFloat(cadeas[8])));
+                                        mapa.getCelda(tamano[0], tamano[1]).anadirObjeto(new Arma(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Float.parseFloat(cadeas[8])));
                                         break;
                                     case "armadura":
-                                        mapa.getCelda(tamano[0], tamano[1]).setArmadura(new Armadura(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Integer.parseInt(cadeas[8])));
+                                        mapa.getCelda(tamano[0], tamano[1]).anadirObjeto(new Armadura(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Integer.parseInt(cadeas[8])));
                                         break;
                                     case "botiquin":
-                                        mapa.getCelda(tamano[0], tamano[1]).setBotiquin(new Botiquin(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Float.parseFloat(cadeas[6])));
+                                        mapa.getCelda(tamano[0], tamano[1]).anadirObjeto(new Botiquin(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Float.parseFloat(cadeas[6])));
                                         break;
                                     case "mochila":
                                         System.out.println("Non podes deixar unha mochila nunha casilla(Por ahora)");
@@ -273,11 +273,11 @@ public class Parser {
 
         System.out.println(mapa.getDescripcion());
 
-        mapa.getCelda(0,0).setBotiquin(new Botiquin("botiquin_grande", "botiquin mas grande que tu cabeza", 1, 2, 3));
+        mapa.getCelda(0,0).anadirObjeto(new Botiquin("botiquin_grande", "botiquin mas grande que tu cabeza", 1, 2, 3));
         //mapa.getCelda(5,0).setEnemigo(new Enemigo(100, 100, armaMala, null, armaduraEnergy, "desconocido"));
 
-        mapa.getCelda(1,1).setBinoculares(new Binocular("binoculares","mira a lo lejos",2, 3, 4));
-        mapa.getCelda(6,1).setBotiquin(new Botiquin("botiquin_grande","botiquin mas grande que tu cabeza", 1, 2, 3));
+        mapa.getCelda(1,1).anadirObjeto(new Binocular("binoculares","mira a lo lejos",2, 3, 4));
+        mapa.getCelda(6,1).anadirObjeto(new Botiquin("botiquin_grande","botiquin mas grande que tu cabeza", 1, 2, 3));
 
         //mapa.getCelda(1,2).setEnemigo(new Enemigo(100,100,armaBuena,null,armaduraEnergy,"Fulgensio"));
         mapa.getCelda(5,2).setTransitable(false);
@@ -285,15 +285,15 @@ public class Parser {
         mapa.getCelda(3,3).setTransitable(false);
         //mapa.getCelda(7,3).setEnemigo(new Enemigo(100,100,armas,armaduraVida));
 
-        mapa.getCelda(4,5).setBotiquin(new Botiquin("botiquin","asf",1, 2, 3));
+        mapa.getCelda(4,5).anadirObjeto(new Botiquin("botiquin","asf",1, 2, 3));
         mapa.getCelda(6,5).setTransitable(false);
 
         mapa.getCelda(1,6).setTransitable(false);
-        mapa.getCelda(7,6).setBinoculares(new Binocular("binocular","asf",2,3,4));
+        mapa.getCelda(7,6).anadirObjeto(new Binocular("binocular","asf",2,3,4));
 
         //mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,null,armaBuena,armaduraEnergy,"Enemyger"));
 
-        mapa.getCelda(1,8).setBinoculares(new Binocular("binocular","asdfx2",2,3,4));
+        mapa.getCelda(1,8).anadirObjeto(new Binocular("binocular","asdfx2",2,3,4));
 
         //mapa.getCelda(3,3).setEnemigo(new Enemigo(100,100,armas,armaduraEnergy));
 

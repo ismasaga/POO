@@ -1,10 +1,8 @@
 package Juego;
 
-import Excepciones.ComandoException;
-import Excepciones.InsuficienteEnergiaException;
-import Excepciones.MoverException;
+import Excepciones.*;
 
 public interface Comando {
 
-    void ejecutar() throws ComandoException,MoverException,InsuficienteEnergiaException;
+    void ejecutar() throws ComandoException,MoverException,InsuficienteEnergiaException, SegmentationFaultException, FueraDeRangoException;
 }

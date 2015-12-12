@@ -1,9 +1,6 @@
 package Juego;
 
-import Objetos.Arma;
-import Objetos.Armadura;
-import Objetos.Binocular;
-import Objetos.Botiquin;
+import Objetos.*;
 
 import java.util.ArrayList;
 
@@ -26,6 +23,7 @@ public class Mochila {
     private ArrayList<Botiquin> arrayBotiquin;
     private ArrayList<Arma> arrayArmas;
     private ArrayList<Armadura> arrayArmaduras;
+    private ArrayList<Torito> arrayTorito;
     private String nombre;
     private String descripcion;
     //Hay que obtener el peso actual de la mochila
@@ -46,6 +44,7 @@ public class Mochila {
         arrayBotiquin = new ArrayList<>();
         arrayArmas = new ArrayList<>();
         arrayArmaduras = new ArrayList<>();
+        arrayTorito = new ArrayList<>();
         this.pesoActual = 0;
         this.objetosActuales = 0;
     }
@@ -64,10 +63,14 @@ public class Mochila {
         arrayBinoculares = new ArrayList<>();
         arrayBotiquin = new ArrayList<>();
         arrayArmas = new ArrayList<>();
+        arrayTorito = new ArrayList<>();
         arrayArmaduras = new ArrayList<>();
         this.pesoActual = 0;
         this.objetosActuales = 0;
     }
+
+
+
 
     /**
      * Devuelve el nombre de la mochila
@@ -101,6 +104,10 @@ public class Mochila {
             this.descripcion = descripcion;
         else
             System.out.println("ERROR asignando descripcion a la mochila");
+    }
+
+    public ArrayList<Torito> getArrayTorito() {
+        return arrayTorito;
     }
 
     public ArrayList<Arma> getArrayArmas() {
@@ -152,6 +159,24 @@ public class Mochila {
         return arrayBotiquin;
     }
 
+
+    public boolean anadirTorito(Torito torito) {
+        if (torito != null) {
+            if (getPesoActual() + torito.getPeso() > this.getPesoMaximo()) {
+                System.err.println("Se ha sobrepasado el peso maximo");
+                return false;
+            }
+            if (getObjetosActuales() + 1 > this.getObjetosMaximos()) {
+                System.err.println("Se ha sobrepasado el numero de objetos maximo");
+                return false;
+            }
+            arrayTorito.add(torito);
+            pesoActual = pesoActual + torito.getPeso();
+            objetosActuales = objetosActuales + torito.getEspacio();
+            return true;
+        }
+        return false;
+    }
     /**
      * Añade un arma a la mochila
      * Devolve true se foi engadida e false en caso contrario
@@ -295,6 +320,14 @@ public class Mochila {
             setPesoActual(getPesoActual() - armadura.getPeso());
             setObjetosActuales(getObjetosActuales() - armadura.getEspacio());
             arrayArmaduras.remove(armadura);
+        }
+    }
+
+    public void quitarTorito(Torito torito) {
+        if(torito != null) {
+            setPesoActual(getPesoActual() - torito.getPeso());
+            setObjetosActuales(getObjetosActuales() - torito.getEspacio());
+            arrayArmaduras.remove(torito);
         }
     }
 
