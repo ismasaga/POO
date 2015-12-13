@@ -15,6 +15,7 @@ public class Binocular extends Objeto{
      * Aumento en el rango de vision del binocular. El rango de vision del personaje se calcularia como: rangoVision = vision + rangoPorDefecto
      */
     private final int vision;
+    private boolean usado = false; //Indica si fue usado en el turno actual
 
 
 
@@ -47,14 +48,15 @@ public class Binocular extends Objeto{
         setEspacio(1);
     }
 
-    /**
-     * Asigna nombre al binocular
-     */
 
+    public boolean isUsado() {
+        return usado;
+    }
 
-    /**
-     * Asigna descripcion al binocular
-     */
+    public void setUsado(boolean usado) {
+        this.usado = usado;
+    }
+
     //No se implementan setters, pues los valores del binocular no cambia durante su existencia.
     public int getVision() {
         return vision;

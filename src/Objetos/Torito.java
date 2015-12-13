@@ -2,6 +2,7 @@ package Objetos;
 
 import Juego.Consola;
 import Juego.ConsolaNormal;
+import Personajes.Jugador;
 import Personajes.Personaje;
 
 public class Torito extends Objeto{
@@ -26,7 +27,11 @@ public class Torito extends Objeto{
     }
 
     public void usar(Personaje personaje){
-        personaje.setEnergiaActual(personaje.getEnergiaActual() + incrementoEnergia);
+        if(personaje instanceof Jugador) {
+            personaje.setEnergiaActual(personaje.getEnergiaActual() + incrementoEnergia);
+            ((Jugador) personaje).setTieneToritina(true);
+        }
+
     }
 
     public int getIncrementoEnergia() { return incrementoEnergia; }

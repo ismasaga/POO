@@ -34,7 +34,7 @@ public class Personaje {
         setVidaMaxima(vidaMaxAct);
         setVidaActual(vidaMaxAct);
         setEnergiaActual(energiaMaxAct);
-        setRangoVision(2);              //Por defecto
+        setRangoVision(3);              //Por defecto
         setArmaIzq(null);               //Por defecto
         setArmaDer(null);               //Por defecto
         setArmaDosM(null);              //Por defecto
@@ -110,7 +110,7 @@ public class Personaje {
     public void setVidaActual(int vidaActual) {
         if(vidaActual > 0 && vidaActual <= getVidaMaxima())
             this.vidaActual = vidaActual;
-        else if (vidaActual < 0)
+        else if (vidaActual <= 0)
             this.vidaActual = 0;
         else
             this.vidaActual = getVidaMaxima();
@@ -582,10 +582,10 @@ public class Personaje {
     }
 
     public void ojearInventario() {
-        ArrayList<Binocular> arrayBin = mochila.getArrayBinoculares();
-        ArrayList<Botiquin> arrayBot = mochila.getArrayBotiquin();
-        System.out.println("Capacidad restante: " + (mochila.getObjetosMaximos() - mochila.getObjetosActuales()) + " objetos");
-        System.out.println("Peso actual: " + mochila.getPesoActual() + " kilogramos (Max : "+getMochila().getPesoMaximo()+")");
+        ArrayList<Binocular> arrayBin = getMochila().getArrayBinoculares();
+        ArrayList<Botiquin> arrayBot = getMochila().getArrayBotiquin();
+        System.out.println("Capacidad restante: " + (getMochila().getObjetosMaximos() - getMochila().getObjetosActuales()) + " objetos");
+        System.out.println("Peso actual: " + getMochila().getPesoActual() + " kilogramos (Max : "+getMochila().getPesoMaximo()+")");
         for (Binocular bin : arrayBin) {
             if (bin != null)
                 bin.info();
@@ -598,13 +598,13 @@ public class Personaje {
             else
                 System.out.println("No hay botiquines en la mochila.");
         }
-        for (Arma arma : mochila.getArrayArmas()) {
+        for (Arma arma : getMochila().getArrayArmas()) {
             if (arma != null)
                 arma.info();
             else
                 System.out.println("No hay armas en la mochila.");
         }
-        for (Armadura armadura : mochila.getArrayArmaduras()) {
+        for (Armadura armadura : getMochila().getArrayArmaduras()) {
             if (armadura != null)
                 armadura.info();
             else
@@ -612,28 +612,4 @@ public class Personaje {
         }
     }
 
-    public void pasar(Mapa mapa, Personaje personaje) {
-        this.energiaActual = getEnergiaMaxima();
-        ArrayList<Enemigo> arrayEnemigos = new ArrayList<>();
-        ArrayList<Integer[]> arrayPos = new ArrayList<>();
-        for (int i = 0; i < mapa.getAlto(); i++) {
-            for (int j = 0; j < mapa.getAncho(); j++) {
-                Celda celda = mapa.getCelda(i, j);
-                if (celda.getEnemigo() != null) {
-                    for (Enemigo enemigo : celda.getEnemigo()) {
-                        if (enemigo != null) {
-                            arrayEnemigos.add(enemigo);
-                            Integer[] pos = new Integer[2];
-                            pos[0] = i;
-                            pos[1] = j;
-                            arrayPos.add(pos);
-                        }
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < arrayEnemigos.size(); i++) {
-            arrayEnemigos.get(i).mover(mapa, arrayPos.get(i)[0], arrayPos.get(i)[1], personaje);
-        }
-    }
 }

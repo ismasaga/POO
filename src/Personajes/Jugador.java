@@ -14,8 +14,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Jugador extends Personaje {
+public abstract  class Jugador extends Personaje {
     private Binocular binocular;
+    private boolean tieneToritina;
 
     /**
      * Constructor para archivo parseado
@@ -25,6 +26,13 @@ public class Jugador extends Personaje {
         setBinocular(null); //Por defecto
     }
 
+    public boolean isTieneToritina() {
+        return tieneToritina;
+    }
+
+    public void setTieneToritina(boolean tieneToritina) {
+        this.tieneToritina = tieneToritina;
+    }
 
     /**
      * Devolve null cando non ten equipado ningun binocular
@@ -118,49 +126,47 @@ public class Jugador extends Personaje {
         }
     }
 
+
+    public void usar(Binocular binocular){
+        binocular.usar(this);
+        binocular.setUsado(true);
+    }
+
     /**
      * Ataca a todos los enemigos de la celda especificada
      * Este método si comprueba que se sueltan las pertenencias de los enemigos que se matan
      * @param celda
      */
-    public void atacar(Celda celda) throws InsuficienteEnergiaException
-    {
-        Consola consola = new ConsolaNormal();
-        int coeficienteAtaque; //Previene que se sume vida al atacar
-        Random random = new Random();
+    public abstract void atacar(Celda celda) throws InsuficienteEnergiaException;
 
-        float prob = random.nextFloat();
-        int ataqueEjecutado;
 
-            ArrayList<Enemigo> enemigosAbatidos = new ArrayList<>();
-            for (Enemigo enemigo : celda.getEnemigo()) {
-                //Ahora hay que dividir el daño del personaje entre todos los enemigos
-                if (prob > 0.25) //No es crítico
-                {
-                    ataqueEjecutado = (getAtaque() / celda.getEnemigo().size()) * 20 / enemigo.getArmadura().getDefensa();
-                } else //Golpe critico
-                {
-                    ataqueEjecutado = (2 * (getAtaque() / celda.getEnemigo().size())) * 20 / enemigo.getArmadura().getDefensa();
-                    System.out.println("CR1T 1N Y0U8 F4C3");
-                }
-                if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
-                {
-                    ataqueEjecutado = 0;
-                }
-                enemigo.setVidaActual(enemigo.getVidaActual() - ataqueEjecutado);
-                consola.imprimir("El personaje " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getVidaActual());
-                if (enemigo.getVidaActual() <= 0) {
-                    System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
-                    enemigosAbatidos.add(enemigo);
-                }
+    public void pasar(Mapa mapa, Personaje personaje) {
+        if(!tieneToritina)
+            setEnergiaActual(getEnergiaMaxima());
+        else {
+            setEnergiaActual((int) (0.9 * getEnergiaMaxima()));
+            tieneToritina = false;
         }
-        if(this.getEnergiaActual() - 20 < 0)
-            throw new InsuficienteEnergiaException("Insuficiente energia para atacar");
-        else
-            this.setEnergiaActual(this.getEnergiaActual() - 20);
-        for (Enemigo enemigo : enemigosAbatidos) {
-            enemigo.soltarObjetos(celda);
-            celda.eliminarEnemigo(enemigo);
+        ArrayList<Enemigo> arrayEnemigos = new ArrayList<>();
+        ArrayList<Integer[]> arrayPos = new ArrayList<>();
+        for (int i = 0; i < mapa.getAlto(); i++) {
+            for (int j = 0; j < mapa.getAncho(); j++) {
+                Celda celda = mapa.getCelda(i, j);
+                if (celda.getEnemigo() != null) {
+                    for (Enemigo enemigo : celda.getEnemigo()) {
+                        if (enemigo != null) {
+                            arrayEnemigos.add(enemigo);
+                            Integer[] pos = new Integer[2];
+                            pos[0] = i;
+                            pos[1] = j;
+                            arrayPos.add(pos);
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < arrayEnemigos.size(); i++) {
+            arrayEnemigos.get(i).mover(mapa, arrayPos.get(i)[0], arrayPos.get(i)[1], personaje);
         }
     }
 }
