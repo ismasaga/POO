@@ -1,9 +1,6 @@
 package Personajes;
 
-import Excepciones.ArmaDosManosException;
-import Excepciones.FueraDeRangoException;
-import Excepciones.InsuficienteEnergiaException;
-import Excepciones.SegmentationFaultException;
+import Excepciones.*;
 import Juego.Celda;
 import Juego.Consola;
 import Juego.ConsolaNormal;
@@ -126,16 +123,44 @@ public abstract  class Jugador extends Personaje {
         }
     }
 
+    /**
+     * Usa o binocular equipandoo na persoaxe, no caso de que a persoaxe xa teña un binocular,
+     * so se equipará o novo se supera en rango de visión ó actual
+     */
+    public boolean usar(Binocular binocular) {
+        boolean usado = false;
+        if(getBinocular() != null) {
+            if(getBinocular().getVision() < binocular.getVision()) {
+                getMochila().anadirBinocular(getBinocular());
+                binocular.usar(this);
+                binocular.setUsado(true);
+                setBinocular(binocular);
+                getMochila().quitarBinocular(binocular);
+                usado = true;
+            }
+        } else {
+            binocular.usar(this);
+            binocular.setUsado(true);
+            setBinocular(binocular);
+            getMochila().quitarBinocular(binocular);
+            usado = true;
+        }
+        return usado;
+    }
 
-    public void usar(Binocular binocular){
-        binocular.usar(this);
-        binocular.setUsado(true);
+    public void usar(Botiquin botiquin) {
+        botiquin.usar(this);
+        getMochila().quitarBotiquin(botiquin);
+    }
+
+    public void usar(Torito torito) {
+        torito.usar(this);
+        getMochila().quitarTorito(torito);
     }
 
     /**
      * Ataca a todos los enemigos de la celda especificada
      * Este método si comprueba que se sueltan las pertenencias de los enemigos que se matan
-     * @param celda
      */
     public abstract void atacar(Celda celda) throws InsuficienteEnergiaException;
 

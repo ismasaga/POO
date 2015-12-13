@@ -216,12 +216,17 @@ public class Main {
                             }
                         }
                         break;
-                    /*
                     case "usar":
                         if (cadeas.length == 2)
-                            personaje.usarBotiquin(cadeas[1]);
+                            try {
+                                new ComandoUsar(personaje,cadeas[1]).ejecutar();
+                            } catch (ComandoException | ObjetoInexistenteMochilaException | ObjetoException e) {
+                                consola.imprimirError("Error usando objeto : "+e.getMessage());
+                            }
+                        else
+                            consola.imprimirError("Comando mal introducido, consulte la ayuda para saber mas.");
                         break;
-                    case "cargar":
+                    /*case "cargar":
                         if (cadeas.length == 2) {
                             bundle = parser.Parse(cadeas[1] + "/mapa.csv", cadeas[1] + "/npcs.csv", cadeas[1] + "/objetos.csv");
                             personaje = bundle.getPersonaje();

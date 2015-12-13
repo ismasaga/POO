@@ -8,6 +8,7 @@ public class AsignacionException extends Exception{
     public AsignacionException(){};
 
     public AsignacionException(String objeto){
+        super(objeto);
         this.objeto = new String(objeto);
     }
 

@@ -69,9 +69,19 @@ public class Mochila {
         this.objetosActuales = 0;
     }
 
-
-
-
+    /**
+     * Devolve os botiquins, binoculares e toritos todos xuntos
+     */
+    public ArrayList<Objeto> getObjetos() {
+        ArrayList<Objeto> objetos = new ArrayList<>();
+        for(Binocular b : getArrayBinoculares())
+            objetos.add(b);
+        for(Botiquin b : getArrayBotiquin())
+            objetos.add(b);
+        for(Torito t : getArrayTorito())
+            objetos.add(t);
+        return objetos;
+    }
     /**
      * Devuelve el nombre de la mochila
      */

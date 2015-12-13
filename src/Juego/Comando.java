@@ -11,5 +11,6 @@ public interface Comando {
             SegmentationFaultException,
             FueraDeRangoException,
             EspacioMaximoException,
-            PesoMaximoException;
+            PesoMaximoException,
+            ObjetoException;
 }

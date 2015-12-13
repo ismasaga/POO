@@ -293,7 +293,7 @@ public class Personaje {
             }
             else {
                 this.setEnergiaActual((int)(this.getEnergiaActual() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5))));
-                throw new MoverException("La celda de arriba es intransitable.");
+                throw new MoverException("La celda de abajo es intransitable.");
             }
         else if (direccion == 'l' && j - 1 >= 0)
             if (mapa.getCelda(i, j - 1).isTransitable()) {
@@ -307,7 +307,7 @@ public class Personaje {
             }
             else {
                 this.setEnergiaActual((int)(this.getEnergiaActual() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5))));
-                throw new MoverException("La celda de arriba es intransitable.");
+                throw new MoverException("La celda izquierda es intransitable.");
             }
         else if (direccion == 'r' && j + 1 < mapa.getAncho())
             if (mapa.getCelda(i, j + 1).isTransitable()) {
@@ -321,7 +321,7 @@ public class Personaje {
             }
             else {
                 this.setEnergiaActual((int)(this.getEnergiaActual() - ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5))));
-                throw new MoverException("La celda de arriba es intransitable.");
+                throw new MoverException("La celda derecha es intransitable.");
             }
         else {
             this.setEnergiaActual((int)(this.getEnergiaActual() + ((ENERGIA_REQUERIDA + getMochila().getPesoActual() / 5))));
@@ -612,5 +612,4 @@ public class Personaje {
                 System.out.println("No hay armaduras en la mochila.");
         }
     }
-
 }

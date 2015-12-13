@@ -20,7 +20,7 @@ public class ComandoRepetido extends ComandoCompuesto{
     @Override
     public void ejecutar() throws ComandoException, MoverException, InsuficienteEnergiaException, SegmentationFaultException, FueraDeRangoException, EspacioMaximoException, PesoMaximoException {
         for (int i = 0; i < veces; i++) {
-            comando.ejecutar();
+            //comando.ejecutar();
         }
     }
 }

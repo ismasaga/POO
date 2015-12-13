@@ -140,7 +140,8 @@ public class Parser {
         //Asegurome de que o persoaxe sempre é creado
         if (personaje == null) {
             //consola.imprimir("El personaje ha sido creado por defecto");
-            consola.imprimir("Error, el personaje no ha sido creado");
+            consola.imprimir("Error, el personaje no ha sido creado, error fatal, juego abortado");
+            System.exit(0);
             //armaMasBuena = new Arma("bazoka", "lanzamisiles 2.0", true, 80, 1, 1);
             //ArrayList<Arma> armas2 = new ArrayList<>();
             //armas2.add(armaMasBuena);
