@@ -108,104 +108,14 @@ public class Main {
                     case "mirar":
                         //Obtiene informacion de la propia casilla
                         try {
-                            if (cadeas.length == 1) {
-                                new ComandoMirar(mapa,personaje, 0, 0, ' ', ' ', null).ejecutar();
-                            }
-                            //Mira
-                            if (cadeas.length == 2 && cadeas[1].length() != 2) {
-                                new ComandoMirar(mapa, personaje, 0, 0, ' ', ' ', cadeas[1]).ejecutar();
-                            }
-                            //Obtiene informacion de una casilla lejana
-                            if (cadeas.length == 3 && cadeas[1].length() == 2 && cadeas[2].length() == 2) {
-                                new ComandoMirar(mapa,
-                                        personaje,
-                                        Character.getNumericValue(cadeas[1].charAt(0)),
-                                        Character.getNumericValue(cadeas[2].charAt(0)),
-                                        cadeas[1].charAt(1),
-                                        cadeas[2].charAt(1),
-                                        null).ejecutar();
-                            }
-                            //Mira solo en una direccion una casilla lejana
-                            if (cadeas.length == 2 && cadeas[1].length() == 2) {
-                                if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
-                                    new ComandoMirar(mapa,
-                                            personaje,
-                                            Character.getNumericValue(cadeas[1].charAt(0)),
-                                            0,
-                                            cadeas[1].charAt(1),
-                                            ' ',
-                                            null).ejecutar();
-                                }
-                                if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
-                                    new ComandoMirar(mapa,
-                                            personaje,
-                                            0,
-                                            Character.getNumericValue(cadeas[1].charAt(0)),
-                                            ' ',
-                                            cadeas[1].charAt(1),
-                                            null).ejecutar();
-                                }
-                            }
-                            //Se mira un objeto en una direccion
-                            if (cadeas.length == 3 && cadeas[2].length() != 2) {
-                                if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
-                                    new ComandoMirar(mapa,
-                                            personaje,
-                                            Character.getNumericValue(cadeas[1].charAt(0)),
-                                            0,
-                                            cadeas[1].charAt(1),
-                                            ' ',
-                                            cadeas[2]).ejecutar();
-                                }
-                                if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
-                                    new ComandoMirar(mapa,
-                                            personaje,
-                                            0,
-                                            Character.getNumericValue(cadeas[1].charAt(0)),
-                                            ' ',
-                                            cadeas[1].charAt(1),
-                                            cadeas[2]);
-                                }
-                            }
-                        //Se mira un objeto en varias direcciones
-                        if (cadeas.length == 4 && cadeas[1].length() == 2 && cadeas[2].length() == 2) {
-                            new ComandoMirar(mapa,
-                                    personaje,
-                                    Character.getNumericValue(cadeas[1].charAt(0)),
-                                    Character.getNumericValue(cadeas[2].charAt(0)),
-                                    cadeas[1].charAt(1),
-                                    cadeas[2].charAt(1),
-                                    cadeas[3]).ejecutar();
-                        }
-                        }catch(SegmentationFaultException | FueraDeRangoException ex) {
+                            new ComandoMirar(mapa, personaje, sel).ejecutar();
+                        }catch(SegmentationFaultException | FueraDeRangoException | ComandoException ex) {
                             consola.imprimir(ex.getMessage());
                         }
                         break;
                     case "atacar":
                         try {
-                            if (cadeas.length == 2 && cadeas[1].length() == 2)
-                                if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
-                                    new ComandoAtacar(mapa, personaje, Character.getNumericValue(cadeas[1].charAt(0)), 0, cadeas[1].charAt(1), 'q', null).ejecutar();
-                                } else if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
-                                    new ComandoAtacar(mapa, personaje, 0, Character.getNumericValue(cadeas[1].charAt(0)), 'q', cadeas[1].charAt(1), null).ejecutar();
-                                } else
-                                    System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
-                            else if (cadeas.length == 3 && cadeas[2].length() != 2 && cadeas[1].length() == 2) //Ataca de frente o a los lados.
-                                if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
-                                    new ComandoAtacar(mapa, personaje, Character.getNumericValue(cadeas[1].charAt(0)), 0, cadeas[1].charAt(1), 'q', cadeas[2]).ejecutar();
-                                } else if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
-                                    new ComandoAtacar(mapa, personaje, 0, Character.getNumericValue(cadeas[1].charAt(0)), 'q', cadeas[1].charAt(1), cadeas[2]).ejecutar();
-                                } else
-                                    System.out.println("La opción seleccionada no existe, seleccione ayuda para saber más");
-                            else if (cadeas.length == 3 && cadeas[1].length() == 2 && cadeas[1].length() == 2) //Quiere atacar en diagonal
-                            {
-                                new ComandoAtacar(mapa, personaje, Character.getNumericValue(cadeas[1].charAt(0)), Character.getNumericValue(cadeas[2].charAt(0))
-                                        , cadeas[1].charAt(1), cadeas[2].charAt(1), null).ejecutar();
-                            } else if (cadeas.length == 4 && cadeas[1].length() == 2 && cadeas[1].length() == 2) //Quiere atacar en diagonal a un enemigo
-                            {
-                                new ComandoAtacar(mapa, personaje, Character.getNumericValue(cadeas[1].charAt(0)), Character.getNumericValue(cadeas[2].charAt(0))
-                                        , cadeas[1].charAt(1), cadeas[2].charAt(1), cadeas[3]).ejecutar();
-                            }
+                            new ComandoAtacar(mapa, personaje, sel).ejecutar();
                         }catch (ComandoException | InsuficienteEnergiaException e) {
                             consola.imprimir(e.getMessage());
                         }

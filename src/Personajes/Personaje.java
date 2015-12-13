@@ -435,6 +435,7 @@ public class Personaje {
             } else {
                 switch (mano) {
                     case "derecha":
+                    case "":
                         desequipar(armaDer);
                         desequipar(armaDosM);
                         setArmaDer(armaEscogida);

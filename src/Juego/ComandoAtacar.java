@@ -14,15 +14,68 @@ public class ComandoAtacar implements Comando {
     private int numX;
     private int numY;
     private String nombre;
+    private String[] cadeas;
 
-    public ComandoAtacar(Mapa mapa, Jugador personaje, int numX, int numY, char dirX, char dirY, String nombre) {
+    public ComandoAtacar(Mapa mapa, Jugador personaje, String sel) throws ComandoException{
         this.mapa = mapa;
         this.personaje = personaje;
-        this.numX = numX;
-        this.numY = numY;
-        this.dirX = dirX;
-        this.dirY = dirY;
-        this.nombre = nombre;
+        cadeas = sel.split(" ");
+        if (cadeas.length == 2 && cadeas[1].length() == 2)
+            if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
+                //new ComandoAtacar(mapa, personaje, Character.getNumericValue(cadeas[1].charAt(0)), 0, cadeas[1].charAt(1), 'q', null).ejecutar();
+                numX = Character.getNumericValue(cadeas[1].charAt(0));
+                numY = 0;
+                dirX = cadeas[1].charAt(1);
+                dirY = 'q';
+                nombre = null;
+            } else if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
+                //new ComandoAtacar(mapa, personaje, 0, Character.getNumericValue(cadeas[1].charAt(0)), 'q', cadeas[1].charAt(1), null).ejecutar();
+                numX = 0;
+                numY = Character.getNumericValue(cadeas[1].charAt(0));
+                dirX = 'q';
+                dirY = cadeas[1].charAt(1);
+                nombre = null;
+            } else
+                throw new ComandoException("La opción seleccionada no existe, seleccione ayuda para saber más");
+        else if (cadeas.length == 3 && cadeas[2].length() != 2 && cadeas[1].length() == 2) //Ataca de frente o a los lados.
+            if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
+                //new ComandoAtacar(mapa, personaje, Character.getNumericValue(cadeas[1].charAt(0)), 0, cadeas[1].charAt(1), 'q', cadeas[2]).ejecutar();
+                numX = Character.getNumericValue(cadeas[1].charAt(0));
+                numY = 0;
+                dirX = cadeas[1].charAt(1);
+                dirY = 'q';
+                nombre = cadeas[2];
+            } else if (cadeas[1].charAt(1) == 'u' || cadeas[1].charAt(1) == 'd') {
+                //new ComandoAtacar(mapa, personaje, 0, Character.getNumericValue(cadeas[1].charAt(0)), 'q', cadeas[1].charAt(1), cadeas[2]).ejecutar();
+                numX = 0;
+                numY = Character.getNumericValue(cadeas[1].charAt(0));
+                dirX = 'q';
+                dirY = cadeas[1].charAt(1);
+                nombre = cadeas[2];
+            } else
+                throw new ComandoException("La opción seleccionada no existe, seleccione ayuda para saber más");
+        else if (cadeas.length == 3 && cadeas[1].length() == 2 && cadeas[1].length() == 2) //Quiere atacar en diagonal
+        {
+            //new ComandoAtacar(mapa, personaje, Character.getNumericValue(cadeas[1].charAt(0)), Character.getNumericValue(cadeas[2].charAt(0))
+                    //, cadeas[1].charAt(1), cadeas[2].charAt(1), null).ejecutar();
+            numX = Character.getNumericValue(cadeas[1].charAt(0));
+            numY = Character.getNumericValue(cadeas[2].charAt(0));
+            dirX = cadeas[1].charAt(1);
+            dirY = cadeas[2].charAt(1);
+            nombre = null;
+        } else if (cadeas.length == 4 && cadeas[1].length() == 2 && cadeas[1].length() == 2) //Quiere atacar en diagonal a un enemigo
+        {
+            //new ComandoAtacar(mapa, personaje, Character.getNumericValue(cadeas[1].charAt(0)), Character.getNumericValue(cadeas[2].charAt(0))
+            //        , cadeas[1].charAt(1), cadeas[2].charAt(1), cadeas[3]).ejecutar();
+            numX = Character.getNumericValue(cadeas[1].charAt(0));
+            numY = Character.getNumericValue(cadeas[2].charAt(0));
+            dirX = cadeas[1].charAt(1);
+            dirY = cadeas[2].charAt(1);
+            nombre = cadeas[3];
+        }
+        else{
+            throw new ComandoException("Comando no reconocido");
+        }
     }
 
     @Override
