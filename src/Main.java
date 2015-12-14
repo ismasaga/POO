@@ -1,8 +1,7 @@
 import Excepciones.*;
 import Juego.*;
-import Personajes.Enemigo;
 import Personajes.Jugador;
-import Personajes.Personaje;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -207,8 +206,17 @@ public class Main {
                             } catch (SegmentationFaultException | ComandoException e ){
                                 consola.imprimir(e.getMessage());
                             }
-                        } else
-                            consola.imprimir("Formato del comando incorrecto, use ayuda para saber mas");
+                        } else {
+                            ComandoCompuesto c = new ComandoCompuesto();
+                            for (int i = 1; i < cadeas.length; i++) {
+                                c.addComando(new ComandoTirar(mapa, personaje, cadeas[i].trim()));
+                            }
+                            try {
+                                c.ejecutar();
+                            } catch (FueraDeRangoException | SegmentationFaultException | InsuficienteEnergiaException | MoverException | EnemigoInexistenteException | ComandoException | PesoMaximoException | EspacioMaximoException e) {
+                                consola.imprimir(e.getMessage());
+                            }
+                        }
                         break;
                     case "desequipar":
                         if (cadeas.length == 2) {
@@ -244,19 +252,14 @@ public class Main {
                     case "equipar":
                         if (cadeas.length == 2) {
                             try {
-                                new ComandoEquiparArma(personaje, mapa, cadeas[1] , "").ejecutar(); //Por defecto la equipa como dos manos
+                                new ComandoEquipar(personaje, mapa, cadeas[1] , "").ejecutar(); //Por defecto la equipa como dos manos
                             }catch (ComandoException | ManosArmaException e){
-                                consola.imprimir(e.getMessage());
-                            }
-                            try {
-                                new ComandoEquiparArmadura(mapa, personaje, cadeas[1]).ejecutar();
-                            } catch (ComandoException e){
                                 consola.imprimir(e.getMessage());
                             }
                             //personaje.equiparBinocular(cadeas[1]);
                         } else if (cadeas.length == 3) {
                             try {
-                                new ComandoEquiparArma(personaje, mapa, cadeas[1], cadeas[2]).ejecutar();
+                                new ComandoEquipar(personaje, mapa, cadeas[1], cadeas[2]).ejecutar();
                             } catch (ComandoException | ManosArmaException e){
                                 consola.imprimir(e.getMessage());
                             }
