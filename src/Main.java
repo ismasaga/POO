@@ -8,7 +8,7 @@ public class Main {
         String sel;
         String[] cadeas;
         Mapa mapa;
-        Jugador personaje = null;
+        Jugador personaje;
         ConsolaNormal consola = new ConsolaNormal();
         Juego juego;
         String input = consola.leer("Juego por defecto o de ficheros (defecto/ficheros)");
@@ -301,6 +301,14 @@ public class Main {
                 }
             } else
                 consola.imprimirError("Debes introducir algún comando");
+            /**
+             * Paramos ejecucion 0.5s para evitar que imprima erros ou excepcions mentres imprime o mapa
+             */
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
         } while (!sel.equals("terminar"));
     }
 }
