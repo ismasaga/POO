@@ -55,9 +55,18 @@ public class CargadorJuegoPorDefecto implements CargadorJuego{
         mapa.getCelda(1,5).anadirObjeto(new Arma("Daga +1000","Porque una daga +1 estaba muy vista",false,2,3,4));
         mapa.getCelda(2,0).anadirObjeto(new Arma("Cayado de chamán","Unga unga",false,2,3,4));
         mapa.getCelda(2,1).anadirObjeto(new Arma("Ashbringer","Se me acabaron las descripciones",false,2,3,4));
-        mapa.getCelda(2,2).anadirObjeto(new Arma("Emacs","ViViVi",false,6,6,6));
+        mapa.getCelda(2,2).anadirObjeto(new Arma("Emacs","ViViVi",false,6,(float)0.5,1));
+        mapa.getCelda(5,5).anadirObjeto(new Arma("Vim","ViViVi",false,6,(float)0.56,1));
+        mapa.getCelda(5,5).anadirObjeto(new Arma("Ed","ViViVi",false,6,(float)0.56,1));
+        mapa.getCelda(5,5).anadirObjeto(new Arma("Ashbringer","Se me acabaron las descripciones",false,2,3,4));
+        mapa.getCelda(5,5).anadirObjeto(new Arma("Nano","ViViVi",false,6,(float)0.56,1));
+        mapa.getCelda(5,5).anadirObjeto(new Arma("Gedit","ViViVi",false,6,(float)0.56,1));
 
-        mapa.getCelda(3,3).setEnemigo(new LightFloater(mapa,new Point(3,3),"Múrloc",1,2));
+        mapa.getCelda(3,3).setEnemigo(new LightFloater(mapa,new Point(3,3),"Múrloc",100000,2));
+        mapa.getCelda(5,3).setEnemigo(new LightFloater(mapa,new Point(3,3),"Múrloc_1",100000,2));
+        mapa.getCelda(5,3).setEnemigo(new LightFloater(mapa,new Point(3,3),"Múrloc_2",100000,2));
+        mapa.getCelda(5,3).setEnemigo(new LightFloater(mapa,new Point(3,3),"Múrloc_3",100000,2));
+        mapa.getCelda(5,3).setEnemigo(new LightFloater(mapa,new Point(3,3),"Múrloc_4",100000,2));
         mapa.getCelda(3,4).setEnemigo(new LightFloater(mapa,new Point(3,4),"Capitan esparrago",1,2));
         mapa.getCelda(3,5).setEnemigo(new HeavyFloater(mapa,new Point(3,5),"Sida embotellado",1,2));
         mapa.getCelda(4,0).setEnemigo(new HeavyFloater(mapa,new Point(4,0),"Bill gates",1,2));

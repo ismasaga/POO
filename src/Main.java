@@ -138,6 +138,20 @@ public class Main {
                                     c.addComando(new ComandoAtacar(mapa,personaje,cadeas[0]+" "+cadeas[1]+" "+cadeas[i]));
                                 c.ejecutar();
                             }
+                            if(cadeas.length == 4 && cadeas[2].length() > 2 && cadeas[cadeas.length-1].length() == 1){
+                                c = new ComandoCompuesto();
+                                c.addComando(new ComandoAtacar(mapa,personaje,cadeas[0]+" "+cadeas[1]+" "+cadeas[2]));
+                                cR = new ComandoRepetido(c,Integer.parseInt(cadeas[3]));
+                                cR.ejecutar();
+                            }
+                            if(cadeas.length > 4 && cadeas[2].length() > 2 && cadeas[cadeas.length-1].length() == 1){   //Atacar a varios enemigos repetidamente en una direccion
+                                c = new ComandoCompuesto();
+                                for (int i = 2; i < cadeas.length - 1; i++) {
+                                    c.addComando(new ComandoAtacar(mapa,personaje,cadeas[0]+" "+cadeas[1]+" "+cadeas[i]));
+                                }
+                                cR = new ComandoRepetido(c,Integer.parseInt(cadeas[cadeas.length-1]));
+                                cR.ejecutar();
+                            }
                             else if(cadeas.length == 4 && cadeas[2].length() == 2 && cadeas[cadeas.length-1].length() == 1) { //Para o caso de catro compoñentes
                                 c = new ComandoCompuesto();
                                 c.addComando(new ComandoAtacar(mapa, personaje, cadeas[0] + " " + cadeas[1] + " " + cadeas[2]));

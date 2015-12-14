@@ -4,7 +4,7 @@ import Excepciones.InusableException;
 import Juego.ConsolaNormal;
 import Personajes.Personaje;
 
-public class Arma extends Objeto{
+public final class Arma extends Objeto{
     private boolean dosManos;
     private int dano;
     private int alcance;
@@ -17,7 +17,7 @@ public class Arma extends Objeto{
         setDosManos(true);
         setPeso(1);
         setEspacio(1);
-        setAlcance(1);
+        setAlcance(2);
     }
 
     public Arma(String nombre, String descripcion, boolean dosManos, int dano, float peso, int espacio) {
@@ -27,7 +27,7 @@ public class Arma extends Objeto{
         setDosManos(dosManos);
         setPeso(peso);
         setEspacio(espacio);
-        setAlcance(1);
+        setAlcance(2);
     }
 
     /**

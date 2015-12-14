@@ -5,7 +5,7 @@ import Juego.ConsolaNormal;
 import Personajes.Jugador;
 import Personajes.Personaje;
 
-public class Torito extends Objeto{
+public final class Torito extends Objeto{
     private int incrementoEnergia;
 
     public Torito(String nombre, String descripcion, int incrementoEnergia)

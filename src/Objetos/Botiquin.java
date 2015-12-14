@@ -9,7 +9,7 @@ import Personajes.Personaje;
  * Vision, peso y espacio son final pues no se pueden modificar mediante mecánicas del juego esos valores (en este caso
  * no tendría sentido).
  */
-public class Botiquin extends Objeto {
+public final class Botiquin extends Objeto {
     private final int curacion;
     private ConsolaNormal consola = new ConsolaNormal();
 

@@ -10,7 +10,7 @@ import Juego.*;
  * Vision, peso y espacio son final pues no se pueden modificar mediante mecánicas del juego esos valores (en este caso
  * no tendría sentido).
  */
-public class Binocular extends Objeto{
+public final class Binocular extends Objeto{
     /**
      * Aumento en el rango de vision del binocular. El rango de vision del personaje se calcularia como: rangoVision = vision + rangoPorDefecto
      */

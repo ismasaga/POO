@@ -14,6 +14,7 @@ import java.util.Random;
 public abstract  class Jugador extends Personaje {
     private Binocular binocular;
     private boolean tieneToritina;
+    private boolean tieneBinocular;
 
     /**
      * Constructor para archivo parseado
@@ -29,6 +30,14 @@ public abstract  class Jugador extends Personaje {
 
     public void setTieneToritina(boolean tieneToritina) {
         this.tieneToritina = tieneToritina;
+    }
+
+    public boolean isTieneBinocular() {
+        return tieneBinocular;
+    }
+
+    public void setTieneBinocular(boolean tieneBinocular) {
+        this.tieneBinocular = tieneBinocular;
     }
 
     /**
@@ -133,14 +142,14 @@ public abstract  class Jugador extends Personaje {
             if(getBinocular().getVision() < binocular.getVision()) {
                 getMochila().anadirBinocular(getBinocular());
                 binocular.usar(this);
-                binocular.setUsado(true);
+                this.setTieneBinocular(true);
                 setBinocular(binocular);
                 getMochila().quitarBinocular(binocular);
                 usado = true;
             }
         } else {
             binocular.usar(this);
-            binocular.setUsado(true);
+            this.setTieneBinocular(true);
             setBinocular(binocular);
             getMochila().quitarBinocular(binocular);
             usado = true;
@@ -172,6 +181,10 @@ public abstract  class Jugador extends Personaje {
         else {
             setEnergiaActual((int) (0.9 * getEnergiaMaxima()));
             tieneToritina = false;
+        }
+        if(tieneBinocular){
+            setRangoVision(3);
+            setTieneBinocular(false);
         }
         ArrayList<Enemigo> arrayEnemigos = new ArrayList<>();
         ArrayList<Integer[]> arrayPos = new ArrayList<>();

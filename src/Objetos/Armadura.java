@@ -3,7 +3,7 @@ import Excepciones.InusableException;
 import Personajes.Personaje;
 import Juego.*;
 
-public class Armadura extends Objeto{
+public final class Armadura extends Objeto{
     private int incrVida, incrEnergia, defensa;
     private Consola consola = new ConsolaNormal();
 
