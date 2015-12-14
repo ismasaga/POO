@@ -21,7 +21,7 @@ public class ComandoAtacar implements Comando {
         this.mapa = mapa;
         this.personaje = personaje;
         cadeas = sel.split(" ");
-        if (cadeas.length == 2 && cadeas[1].length() == 2)
+        if (cadeas.length == 2 && cadeas[1].length() == 2)//Ataca con so unha direccion
             if (cadeas[1].charAt(1) == 'r' || cadeas[1].charAt(1) == 'l') {
                 //new ComandoAtacar(mapa, personaje, Character.getNumericValue(cadeas[1].charAt(0)), 0, cadeas[1].charAt(1), 'q', null).ejecutar();
                 numX = Character.getNumericValue(cadeas[1].charAt(0));
@@ -81,7 +81,7 @@ public class ComandoAtacar implements Comando {
 
     @Override
     public void ejecutar() throws ComandoException, InsuficienteEnergiaException, FueraDeRangoException {
-        Consola consola = new ConsolaNormal();
+        ConsolaNormal consola = new ConsolaNormal();
         int i = personaje.getPunto().x;
         int j = personaje.getPunto().y;
         int componenteI = 0;
@@ -149,11 +149,13 @@ public class ComandoAtacar implements Comando {
         celdaObtenida = mapa.getCelda(componenteI,componenteJ);
         if(nombre == null) //Se ataca a todos los enemigos
         {
-            (personaje).atacar(celdaObtenida);
+            personaje.atacar(celdaObtenida);
         }
         else {
+            boolean atacado = false;
             for (Enemigo enemigo : celdaObtenida.getEnemigo()) {
                 if (enemigo.getNombre().equals(nombre)) {
+                    atacado = true;
                     personaje.atacar(enemigo);
                     if (enemigo.getVidaActual() <= 0) {
                         consola.imprimir("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
@@ -162,6 +164,8 @@ public class ComandoAtacar implements Comando {
                     return;
                 }
             }
+            if(!atacado)
+                consola.imprimirError("Ese personaje no está en esta celda");
         }
     }
 }

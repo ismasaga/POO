@@ -28,7 +28,7 @@ public class ComandoRepetido extends ComandoCompuesto {
                 consola.imprimirError("Error de energia : "+e.getMessage());
             } catch(SegmentationFaultException | FueraDeRangoException ex) {
                 consola.imprimir(ex.getMessage());
-            } catch (PesoMaximoException | EspacioMaximoException e){
+            } catch (PesoMaximoException | EspacioMaximoException | ManosArmaException | ExplosivosException e){
                 consola.imprimir(e.getMessage());
             } catch (ObjetoException e) {
                 consola.imprimirError("Error de objeto : "+e.getMessage());
