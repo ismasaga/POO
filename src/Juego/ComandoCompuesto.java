@@ -9,7 +9,7 @@ public class ComandoCompuesto implements Comando {
     ConsolaNormal consola = new ConsolaNormal();
 
     @Override
-    public void ejecutar() throws ComandoException, MoverException, InsuficienteEnergiaException, SegmentationFaultException, FueraDeRangoException, EspacioMaximoException, PesoMaximoException {
+    public void ejecutar() throws EnemigoInexistenteException, ComandoException, MoverException, InsuficienteEnergiaException, SegmentationFaultException, FueraDeRangoException, EspacioMaximoException, PesoMaximoException {
         for(Comando comando : arrayComandos){
             try {
                 comando.ejecutar();
@@ -22,10 +22,8 @@ public class ComandoCompuesto implements Comando {
                 consola.imprimirError("Error moviendo : "+e.getMessage());
             } catch (InsuficienteEnergiaException e) {
                 consola.imprimirError("Error de energia : "+e.getMessage());
-            } catch(SegmentationFaultException | FueraDeRangoException ex) {
+            } catch(EnemigoInexistenteException | SegmentationFaultException | FueraDeRangoException | PesoMaximoException | EspacioMaximoException | ManosArmaException | ExplosivosException ex) {
                 consola.imprimir(ex.getMessage());
-            } catch (PesoMaximoException | EspacioMaximoException | ManosArmaException | ExplosivosException e){
-                consola.imprimir(e.getMessage());
             } catch (ObjetoException e) {
                 consola.imprimirError("Error de objeto : "+e.getMessage());
             }

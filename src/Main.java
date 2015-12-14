@@ -1,8 +1,8 @@
 import Excepciones.*;
 import Juego.*;
+import Personajes.Enemigo;
 import Personajes.Jugador;
 import Personajes.Personaje;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -47,52 +47,52 @@ public class Main {
             if(cadeas.length > 0) {
                 switch (cadeas[0]) {
                     case "ayuda":
-                        System.out.println(ANSI_BLUE + "\t\tGame Player Manual\t\t\n" + ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "mover: " + ANSI_RESET + "mueve un personaje el numero de casillas adyacentes. Para seleccionar la direccion hay que usar d, l, r o u");
-                        System.out.println("\tEjemplos:");
-                        System.out.println(ANSI_CYAN + "\t\tmover 2r: mover dos posiciones a la derecha");
-                        System.out.println(ANSI_CYAN + "\t\tmover 1d: mover una posicion abajo");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "mirar: " + ANSI_RESET + "mira la posicion designada. Puede listar todos los objetos de cualquier casilla visible o obtener detalles de un objeto de su casilla actual. ");
-                        System.out.println("Si no consigue mirar obtiene la casilla actual.");
-                        System.out.println("\tEjemplos:");
-                        System.out.println(ANSI_CYAN + "\t\tmirar: lista los objetos de la casilla actual");
-                        System.out.println(ANSI_CYAN + "\t\tmirar escopeta_1: obtiene detalles de la escopeta_1 de la casilla actual");
-                        System.out.println(ANSI_CYAN + "\t\tmirar 2r,1d: mira la casilla dos posiciones a la derecha y una abajo de la actual.");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "atacar: " + ANSI_RESET + "ataca al personaje de la celda designada. Sigue el mismo patron que mirar");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "pasar: " + ANSI_RESET + "termina tu turno");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "terminar: " + ANSI_RESET + "termina una partida");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "descripcion: " + ANSI_RESET + "imprime la descripcion del mapa");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "estado: " + ANSI_RESET + "imprime toda la informacion disponible sobre el personaje");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "inventario: " + ANSI_RESET + "imprime los contenidos de la mochila");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "coger: " + ANSI_RESET + "coge el objeto de la casilla actual");
-                        System.out.println("\tEjemplo:");
-                        System.out.println(ANSI_CYAN + "\t\tcoger escopeta_1: coge la escopeta_1 de la casilla actual");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "tirar: " + ANSI_RESET + "tira el objeto designado de la mochila en la celda actual. Es como el comando coger");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "desequipar: " + ANSI_RESET + "desequipa un arma, armadura o binocular equipado");
-                        System.out.println("\tEjemplo:");
-                        System.out.println(ANSI_CYAN + "\t\tdesequipar armadura: desequipa la armadura");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "equipar: " + ANSI_RESET + "equipa un arma, armadura o binocular de la mochila");
-                        System.out.println("\tEjemplo:");
-                        System.out.println(ANSI_CYAN + "\t\tequipar armadura_25");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "usar: " + ANSI_RESET + "usa un botiquin de la mochila");
-                        System.out.println(ANSI_RESET);
-                        System.out.println(ANSI_PURPLE + "cargar: " + ANSI_RESET + "carga los archivos de la ruta especificada");
-                        System.out.println(ANSI_RESET);
-                        System.out.println("\tEjemplo:");
-                        System.out.println(ANSI_CYAN + "\t\tcargar src/Juego/: carga los archivos de src/Juego/");
-                        System.out.println(ANSI_RESET);
+                        consola.imprimir(ANSI_BLUE + "\t\tGame Player Manual\t\t\n" + ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "mover: " + ANSI_RESET + "mueve un personaje el numero de casillas adyacentes. Para seleccionar la direccion hay que usar d, l, r o u");
+                        consola.imprimir("\tEjemplos:");
+                        consola.imprimir(ANSI_CYAN + "\t\tmover 2r: mover dos posiciones a la derecha");
+                        consola.imprimir(ANSI_CYAN + "\t\tmover 1d: mover una posicion abajo");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "mirar: " + ANSI_RESET + "mira la posicion designada. Puede listar todos los objetos de cualquier casilla visible o obtener detalles de un objeto de su casilla actual. ");
+                        consola.imprimir("Si no consigue mirar obtiene la casilla actual.");
+                        consola.imprimir("\tEjemplos:");
+                        consola.imprimir(ANSI_CYAN + "\t\tmirar: lista los objetos de la casilla actual");
+                        consola.imprimir(ANSI_CYAN + "\t\tmirar escopeta_1: obtiene detalles de la escopeta_1 de la casilla actual");
+                        consola.imprimir(ANSI_CYAN + "\t\tmirar 2r,1d: mira la casilla dos posiciones a la derecha y una abajo de la actual.");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "atacar: " + ANSI_RESET + "ataca al personaje de la celda designada. Sigue el mismo patron que mirar");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "pasar: " + ANSI_RESET + "termina tu turno");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "terminar: " + ANSI_RESET + "termina una partida");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "descripcion: " + ANSI_RESET + "imprime la descripcion del mapa");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "estado: " + ANSI_RESET + "imprime toda la informacion disponible sobre el personaje");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "inventario: " + ANSI_RESET + "imprime los contenidos de la mochila");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "coger: " + ANSI_RESET + "coge el objeto de la casilla actual");
+                        consola.imprimir("\tEjemplo:");
+                        consola.imprimir(ANSI_CYAN + "\t\tcoger escopeta_1: coge la escopeta_1 de la casilla actual");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "tirar: " + ANSI_RESET + "tira el objeto designado de la mochila en la celda actual. Es como el comando coger");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "desequipar: " + ANSI_RESET + "desequipa un arma, armadura o binocular equipado");
+                        consola.imprimir("\tEjemplo:");
+                        consola.imprimir(ANSI_CYAN + "\t\tdesequipar armadura: desequipa la armadura");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "equipar: " + ANSI_RESET + "equipa un arma, armadura o binocular de la mochila");
+                        consola.imprimir("\tEjemplo:");
+                        consola.imprimir(ANSI_CYAN + "\t\tequipar armadura_25");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "usar: " + ANSI_RESET + "usa un botiquin de la mochila");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir(ANSI_PURPLE + "cargar: " + ANSI_RESET + "carga los archivos de la ruta especificada");
+                        consola.imprimir(ANSI_RESET);
+                        consola.imprimir("\tEjemplo:");
+                        consola.imprimir(ANSI_CYAN + "\t\tcargar src/Juego/: carga los archivos de src/Juego/");
+                        consola.imprimir(ANSI_RESET);
                         break;
                     case "mover":
                         try {
@@ -111,7 +111,7 @@ public class Main {
                             consola.imprimirError("Error moviendo : "+e.getMessage());
                         } catch (InsuficienteEnergiaException e) {
                             consola.imprimirError("Error de energia : "+e.getMessage());
-                        } catch(SegmentationFaultException | FueraDeRangoException | EspacioMaximoException | PesoMaximoException e) {
+                        } catch(EnemigoInexistenteException | SegmentationFaultException | FueraDeRangoException | EspacioMaximoException | PesoMaximoException e) {
                             consola.imprimir(e.getMessage());
                         }
                         break;
@@ -127,25 +127,41 @@ public class Main {
                         try {
                             ComandoRepetido cR;
                             ComandoCompuesto c;
-                            if(cadeas.length >= 4 && cadeas[2].length() > 2) { //Se o segundo parémetro é o nome dun inimigo
+                            if(cadeas.length == 3 && cadeas[2].length() == 1){ //Atacar en una direccion repetido
+                                c = new ComandoCompuesto();
+                                c.addComando(new ComandoAtacar(mapa,personaje,cadeas[0]+" "+cadeas[1]));
+                                cR = new ComandoRepetido(c,Integer.parseInt(cadeas[2]));
+                                cR.ejecutar();
+                            }
+                            if(cadeas.length >= 4 && cadeas[2].length() > 2 && cadeas[cadeas.length-1].length() > 1) { //Se atacas nunha direccion so a enemigos (sen repetir)
                                 c = new ComandoCompuesto();
                                 for (int i = 2; i < cadeas.length;i++)
                                     c.addComando(new ComandoAtacar(mapa,personaje,cadeas[0]+" "+cadeas[1]+" "+cadeas[i]));
                                 c.ejecutar();
-                            } else if(cadeas.length > 4) { //Se o segundo parametro e unha coordenada pero hay mais dun nome de inimigo
+                            }
+                            else if(cadeas.length == 4 && cadeas[2].length() == 2 && cadeas[cadeas.length-1].length() == 1) { //Para o caso de catro compoñentes
                                 c = new ComandoCompuesto();
-                                for (int i = 3; i < cadeas.length; i++)
+                                c.addComando(new ComandoAtacar(mapa, personaje, cadeas[0] + " " + cadeas[1] + " " + cadeas[2]));
+                                cR = new ComandoRepetido(c, Integer.parseInt(cadeas[cadeas.length - 1]));
+                                cR.ejecutar();
+                            }
+                            else if(cadeas.length > 4 && cadeas[2].length() == 2 && cadeas[cadeas.length-1].length() == 1) { //Se o segundo parametro e unha coordenada pero hay mais dun nome de inimigo e o ultimo argumento e un numero
+                                c = new ComandoCompuesto();
+                                for (int i = 3; i < cadeas.length - 1; i++)  //O ultimo e un numero
                                     c.addComando(new ComandoAtacar(mapa, personaje, cadeas[0] + " " + cadeas[1] + " " + cadeas[2] + " " + cadeas[i]));
-                                if(cadeas[cadeas.length-1].length() == 1) { // Se termina en numero e un ComandoRepetido
-                                    cR = new ComandoRepetido(c, Integer.parseInt(cadeas[cadeas.length - 1]));
-                                    cR.ejecutar();
-                                } else
-                                    c.ejecutar();
-                            } else
+                                cR = new ComandoRepetido(c, Integer.parseInt(cadeas[cadeas.length - 1]));
+                                cR.ejecutar();
+                            }
+                            else if (cadeas.length > 4 && cadeas[2].length() == 2 && cadeas[cadeas.length-1].length() > 1){ //Se hai duas cordenadas e todos son enemigos
+                                c = new ComandoCompuesto();
+                                for (int i = 3; i < cadeas.length; i++) { //O ultimo e un numero
+                                    c.addComando(new ComandoAtacar(mapa, personaje, cadeas[0] + " " + cadeas[1] + " " + cadeas[2] + " " + cadeas[i]));
+                                }
+                                c.ejecutar();
+                            }
+                            else
                                 new ComandoAtacar(mapa, personaje, sel).ejecutar();
-                        }catch (ComandoException | InsuficienteEnergiaException | MoverException | EspacioMaximoException e) {
-                            consola.imprimir(e.getMessage());
-                        } catch (SegmentationFaultException | FueraDeRangoException | PesoMaximoException e) {
+                        }catch (EnemigoInexistenteException | ComandoException | InsuficienteEnergiaException | MoverException | EspacioMaximoException | SegmentationFaultException | FueraDeRangoException | PesoMaximoException e) {
                             consola.imprimir(e.getMessage());
                         }
                         break;
@@ -155,7 +171,7 @@ public class Main {
                     case "terminar":
                         break;
                     case "descripcion":
-                        System.out.println(mapa.getDescripcion());
+                        consola.imprimir(mapa.getDescripcion());
                         break;
                     case "estado":
                         personaje.info();
@@ -170,8 +186,19 @@ public class Main {
                             }catch (ComandoException | PesoMaximoException | EspacioMaximoException | ExplosivosException e){
                                 consola.imprimir(e.getMessage());
                             }
-                        } else
-                            System.out.println("Formato del comando incorrecto, use ayuda para saber mas");
+                        }
+                        else{
+                            ComandoCompuesto c = new ComandoCompuesto();
+                            for (int i = 1; i < cadeas.length; i++) {
+                                c.addComando(new ComandoCoger(mapa, personaje, cadeas[i]));
+                            }
+                            try {
+                                c.ejecutar();
+                            }
+                            catch (FueraDeRangoException | SegmentationFaultException | InsuficienteEnergiaException | MoverException | EnemigoInexistenteException | ComandoException | PesoMaximoException | EspacioMaximoException e){
+                                consola.imprimir(e.getMessage());
+                            }
+                        }
                         break;
                     case "tirar":
                         if (cadeas.length == 2) {
@@ -181,7 +208,7 @@ public class Main {
                                 consola.imprimir(e.getMessage());
                             }
                         } else
-                            System.out.println("Formato del comando incorrecto, use ayuda para saber mas");
+                            consola.imprimir("Formato del comando incorrecto, use ayuda para saber mas");
                         break;
                     case "desequipar":
                         if (cadeas.length == 2) {
@@ -202,7 +229,7 @@ public class Main {
                                     }
                                     break;
                                 default:
-                                    System.out.println("Comando no reconocido.");
+                                    consola.imprimir("Comando no reconocido.");
                             }
                         }
                         if (cadeas.length == 3) {

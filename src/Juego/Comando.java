@@ -14,5 +14,6 @@ public interface Comando {
             PesoMaximoException,
             ObjetoException,
             ManosArmaException,
-            ExplosivosException;
+            ExplosivosException,
+            EnemigoInexistenteException;
 }

@@ -162,8 +162,8 @@ public abstract  class Jugador extends Personaje {
      * Ataca a todos los enemigos de la celda especificada
      * Este método si comprueba que se sueltan las pertenencias de los enemigos que se matan
      */
-    public abstract void atacar(Celda celda) throws InsuficienteEnergiaException;
-    public abstract void atacar(Personaje personaje) throws InsuficienteEnergiaException;
+    public abstract void atacar(Celda celda) throws InsuficienteEnergiaException, EnemigoInexistenteException;
+    public abstract void atacar(Personaje personaje) throws InsuficienteEnergiaException, EnemigoInexistenteException;
 
 
     public void pasar(Mapa mapa, Personaje personaje) {

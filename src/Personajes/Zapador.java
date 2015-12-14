@@ -1,5 +1,6 @@
 package Personajes;
 
+import Excepciones.EnemigoInexistenteException;
 import Excepciones.InsuficienteEnergiaException;
 import Excepciones.MoverException;
 import Juego.*;
@@ -88,15 +89,16 @@ public final class Zapador extends Jugador {
         int coeficienteAtaque; //Previene que se sume vida al atacar
         double correcccionAtaque = (distanciaX > 2 || distanciaY > 2 ? 0.05 : 1);
         Random random = new Random();
+        int defensa = (personaje.getArmadura() != null && personaje.getArmadura().getDefensa() > 0 ? personaje.getArmadura().getDefensa() : 1);
 
 
         float prob = random.nextFloat();
         int ataqueEjecutado;
 
         if (prob > 0.25) { //No es critico
-            ataqueEjecutado = (int)(correcccionAtaque * getAtaque() * 20 / personaje.getArmadura().getDefensa());
+            ataqueEjecutado = (int)(correcccionAtaque * getAtaque() * 20 / defensa);
         } else { //Golpe critico
-            ataqueEjecutado = (int)(correcccionAtaque * 2 * (getAtaque() * 20 / personaje.getArmadura().getDefensa()));
+            ataqueEjecutado = (int)(correcccionAtaque * 2 * (getAtaque() * 20 / defensa));
             consola.imprimir("CR1T 1N Y0U8 F4C3");
         }
         if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
@@ -111,8 +113,7 @@ public final class Zapador extends Jugador {
         consola.imprimir("El personaje " + personaje.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + personaje.getVidaActual());
     }
 
-    public void atacar(Celda celda) throws InsuficienteEnergiaException
-    {
+    public void atacar(Celda celda) throws InsuficienteEnergiaException, EnemigoInexistenteException {
         Consola consola = new ConsolaNormal();
         int distanciaX = Math.abs(this.getPunto().x - celda.getPunto().x);
         int distanciaY = Math.abs(this.getPunto().y - celda.getPunto().y);
@@ -123,35 +124,40 @@ public final class Zapador extends Jugador {
         float prob = random.nextFloat();
         int ataqueEjecutado;
 
-        if(this.getEnergiaActual() - 20 < 0)
+        if (this.getEnergiaActual() - 20 < 0)
             throw new InsuficienteEnergiaException("Insuficiente energia para atacar");
         else
             this.setEnergiaActual(this.getEnergiaActual() - 20);
         ArrayList<Enemigo> enemigosAbatidos = new ArrayList<>();
-        for (Enemigo enemigo : celda.getEnemigo()) {
-            //Ahora hay que dividir el daño del personaje entre todos los enemigos
-            if (prob > 0.25) //No es crítico
-            {
-                ataqueEjecutado = ((int)(correcccionAtaque * getAtaque() / celda.getEnemigo().size()) * Constantes.REDUCCION_ARMADURA / enemigo.getArmadura().getDefensa());
-            } else //Golpe critico
-            {
-                ataqueEjecutado = ((int)(correcccionAtaque * 2 * (getAtaque() / celda.getEnemigo().size())) * Constantes.REDUCCION_ARMADURA / enemigo.getArmadura().getDefensa());
-                consola.imprimir("CR1T 1N Y0U8 F4C3");
+        if (celda.getEnemigo() != null) {
+            for (Enemigo enemigo : celda.getEnemigo()) {
+                //Ahora hay que dividir el daño del personaje entre todos los enemigos
+                int defensa = (enemigo.getArmadura() != null && enemigo.getArmadura().getDefensa() > 0 ? enemigo.getArmadura().getDefensa() : 1);
+                if (prob > 0.25) //No es crítico
+                {
+                    ataqueEjecutado = ((int) (correcccionAtaque * getAtaque() / celda.getEnemigo().size()) * Constantes.REDUCCION_ARMADURA / defensa);
+                } else //Golpe critico
+                {
+                    ataqueEjecutado = ((int) (correcccionAtaque * 2 * (getAtaque() / celda.getEnemigo().size())) * Constantes.REDUCCION_ARMADURA / defensa);
+                    consola.imprimir("CR1T 1N Y0U8 F4C3");
+                }
+                if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
+                {
+                    ataqueEjecutado = 0;
+                }
+                enemigo.setVidaActual(enemigo.getVidaActual() - ataqueEjecutado);
+                consola.imprimir("El personaje " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getVidaActual());
+                if (enemigo.getVidaActual() <= 0) {
+                    consola.imprimir("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
+                    enemigosAbatidos.add(enemigo);
+                }
             }
-            if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
-            {
-                ataqueEjecutado = 0;
+            for (Enemigo enemigo : enemigosAbatidos) {
+                enemigo.soltarObjetos(celda);
+                celda.eliminarEnemigo(enemigo);
             }
-            enemigo.setVidaActual(enemigo.getVidaActual() - ataqueEjecutado);
-            consola.imprimir("El personaje " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getVidaActual());
-            if (enemigo.getVidaActual() <= 0) {
-                consola.imprimir("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
-                enemigosAbatidos.add(enemigo);
-            }
-        }
-        for (Enemigo enemigo : enemigosAbatidos) {
-            enemigo.soltarObjetos(celda);
-            celda.eliminarEnemigo(enemigo);
+        } else {
+            throw new EnemigoInexistenteException("No hay enemigo en la celda");
         }
     }
 }

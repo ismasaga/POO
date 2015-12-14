@@ -372,7 +372,7 @@ public abstract class Personaje {
      * La comprobación de si está muerto se hace fuera de esta clase
      * Este metodo se sobreescribe siempre
      */
-    public void atacar(Personaje personaje) throws InsuficienteEnergiaException{
+    public void atacar(Personaje personaje) throws InsuficienteEnergiaException, EnemigoInexistenteException{
         int coeficienteAtaque; //Previene que se sume vida al atacar
         Random random = new Random();
 

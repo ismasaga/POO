@@ -1,6 +1,7 @@
 package Juego;
 
 import Excepciones.ComandoException;
+import Excepciones.EnemigoInexistenteException;
 import Excepciones.FueraDeRangoException;
 import Excepciones.InsuficienteEnergiaException;
 import Personajes.Enemigo;
@@ -80,7 +81,7 @@ public class ComandoAtacar implements Comando {
     }
 
     @Override
-    public void ejecutar() throws ComandoException, InsuficienteEnergiaException, FueraDeRangoException {
+    public void ejecutar() throws ComandoException, InsuficienteEnergiaException, FueraDeRangoException, EnemigoInexistenteException {
         ConsolaNormal consola = new ConsolaNormal();
         int i = personaje.getPunto().x;
         int j = personaje.getPunto().y;
@@ -153,19 +154,22 @@ public class ComandoAtacar implements Comando {
         }
         else {
             boolean atacado = false;
-            for (Enemigo enemigo : celdaObtenida.getEnemigo()) {
-                if (enemigo.getNombre().equals(nombre)) {
-                    atacado = true;
-                    personaje.atacar(enemigo);
-                    if (enemigo.getVidaActual() <= 0) {
-                        consola.imprimir("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
-                        enemigo.soltarObjetos(celdaObtenida);
+            if(celdaObtenida.getEnemigo() != null) {
+                for (Enemigo enemigo : celdaObtenida.getEnemigo()) {
+                    if (enemigo.getNombre().equals(nombre)) {
+                        atacado = true;
+                        personaje.atacar(enemigo);
+                        if (enemigo.getVidaActual() <= 0) {
+                            consola.imprimir("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
+                            enemigo.soltarObjetos(celdaObtenida);
+                            celdaObtenida.eliminarEnemigo(enemigo);
+                        }
+                        return;
                     }
-                    return;
                 }
+                if (!atacado)
+                    consola.imprimirError("Ese personaje no está en esta celda");
             }
-            if(!atacado)
-                consola.imprimirError("Ese personaje no está en esta celda");
         }
     }
 }
