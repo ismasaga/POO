@@ -61,6 +61,7 @@ public class CargadorJuegoPorDefecto implements CargadorJuego{
         mapa.getCelda(5,5).anadirObjeto(new Arma("Ashbringer","Se me acabaron las descripciones",false,2,3,4));
         mapa.getCelda(5,5).anadirObjeto(new Arma("Nano","ViViVi",false,6,(float)0.56,1));
         mapa.getCelda(5,5).anadirObjeto(new Arma("Gedit","ViViVi",false,6,(float)0.56,1));
+        mapa.getCelda(5,5).anadirObjeto(new Armadura("armadura_curadora","armadura de vida",10,0,3,5,5));
 
         mapa.getCelda(3,3).setEnemigo(new LightFloater(mapa,new Point(3,3),"Múrloc",100000,2));
         mapa.getCelda(5,3).setEnemigo(new LightFloater(mapa,new Point(3,3),"Múrloc_1",100000,2));

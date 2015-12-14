@@ -484,13 +484,13 @@ public abstract class Personaje {
     //ACHTUNG: este metodo no es exacto a la especificacion
     //Da igual lo que pases por parametro que pasa de el
     public void desequipar(Armadura armadura) {
-        if (getArmadura() != null) {
-            if(mochila.getObjetosMaximos() > mochila.getObjetosActuales() + getArmadura().getEspacio()
-                    && mochila.getPesoMaximo() > mochila.getPesoActual() + getArmadura().getPeso()) {
+        if (this.armadura != null) {
+            if(mochila.getObjetosMaximos() >= mochila.getObjetosActuales() + getArmadura().getEspacio()
+                    && mochila.getPesoMaximo() >= mochila.getPesoActual() + getArmadura().getPeso()) {
                 setEnergiaMaxima(getEnergiaMaxima() - getArmadura().getIncrEnergia());
                 setVidaMaxima(getVidaMaxima() - getArmadura().getIncrVida());
-                mochila.anadirArmadura(getArmadura());
-                armadura = null; //Para indicar que no hay nada
+                mochila.anadirArmadura(this.armadura);
+                this.armadura = null; //Para indicar que no hay nada
             }
         }
     }
