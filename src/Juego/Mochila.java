@@ -338,7 +338,7 @@ public class Mochila {
         if(torito != null) {
             setPesoActual(getPesoActual() - torito.getPeso());
             setObjetosActuales(getObjetosActuales() - torito.getEspacio());
-            arrayArmaduras.remove(torito);
+            arrayTorito.remove(torito);
         }
     }
 
