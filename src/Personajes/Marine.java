@@ -107,17 +107,28 @@ public final class Marine extends Jugador {
     @Override
     public void equipar(Arma arma, String mano) throws SegmentationFaultException {
         if(arma.isDosManos() && mano.equals("izquierda")){ //Tengo que tener en cuenta este caso especial
-            if(armaDosM2 != null) {
-                if (super.getMochila().anadirArma(armaDosM2)) {
-                    armaDosM2 = arma;
-                }
-                else{
-                    throw new SegmentationFaultException();
-                }
+            if(arma != null) {
+                super.getMochila().quitarArma(arma);
+                armaDosM2 = arma;
+            } else {
+                throw new SegmentationFaultException();
             }
         }
         else //Equipo como siempre
             super.equipar(arma, mano);
+    }
+
+    @Override
+    public void desequipar(Arma arma) {
+
+        if(arma != null && arma.equals(armaDosM2)){
+            if(super.getMochila().anadirArma(arma)) {
+                armaDosM2 = null;
+            }
+        }
+        else {
+            super.desequipar(arma);
+        }
     }
 
     //No puede coger explosivos
@@ -202,5 +213,16 @@ public final class Marine extends Jugador {
             enemigo.soltarObjetos(celda);
             celda.eliminarEnemigo(enemigo);
         }
+    }
+
+    @Override
+    public void info() {
+        Consola consola = new ConsolaNormal();
+        super.info();
+        if(armaDosM2 != null) {
+            consola.imprimir("Arma de dos manos izquierda: " + armaDosM2.getNombre());
+            armaDosM2.info();
+        }
+
     }
 }

@@ -22,7 +22,7 @@ import java.util.Random;
  * VIDA_MAXIMA, ataque y armadura son constantes pues no hay manera de modificarlos (con elementos
  * del juego )en esta versión.
  */
-public class Enemigo extends Personaje{
+public abstract class Enemigo extends Personaje{
 
 
     /**

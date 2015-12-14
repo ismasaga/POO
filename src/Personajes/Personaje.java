@@ -466,14 +466,15 @@ public class Personaje {
     public void desequipar(Arma arma) {
         if (arma != null) {
             if (arma.equals(armaDosM)) {
-                mochila.anadirArma(armaDosM);
-                armaDosM = null; //El setter no funciona
+                if(mochila.anadirArma(armaDosM)) {
+                    armaDosM = null; //El setter no funciona
+                }
             } else if (arma.equals(armaDer)) {
-                mochila.anadirArma(getArmaDer());
-                armaDer = null;
+                if(mochila.anadirArma(getArmaDer()))
+                    armaDer = null;
             } else if (arma.equals(armaIzq)){
-                mochila.anadirArma(getArmaIzq());
-                armaIzq = null;
+                if(mochila.anadirArma(getArmaIzq()))
+                    armaIzq = null;
             }
         }
     }

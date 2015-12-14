@@ -100,7 +100,13 @@ public class Parser {
                         }
                         switch (cadeas[1]) {
                             case "enemigo":
-                                mapa.getCelda(tamano[0], tamano[1]).setEnemigo(new Enemigo(mapa, new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4])));
+                                String[] sp = cadeas[2].split("_");
+                                if(sp[0].equals("heavy"))
+                                    mapa.getCelda(tamano[0], tamano[1]).setEnemigo(new HeavyFloater(mapa, new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4])));
+                                else if(sp[0].equals("floater"))
+                                    mapa.getCelda(tamano[0], tamano[1]).setEnemigo(new LightFloater(mapa, new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4])));
+                                else if(sp[0].equals("sectoid"))
+                                    mapa.getCelda(tamano[0], tamano[1]).setEnemigo(new Sectoid(mapa, new Point(tamano[0],tamano[1]), cadeas[2], Integer.parseInt(cadeas[3]), Integer.parseInt(cadeas[4])));
                                 break;
                             case "jugador":
                                 switch (consola.leer("Que tipo de personaje desea?")) {
