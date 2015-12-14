@@ -1,7 +1,7 @@
 package Objetos;
 
 import Personajes.Personaje;
-
+import Juego.*;
 /**
  * Implementa un binocular
  * <p>
@@ -16,6 +16,7 @@ public class Binocular extends Objeto{
      */
     private final int vision;
     private boolean usado = false; //Indica si fue usado en el turno actual
+    private Consola consola = new ConsolaNormal();
 
 
 
@@ -80,11 +81,11 @@ public class Binocular extends Objeto{
      * Imprime informacion sobre el binocular:
      */
     public void info() {
-        System.out.println("Binocular:");
-        System.out.println("\tNombre: " + getNombre());
-        System.out.println("\tPeso: " + getPeso());
-        System.out.println("\tEspacio: " + getEspacio());
-        System.out.println("\tAumento de rango de vision: " + getVision());
-        System.out.println("\tDescripcion: " + getDescripcion());
+        consola.imprimir("Binocular:");
+        consola.imprimir("\tNombre: " + getNombre());
+        consola.imprimir("\tPeso: " + getPeso());
+        consola.imprimir("\tEspacio: " + getEspacio());
+        consola.imprimir("\tAumento de rango de vision: " + getVision());
+        consola.imprimir("\tDescripcion: " + getDescripcion());
     }
 }

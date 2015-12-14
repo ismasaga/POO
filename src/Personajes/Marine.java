@@ -1,10 +1,7 @@
 package Personajes;
 
 import Excepciones.*;
-import Juego.Celda;
-import Juego.Consola;
-import Juego.ConsolaNormal;
-import Juego.Mapa;
+import Juego.*;
 import Objetos.Arma;
 import Objetos.Objeto;
 
@@ -15,6 +12,7 @@ import java.util.Random;
 public final class Marine extends Jugador {
 
     private Arma armaDosM2;
+    private ConsolaNormal consola = new ConsolaNormal();
     /**
      * Constructor para archivo parseado
      */
@@ -105,26 +103,37 @@ public final class Marine extends Jugador {
      * @throws SegmentationFaultException
      */
     @Override
-    public void equipar(Arma arma, String mano) throws SegmentationFaultException {
+    public void equipar(Arma arma, String mano) throws ManosArmaException {
         if(arma.isDosManos() && mano.equals("izquierda")){ //Tengo que tener en cuenta este caso especial
-            if(armaDosM2 != null) {
-                if (super.getMochila().anadirArma(armaDosM2)) {
-                    armaDosM2 = arma;
-                }
-                else{
-                    throw new SegmentationFaultException();
-                }
+            if(arma != null) {
+                super.getMochila().quitarArma(arma);
+                armaDosM2 = arma;
+            } else {
+                consola.imprimirError("No se ha podido equipar el arma: segfault"); // No es un error del usuario
             }
         }
         else //Equipo como siempre
             super.equipar(arma, mano);
     }
 
+    @Override
+    public void desequipar(Arma arma) {
+
+        if(arma != null && arma.equals(armaDosM2)){
+            if(super.getMochila().anadirArma(arma)) {
+                armaDosM2 = null;
+            }
+        }
+        else {
+            super.desequipar(arma);
+        }
+    }
+
     //No puede coger explosivos
     @Override
-    public void coger(Objeto objeto) throws SegmentationFaultException, PesoMaximoException, EspacioMaximoException {
+    public void coger(Objeto objeto) throws ExplosivosException , PesoMaximoException, EspacioMaximoException {
         if(objeto.getNombre().equals("explosivos") || objeto.getNombre().equals("bazooka"))
-            throw new SegmentationFaultException();
+            throw new ExplosivosException("El marine no puede equipar explosivos");
         else
             super.coger(objeto);
     }
@@ -142,9 +151,9 @@ public final class Marine extends Jugador {
         int ataqueEjecutado;
 
         if (prob > 0.25) { //No es critico
-            ataqueEjecutado = (int)(correcccionAtaque * getAtaque() * 20 / personaje.getArmadura().getDefensa());
+            ataqueEjecutado = (int)(correcccionAtaque * getAtaque() * Constantes.REDUCCION_ARMADURA / personaje.getArmadura().getDefensa());
         } else { //Golpe critico
-            ataqueEjecutado = (int)(correcccionAtaque * 2 * (getAtaque() * 20 / personaje.getArmadura().getDefensa()));
+            ataqueEjecutado = (int)(correcccionAtaque * 2 * (getAtaque() * Constantes.REDUCCION_ARMADURA / personaje.getArmadura().getDefensa()));
             consola.imprimir("CR1T 1N Y0U8 F4C3");
         }
         if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
@@ -181,11 +190,11 @@ public final class Marine extends Jugador {
             //Ahora hay que dividir el daño del personaje entre todos los enemigos
             if (prob > 0.25) //No es crítico
             {
-                ataqueEjecutado = ((int)(correcccionAtaque * getAtaque() / celda.getEnemigo().size()) * 20 / enemigo.getArmadura().getDefensa());
+                ataqueEjecutado = ((int)(correcccionAtaque * getAtaque() / celda.getEnemigo().size()) * Constantes.REDUCCION_ARMADURA / enemigo.getArmadura().getDefensa());
             } else //Golpe critico
             {
-                ataqueEjecutado = ((int)(correcccionAtaque * 2 * (getAtaque() / celda.getEnemigo().size())) * 20 / enemigo.getArmadura().getDefensa());
-                System.out.println("CR1T 1N Y0U8 F4C3");
+                ataqueEjecutado = ((int)(correcccionAtaque * 2 * (getAtaque() / celda.getEnemigo().size())) * Constantes.REDUCCION_ARMADURA / enemigo.getArmadura().getDefensa());
+                consola.imprimir("CR1T 1N Y0U8 F4C3");
             }
             if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
             {
@@ -194,7 +203,7 @@ public final class Marine extends Jugador {
             enemigo.setVidaActual(enemigo.getVidaActual() - ataqueEjecutado);
             consola.imprimir("El personaje " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getVidaActual());
             if (enemigo.getVidaActual() <= 0) {
-                System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
+                consola.imprimir("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
                 enemigosAbatidos.add(enemigo);
             }
         }
@@ -202,5 +211,16 @@ public final class Marine extends Jugador {
             enemigo.soltarObjetos(celda);
             celda.eliminarEnemigo(enemigo);
         }
+    }
+
+    @Override
+    public void info() {
+        Consola consola = new ConsolaNormal();
+        super.info();
+        if(armaDosM2 != null) {
+            consola.imprimir("Arma de dos manos izquierda: " + armaDosM2.getNombre());
+            armaDosM2.info();
+        }
+
     }
 }

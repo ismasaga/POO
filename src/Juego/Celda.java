@@ -22,6 +22,7 @@ public class Celda {
     private Jugador jugador;
     private boolean transitable;
     private Point punto;
+    private Consola consola = new ConsolaNormal();
 
     public Celda(boolean transitable, Point punto) {
         this.transitable = transitable;
@@ -90,7 +91,7 @@ public class Celda {
         if (enemigo != null)
             arrayEnemigos.add(enemigo);
         else
-            System.out.println("ERROR insertando enemigo en la casilla");
+            consola.imprimir("ERROR insertando enemigo en la casilla");
     }
 
 
@@ -99,7 +100,7 @@ public class Celda {
      */
     public void eliminarEnemigo(Enemigo enemigo) {
         if (!arrayEnemigos.remove(enemigo))
-            System.out.println("ERROR eliminando enemigo");
+            consola.imprimir("ERROR eliminando enemigo");
     }
 
     public boolean isTransitable() {

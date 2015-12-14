@@ -12,7 +12,7 @@ import java.util.Random;
  * setMapa() non implementado para evita que se cambie o mapa dun persoaxe unha vez foi creado
  */
 
-public class Personaje {
+public abstract class Personaje {
     private String nombre;
     private int vidaMaxima, vidaActual;
     private int energiaMaxima, energiaActual;
@@ -22,7 +22,7 @@ public class Personaje {
     private Mochila mochila;
     private Point punto;
     private Mapa mapa;
-    private Consola consola = new ConsolaNormal();
+    private ConsolaNormal consola = new ConsolaNormal();
 
 
     /**
@@ -334,7 +334,7 @@ public class Personaje {
      * @param objeto Objeto a coger.
      * @throws SegmentationFaultException
      */
-    public void coger(Objeto objeto) throws SegmentationFaultException, PesoMaximoException, EspacioMaximoException{
+    public void coger(Objeto objeto) throws ExplosivosException, PesoMaximoException, EspacioMaximoException{
         if(objeto.getPeso() + mochila.getPesoActual() > mochila.getPesoMaximo())
             throw new PesoMaximoException("Peso maximo excedido");
         if(objeto.getEspacio() + mochila.getObjetosActuales() > mochila.getObjetosMaximos())
@@ -362,7 +362,7 @@ public class Personaje {
                     mapa.getCelda(this.getPunto().x,this.getPunto().y).getArrayObjetos().remove(objeto);
             }
             else
-                throw new SegmentationFaultException();
+                consola.imprimirError("Error intentando coger un objeto"); //No es un error del usuario
         }
 
     }
@@ -409,14 +409,16 @@ public class Personaje {
             mochila.quitarBotiquin((Botiquin) objeto);
         else if (objeto instanceof Torito)
             mochila.quitarTorito((Torito)objeto);
-        else
-            throw new SegmentationFaultException();
+        else {
+            consola.imprimirError("Error tirando objeto."); //No es un error del usuario
+            return;
+        }
         mapa.getCelda(this.getPunto().x,this.getPunto().y).getArrayObjetos().add(objeto);
     }
 
 
     //ACHTUNG: Es distinto del requerimiento
-    public void equipar(Arma arma, String mano) throws SegmentationFaultException {
+    public void equipar(Arma arma, String mano) throws ManosArmaException{
         Arma armaEscogida = null;
         for (Arma arm : mochila.getArrayArmas()) {
             if (arm.equals(arma)) {
@@ -446,7 +448,7 @@ public class Personaje {
                         setArmaIzq(armaEscogida);
                         break;
                     default:
-                        throw new SegmentationFaultException();
+                        throw new ManosArmaException("Mano mal escrita");
                 }
             }
             mochila.quitarArma(armaEscogida);
@@ -466,14 +468,15 @@ public class Personaje {
     public void desequipar(Arma arma) {
         if (arma != null) {
             if (arma.equals(armaDosM)) {
-                mochila.anadirArma(armaDosM);
-                armaDosM = null; //El setter no funciona
+                if(mochila.anadirArma(armaDosM)) {
+                    armaDosM = null; //El setter no funciona
+                }
             } else if (arma.equals(armaDer)) {
-                mochila.anadirArma(getArmaDer());
-                armaDer = null;
+                if(mochila.anadirArma(getArmaDer()))
+                    armaDer = null;
             } else if (arma.equals(armaIzq)){
-                mochila.anadirArma(getArmaIzq());
-                armaIzq = null;
+                if(mochila.anadirArma(getArmaIzq()))
+                    armaIzq = null;
             }
         }
     }
@@ -503,7 +506,7 @@ public class Personaje {
             for (Arma arma : armas)
                 ataque += arma.getDano();
         else
-            System.out.println("ERROR, no hay armas con las que atacar.");
+            consola.imprimir("ERROR, no hay armas con las que atacar.");
         return ataque;
     }
 
@@ -543,73 +546,79 @@ public class Personaje {
                 }
             } else if (armas.size() == 2) {
                 if (armas.get(0).isDosManos() || armas.get(1).isDosManos())
-                    System.out.println("ERROR, quieres equipar dos armas pero una de ellas es a dos manos(El enemigo solo tiene dos manos)");
+                    consola.imprimirError("ERROR, quieres equipar dos armas pero una de ellas es a dos manos y no eres un marine.(El enemigo solo tiene dos manos)");
                 else {
                     armaDer = armas.get(0);
                     armaIzq = armas.get(1);
                     armaDosM = null;
                 }
             } else
-                System.out.println("ERROR en el número de armas que quieres equipar al enemigo");
+                consola.imprimir("ERROR en el número de armas que quieres equipar al enemigo");
         } else
-            System.out.println("ERROR asignando las armas al enemigo");
+            consola.imprimir("ERROR asignando las armas al enemigo");
     }
 
     public void info() {
-        System.out.println("Personaje: " + getNombre());
-        System.out.println("Energia maxima: " + getEnergiaMaxima());
-        System.out.println("Salud maxima: " + getVidaMaxima());
-        System.out.println("Energia actual: " + getEnergiaActual());
-        System.out.println("Salud actual: " + getVidaActual());
+        consola.imprimir("Personaje: " + getNombre());
+        consola.imprimir("Energia maxima: " + getEnergiaMaxima());
+        consola.imprimir("Salud maxima: " + getVidaMaxima());
+        consola.imprimir("Energia actual: " + getEnergiaActual());
+        consola.imprimir("Salud actual: " + getVidaActual());
         if (getArmaDosM() != null) {
-            System.out.println("Arma equipada de dos manos: ");
+            consola.imprimir("Arma equipada de dos manos: ");
             getArmaDosM().info();
         }
         if (getArmaDer() != null) {
-            System.out.println("Arma equipada de mano derecha: ");
+            consola.imprimir("Arma equipada de mano derecha: ");
             getArmaDer().info();
         }
         if (getArmaIzq() != null) {
-            System.out.println("Arma equipada de mano izquierda: ");
+            consola.imprimir("Arma equipada de mano izquierda: ");
             getArmaIzq().info();
         }
         if (getArmadura() != null) {
             getArmadura().info();
         }
-        System.out.println("Puntos de ataque: " + getAtaque());
-        System.out.println("Rango vision: " + getRangoVision());
-        System.out.println("Inventario: ");
+        consola.imprimir("Puntos de ataque: " + getAtaque());
+        consola.imprimir("Rango vision: " + getRangoVision());
+        consola.imprimir("Inventario: ");
         ojearInventario();
     }
 
     public void ojearInventario() {
         ArrayList<Binocular> arrayBin = getMochila().getArrayBinoculares();
         ArrayList<Botiquin> arrayBot = getMochila().getArrayBotiquin();
-        System.out.println("Capacidad restante: " + (getMochila().getObjetosMaximos() - getMochila().getObjetosActuales()) + " objetos");
-        System.out.println("Peso actual: " + getMochila().getPesoActual() + " kilogramos (Max : "+getMochila().getPesoMaximo()+")");
+        consola.imprimir("Capacidad restante: " + (getMochila().getObjetosMaximos() - getMochila().getObjetosActuales()) + " objetos");
+        consola.imprimir("Peso actual: " + getMochila().getPesoActual() + " kilogramos (Max : "+getMochila().getPesoMaximo()+")");
         for (Binocular bin : arrayBin) {
             if (bin != null)
                 bin.info();
             else
-                System.out.println("No hay botiquines en la mochila.");
+                consola.imprimir("No hay botiquines en la mochila.");
         }
         for (Botiquin bot : arrayBot) {
             if (bot != null)
                 bot.info();
             else
-                System.out.println("No hay botiquines en la mochila.");
+                consola.imprimir("No hay botiquines en la mochila.");
         }
         for (Arma arma : getMochila().getArrayArmas()) {
             if (arma != null)
                 arma.info();
             else
-                System.out.println("No hay armas en la mochila.");
+                consola.imprimir("No hay armas en la mochila.");
         }
         for (Armadura armadura : getMochila().getArrayArmaduras()) {
             if (armadura != null)
                 armadura.info();
             else
-                System.out.println("No hay armaduras en la mochila.");
+                consola.imprimir("No hay armaduras en la mochila.");
+        }
+        for (Torito torito : getMochila().getArrayTorito()) {
+            if(torito != null)
+                torito.info();
+            else
+                consola.imprimir("No hay toritos en la mochila");
         }
     }
 }

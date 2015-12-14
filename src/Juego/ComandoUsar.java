@@ -8,8 +8,8 @@ import Objetos.Torito;
 import Personajes.Jugador;
 
 public class ComandoUsar implements Comando {
-    Objeto objeto = null;
-    Jugador personaje;
+    private Objeto objeto = null;
+    private Jugador personaje;
 
     public ComandoUsar(Jugador personaje, String nombreObjeto) throws ComandoException, ObjetoInexistenteMochilaException {
         if(nombreObjeto != null && personaje != null) {

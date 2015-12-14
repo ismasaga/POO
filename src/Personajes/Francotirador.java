@@ -1,9 +1,6 @@
 package Personajes;
 
-import Juego.Celda;
-import Juego.Consola;
-import Juego.ConsolaNormal;
-import Juego.Mapa;
+import Juego.*;
 import Objetos.Objeto;
 import Excepciones.*;
 
@@ -25,9 +22,9 @@ public final class Francotirador extends Jugador {
 
     //No puede coger explosivos
     @Override
-    public void coger(Objeto objeto) throws SegmentationFaultException, PesoMaximoException, EspacioMaximoException {
+    public void coger(Objeto objeto) throws ExplosivosException , PesoMaximoException, EspacioMaximoException {
         if(objeto.getNombre().equals("explosivos") || objeto.getNombre().equals("bazooka"))
-            throw new SegmentationFaultException();
+            throw new ExplosivosException("E francotirador no puede equipar explosivos");
         else
             super.coger(objeto);
     }
@@ -46,9 +43,9 @@ public final class Francotirador extends Jugador {
         int ataqueEjecutado;
 
         if (prob > 0.25) { //No es critico
-            ataqueEjecutado = (int)(correcccionAtaque * getAtaque() * 20 / personaje.getArmadura().getDefensa());
+            ataqueEjecutado = (int)(correcccionAtaque * getAtaque() * Constantes.REDUCCION_ARMADURA / personaje.getArmadura().getDefensa());
         } else { //Golpe critico
-            ataqueEjecutado = (int)(correcccionAtaque * 2 * (getAtaque() * 20 / personaje.getArmadura().getDefensa()));
+            ataqueEjecutado = (int)(correcccionAtaque * 2 * (getAtaque() * Constantes.REDUCCION_ARMADURA / personaje.getArmadura().getDefensa()));
             consola.imprimir("CR1T 1N Y0U8 F4C3");
         }
         if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
@@ -88,7 +85,7 @@ public final class Francotirador extends Jugador {
             } else //Golpe critico
             {
                 ataqueEjecutado = ((int)(correcccionAtaque * 2 * (getAtaque() / celda.getEnemigo().size())) * 20 / enemigo.getArmadura().getDefensa());
-                System.out.println("CR1T 1N Y0U8 F4C3");
+                consola.imprimir("CR1T 1N Y0U8 F4C3");
             }
             if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
             {
@@ -97,7 +94,7 @@ public final class Francotirador extends Jugador {
             enemigo.setVidaActual(enemigo.getVidaActual() - ataqueEjecutado);
             consola.imprimir("El personaje " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getVidaActual());
             if (enemigo.getVidaActual() <= 0) {
-                System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
+                consola.imprimir("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
                 enemigosAbatidos.add(enemigo);
             }
         }

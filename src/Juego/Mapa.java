@@ -20,6 +20,7 @@ public class Mapa {
 
     private final int ancho, alto;
     private String nombre;
+    private ConsolaNormal consola = new ConsolaNormal();
 
     /**
      * Para comparar esta celda con la celda del personaje (o del enemigo), se debe usar aliasing; es decir, <strong>
@@ -80,7 +81,7 @@ public class Mapa {
         if (nombre != null)
             this.nombre = nombre;
         else
-            System.out.println("ERROR asignando nombre al mapa");
+            consola.imprimirError("ERROR asignando nombre al mapa");
     }
 
     /**
@@ -140,25 +141,25 @@ public class Mapa {
         for (int fila = 0; fila < getAlto(); fila++) {
             for (int columna = 0; columna < getAncho(); columna++) {
                 String imprimir = "";
-                System.out.print("|");
+                consola.imprimirSinSalto("|");
                 if (i == fila && j == columna) {
                     imprimir = " P |";
-                    System.out.print(imprimir);
+                    consola.imprimirSinSalto(imprimir);
                     continue;
                 }
                 if (!(fila >= i - personaje.getRangoVision() && fila <= i + personaje.getRangoVision() && columna >= j - personaje.getRangoVision() && columna <= j + personaje.getRangoVision())) {
                     imprimir = "---|";
-                    System.out.print(imprimir);
+                    consola.imprimirSinSalto(imprimir);
                     continue;
                 }
                 if (!mapa.get(fila).get(columna).isTransitable()) {
                     imprimir = " * |";
-                    System.out.print(imprimir);
+                    consola.imprimirSinSalto(imprimir);
                     continue;
                 }
                 if(mapa.get(fila).get(columna).getEnemigo() != null) {
                     imprimir += " E |";
-                    System.out.print(imprimir);
+                    consola.imprimirSinSalto(imprimir);
                     continue;
                 }
                 if(!mapa.get(fila).get(columna).getArrayObjetos().isEmpty()) {
@@ -184,10 +185,10 @@ public class Mapa {
                     imprimir = "   ";
                 }
 
-                System.out.print(imprimir);
-                System.out.print("|");
+                consola.imprimirSinSalto(imprimir);
+                consola.imprimirSinSalto("|");
             }
-            System.out.println();
+            consola.imprimir(" ");
         }
     }
 

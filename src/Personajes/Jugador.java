@@ -79,7 +79,7 @@ public abstract  class Jugador extends Personaje {
                 celdaJ <= j + getRangoVision()))
             celda = mapa.getCelda(celdaI, celdaJ);
 
-        System.out.println("Got celda: " + celdaI + "," + celdaJ + "!=null " + (celda != null));
+        consola.imprimir("Got celda: " + celdaI + "," + celdaJ + "!=null " + (celda != null));
         if (celda == null) {
             throw new SegmentationFaultException();
         }
@@ -163,6 +163,7 @@ public abstract  class Jugador extends Personaje {
      * Este método si comprueba que se sueltan las pertenencias de los enemigos que se matan
      */
     public abstract void atacar(Celda celda) throws InsuficienteEnergiaException;
+    public abstract void atacar(Personaje personaje) throws InsuficienteEnergiaException;
 
 
     public void pasar(Mapa mapa, Personaje personaje) {
@@ -191,7 +192,7 @@ public abstract  class Jugador extends Personaje {
             }
         }
         for (int i = 0; i < arrayEnemigos.size(); i++) {
-            arrayEnemigos.get(i).mover(mapa, arrayPos.get(i)[0], arrayPos.get(i)[1], personaje);
+            arrayEnemigos.get(i).ia(mapa, personaje);
         }
     }
 }

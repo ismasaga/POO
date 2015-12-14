@@ -30,6 +30,7 @@ public class Mochila {
     //Estos atributos no tienen setters, pues sus valores se calculan desde mochila.
     private float pesoActual;
     private float objetosActuales;
+    private ConsolaNormal consola = new ConsolaNormal();
 
     /**
      * Constructor que crea una nueva mochila
@@ -96,7 +97,7 @@ public class Mochila {
         if (nombre != null)
             this.nombre = nombre;
         else
-            System.out.println("ERROR asignando nombre a la mochila");
+            consola.imprimirError("ERROR asignando nombre a la mochila");
     }
 
     /**
@@ -113,7 +114,7 @@ public class Mochila {
         if (descripcion != null)
             this.descripcion = descripcion;
         else
-            System.out.println("ERROR asignando descripcion a la mochila");
+            consola.imprimirError("ERROR asignando descripcion a la mochila");
     }
 
     public ArrayList<Torito> getArrayTorito() {
@@ -173,11 +174,11 @@ public class Mochila {
     public boolean anadirTorito(Torito torito) {
         if (torito != null) {
             if (getPesoActual() + torito.getPeso() > this.getPesoMaximo()) {
-                System.err.println("Se ha sobrepasado el peso maximo");
+                consola.imprimirError("Se ha sobrepasado el peso maximo");
                 return false;
             }
             if (getObjetosActuales() + 1 > this.getObjetosMaximos()) {
-                System.err.println("Se ha sobrepasado el numero de objetos maximo");
+                consola.imprimirError("Se ha sobrepasado el numero de objetos maximo");
                 return false;
             }
             arrayTorito.add(torito);
@@ -194,11 +195,11 @@ public class Mochila {
     public boolean anadirArma(Arma arma) {
         if (arma != null) {
             if(arma.getPeso() + getPesoActual() > getPesoMaximo()) {
-                System.out.println("Se ha sobrepasado el peso maximo");
+                consola.imprimirError("Se ha sobrepasado el peso maximo"); //ACHTUNG: no podemos tirar una excepción porque retorna un valor
                 return false;
             }
             if(arma.getEspacio() + getObjetosActuales() > getObjetosMaximos()) {
-                System.err.println("Se ha sobrepasado el numero de objetos maximo");
+                consola.imprimirError("Se ha sobrepasado el numero de objetos maximo");
                 return false;
             }
             arrayArmas.add(arma);
@@ -206,7 +207,7 @@ public class Mochila {
             this.setObjetosActuales(this.getObjetosActuales() + arma.getEspacio());
             return true;
         } else
-            System.out.println("ERROR insertando arma en la mochila");
+            consola.imprimirError("ERROR insertando arma en la mochila");
         return false;
     }
 
@@ -218,11 +219,11 @@ public class Mochila {
         if(armadura != null) {
             arrayArmaduras.add(armadura);
             if (armadura.getPeso() + getPesoActual() > getPesoMaximo()) {
-                System.out.println("Se ha sobrepasado el peso maximo");
+                consola.imprimirError("Se ha sobrepasado el peso maximo");
                 return false;
             }
             if(armadura.getEspacio() + getObjetosActuales() > getObjetosMaximos()) {
-                System.err.println("Se ha sobrepasado el numero de objetos maximo");
+                consola.imprimirError("Se ha sobrepasado el numero de objetos maximo");
                 return false;
             }
             this.setPesoActual(this.getPesoActual() + armadura.getPeso());
@@ -239,11 +240,11 @@ public class Mochila {
     public boolean anadirBinocular(Binocular binocular) {
         if (binocular != null) {
             if (getPesoActual() + binocular.getPeso() > this.getPesoMaximo()) {
-                System.err.println("Se ha sobrepasado el peso maximo");
+                consola.imprimirError("Se ha sobrepasado el peso maximo");
                 return false;
             }
             if (getObjetosActuales() + 1 > this.getObjetosMaximos()) {
-                System.err.println("Se ha sobrepasado el numero de objetos maximo");
+                consola.imprimirError("Se ha sobrepasado el numero de objetos maximo");
                 return false;
             }
             arrayBinoculares.add(binocular);
@@ -284,11 +285,11 @@ public class Mochila {
     public boolean anadirBotiquin(Botiquin botiquin) {
         if(botiquin != null) {
             if (getPesoActual() + botiquin.getPeso() > this.getPesoMaximo()) {
-                System.err.println("Se ha sobrepasado el peso maximo");
+                consola.imprimirError("Se ha sobrepasado el peso maximo");
                 return false;
             }
             if (getObjetosActuales() + botiquin.getEspacio() > this.getObjetosMaximos()) {
-                System.err.println("Se ha sobrepasado el numero de objetos maximo");
+                consola.imprimirError("Se ha sobrepasado el numero de objetos maximo");
                 return false;
             }
             arrayBotiquin.add(botiquin);

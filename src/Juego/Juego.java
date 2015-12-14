@@ -6,9 +6,9 @@ import Personajes.Jugador;
  * Clase auxiliar de una clase auxiliar (debería ser una innerclass).
  * Esta clase proporciona un medio seguro para obtener el mapa y el personaje de parser.
  */
-public class Bundle {
-    Mapa mapa = null;
-    Jugador personaje = null;
+public class Juego {
+    private Mapa mapa = null;
+    private Jugador personaje = null;
 
     public Mapa getMapa() {
         return mapa;

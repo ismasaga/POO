@@ -14,6 +14,10 @@ public class ConsolaNormal implements Consola {
         return scanner.nextLine();
     }
 
+    public void imprimirSinSalto(String mensaje){
+        System.out.print(mensaje);
+    }
+
     public void imprimirError(String mensaje) {
         System.err.println(mensaje);
     }
