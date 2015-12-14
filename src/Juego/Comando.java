@@ -12,5 +12,7 @@ public interface Comando {
             FueraDeRangoException,
             EspacioMaximoException,
             PesoMaximoException,
-            ObjetoException;
+            ObjetoException,
+            ManosArmaException,
+            ExplosivosException;
 }

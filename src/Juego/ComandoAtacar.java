@@ -1,6 +1,7 @@
 package Juego;
 
 import Excepciones.ComandoException;
+import Excepciones.FueraDeRangoException;
 import Excepciones.InsuficienteEnergiaException;
 import Personajes.Enemigo;
 import Personajes.Jugador;
@@ -79,7 +80,7 @@ public class ComandoAtacar implements Comando {
     }
 
     @Override
-    public void ejecutar() throws ComandoException, InsuficienteEnergiaException {
+    public void ejecutar() throws ComandoException, InsuficienteEnergiaException, FueraDeRangoException {
         Consola consola = new ConsolaNormal();
         int i = personaje.getPunto().x;
         int j = personaje.getPunto().y;
@@ -103,59 +104,45 @@ public class ComandoAtacar implements Comando {
 
         int minX = numX;
         if (minX > personaje.getRangoVision()) {
-            System.out.println("No tienes suficiente rango de vision");
-            minX = personaje.getRangoVision();
-            return;
+            //consola.imprimir("No tienes suficiente rango de vision");
+            throw new FueraDeRangoException("Sin suficiente rango de visión");
         }
         if (personaje.getArmaDer() != null) {
             if (minX > personaje.getArmaDer().getAlcance()) {
-                minX = personaje.getArmaDer().getAlcance();
-                System.out.println("Tu arma derecha no tiene suficiente alcance.");
-                return;
+                throw new FueraDeRangoException("Tu arma derecha no tiene suficiente alcance.");
             }
 
         }
         if (personaje.getArmaIzq() != null) {
             if (minX > personaje.getArmaIzq().getAlcance()) {
-                minX = personaje.getArmaIzq().getAlcance();
-                System.out.println("Tu arma izquierda no tiene suficiente alcance.");
-                return;
+                throw new FueraDeRangoException("Tu arma izquierda no tiene suficiente alcance.");
             }
         }
         if (personaje.getArmaDosM() != null) {
             if (minX > personaje.getArmaDosM().getAlcance()) {
-                minX = personaje.getArmaDosM().getAlcance();
-                System.out.println("Tu arma de dos manos no tiene suficiente alcance.");
-                return;
+                throw new FueraDeRangoException("Tu arma de dos manos no tiene suficiente alcance.");
             }
         }
 
         /**Buscamos el maximo de casillas atacables (eje y)**/
         int minY = numY;
         if (minY > personaje.getRangoVision()) {
-            System.out.println("No tienes suficiente rango de vision");
-            return;
+            throw new FueraDeRangoException("No tienes suficiente rango de vision");
         }
         if (personaje.getArmaDer() != null) {
             if (minY > personaje.getArmaDer().getAlcance()) {
-                minY = personaje.getArmaDer().getAlcance();
-                System.out.println("Tu arma derecha no tiene suficiente alcance.");
-                return;
+                throw new FueraDeRangoException("Tu arma derecha no tiene suficiente alcance.");
             }
 
         }
         if (personaje.getArmaIzq() != null) {
             if (minY > personaje.getArmaIzq().getAlcance()) {
-                minY = personaje.getArmaIzq().getAlcance();
-                System.out.println("Tu arma izquierda no tiene suficiente alcance.");
-                return;
+                throw new FueraDeRangoException("Tu arma izquierda no tiene suficiente alcance.");
             }
         }
         if (personaje.getArmaDosM() != null) {
             if (minY > personaje.getArmaDosM().getAlcance()) {
-                minY = personaje.getArmaDosM().getAlcance();
-                System.out.println("Tu arma no tiene suficiente alcance.");
-                return;
+                throw new FueraDeRangoException("Tu arma no tiene suficiente alcance.");
             }
         }
 

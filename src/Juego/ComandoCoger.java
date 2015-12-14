@@ -1,9 +1,6 @@
 package Juego;
 
-import Excepciones.ComandoException;
-import Excepciones.EspacioMaximoException;
-import Excepciones.PesoMaximoException;
-import Excepciones.SegmentationFaultException;
+import Excepciones.*;
 import Objetos.Objeto;
 import Personajes.Jugador;
 
@@ -20,7 +17,7 @@ public class ComandoCoger implements Comando {
     }
 
     @Override
-    public void ejecutar() throws ComandoException, SegmentationFaultException, EspacioMaximoException, PesoMaximoException {
+    public void ejecutar() throws ComandoException, ExplosivosException , EspacioMaximoException, PesoMaximoException {
         for(Objeto obj : mapa.getCelda(jugador.getPunto().x, jugador.getPunto().y).getArrayObjetos()){
             if(obj.getNombre().equals(objeto)){
                 jugador.coger(obj);

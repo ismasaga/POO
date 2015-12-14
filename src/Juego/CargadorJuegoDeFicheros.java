@@ -12,18 +12,18 @@ import Personajes.*;
  * Created by efren on 14/12/15.
  */
 public class CargadorJuegoDeFicheros implements CargadorJuego{
-    String linea;
-    String[] cadeas;
-    BufferedReader buffer;
-    int[] tamano = new int[2];
-    Arma armaMasBuena;
-    Mapa mapa;
-    Jugador personaje = null;
-    Juego juego = new Juego();
-    Consola consola = new ConsolaNormal();
-    String rutaMapa;
-    String rutaNpcs;
-    String rutaObjetos;
+    private String linea;
+    private String[] cadeas;
+    private BufferedReader buffer;
+    private int[] tamano = new int[2];
+    private Arma armaMasBuena;
+    private Mapa mapa;
+    private Jugador personaje = null;
+    private Juego juego = new Juego();
+    private Consola consola = new ConsolaNormal();
+    private String rutaMapa;
+    private String rutaNpcs;
+    private String rutaObjetos;
 
     public CargadorJuegoDeFicheros(String rutaMapa, String rutaNpcs, String rutaObjetos) {
         this.rutaMapa = rutaMapa;
@@ -189,10 +189,10 @@ public class CargadorJuegoDeFicheros implements CargadorJuego{
                                         mapa.getCelda(tamano[0], tamano[1]).anadirObjeto(new Botiquin(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Float.parseFloat(cadeas[6])));
                                         break;
                                     case "mochila":
-                                        System.out.println("Non podes deixar unha mochila nunha casilla(Por ahora)");
+                                        consola.imprimir("Non podes deixar unha mochila nunha casilla(Por ahora)");
                                         break;
                                     default:
-                                        System.out.println("ERROR, objeto desconocido(Por ahora) para una casilla");
+                                        consola.imprimir("ERROR, objeto desconocido(Por ahora) para una casilla");
                                 }
                                 break;
                             case "jugador":
@@ -201,31 +201,31 @@ public class CargadorJuegoDeFicheros implements CargadorJuego{
                                         if (personaje.getMochila() != null)
                                             personaje.getMochila().anadirBinocular(new Binocular(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
                                         else
-                                            System.out.println("ERROR, el personaje intenta coger un binocular pero tiene que tener mochila para hacerlo");
+                                            consola.imprimir("ERROR, el personaje intenta coger un binocular pero tiene que tener mochila para hacerlo");
                                         break;
                                     case "arma":
                                         if (personaje.getMochila() != null)
                                             personaje.getMochila().anadirArma(new Arma(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Integer.parseInt(cadeas[8])));
                                         else
-                                            System.out.println("ERROR, el personaje intenta coger un arma pero tiene que tener mochila para hacerlo");
+                                            consola.imprimir("ERROR, el personaje intenta coger un arma pero tiene que tener mochila para hacerlo");
                                         break;
                                     case "armadura":
                                         if (personaje.getMochila() != null)
                                             personaje.getMochila().anadirArmadura(new Armadura(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Integer.parseInt(cadeas[8])));
                                         else
-                                            System.out.println("ERROR, el personaje intenta coger una armadura pero tiene que tener mochila para hacerlo");
+                                            consola.imprimir("ERROR, el personaje intenta coger una armadura pero tiene que tener mochila para hacerlo");
                                         break;
                                     case "botiquin":
                                         if (personaje.getMochila() != null)
                                             personaje.getMochila().anadirBotiquin(new Botiquin(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
                                         else
-                                            System.out.println("ERROR, el personaje intenta coger un botiquin pero tiene que tener mochila para hacerlo");
+                                            consola.imprimir("ERROR, el personaje intenta coger un botiquin pero tiene que tener mochila para hacerlo");
                                         break;
                                     case "mochila":
                                         personaje.setMochila(new Mochila(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6])));
                                         break;
                                     default:
-                                        System.out.println("ERROR, intentas dar un objeto desconocido(Por ahora) al personaje");
+                                        consola.imprimir("ERROR, intentas dar un objeto desconocido(Por ahora) al personaje");
                                 }
                                 break;
                             default:
@@ -244,7 +244,7 @@ public class CargadorJuegoDeFicheros implements CargadorJuego{
                                             enemigo.setArmadura(new Armadura(cadeas[3], cadeas[4], Integer.parseInt(cadeas[5]), Integer.parseInt(cadeas[6]), Integer.parseInt(cadeas[7]), Float.parseFloat(cadeas[8])));
                                             break;
                                         default:
-                                            System.out.println("Comando no encontrado");
+                                            consola.imprimir("Comando no encontrado");
                                             break;
                                     }
 
@@ -254,11 +254,11 @@ public class CargadorJuegoDeFicheros implements CargadorJuego{
                 }
                 buffer.close();
             } catch (IOException ex) {
-                System.out.println("ERROR leyendo el fichero" + ex);
+                consola.imprimir("ERROR leyendo el fichero" + ex);
                 System.exit(1);
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("ERROR abriendo el fichero" + ex);
+            consola.imprimir("ERROR abriendo el fichero" + ex);
             System.exit(1);
         }
 

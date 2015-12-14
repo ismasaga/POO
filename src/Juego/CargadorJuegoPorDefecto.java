@@ -28,7 +28,7 @@ public class CargadorJuegoPorDefecto implements CargadorJuego{
         Armadura armaduraVida = new Armadura("armadura curadora","armadura de vida",10,0,3,5,5);
         Armadura armaduraEnergy = new Armadura("armadura rapida","armadura de energia",0,10,3,4,4);
 
-        System.out.println(mapa.getDescripcion());
+        consola.imprimir(mapa.getDescripcion());
 
         //mapa.getCelda(5,0).setEnemigo(new Enemigo(100, 100, armaMala, null, armaduraEnergy, "desconocido"));
 

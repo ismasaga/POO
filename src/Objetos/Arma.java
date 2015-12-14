@@ -1,12 +1,14 @@
 package Objetos;
 
 import Excepciones.InusableException;
+import Juego.ConsolaNormal;
 import Personajes.Personaje;
 
 public class Arma extends Objeto{
     private boolean dosManos;
     private int dano;
     private int alcance;
+    private ConsolaNormal consola = new ConsolaNormal();
 
     public Arma() {
         setNombre("desconocida");
@@ -41,7 +43,7 @@ public class Arma extends Objeto{
         else if (manos == 2)
             setDosManos(true);
         else
-            System.out.println("ERROR definiendo de cuántas manos és le arma");
+            consola.imprimirError("ERROR definiendo de cuántas manos és le arma");
         setPeso(peso);
         setEspacio(1);
     }
@@ -101,17 +103,16 @@ public class Arma extends Objeto{
      * Imprime informacion sobre el arma
      */
     public void info() {
-        System.out.println("Arma: " + getNombre());
-        System.out.println("\tDaño: " + getDano());
-        System.out.println("\tPeso: " + getPeso());
-        System.out.println("\tEspacio: " + getEspacio());
-        System.out.println("\tDescripcion: " + getDescripcion());
-        System.out.println("\tMano: " + (isDosManos() ? "Dos Manos" : "Una mano"));
-        System.out.println("\tAlcance: "+getAlcance());
+        consola.imprimir("Arma: " + getNombre());
+        consola.imprimir("\tDaño: " + getDano());
+        consola.imprimir("\tPeso: " + getPeso());
+        consola.imprimir("\tEspacio: " + getEspacio());
+        consola.imprimir("\tDescripcion: " + getDescripcion());
+        consola.imprimir("\tMano: " + (isDosManos() ? "Dos Manos" : "Una mano"));
+        consola.imprimir("\tAlcance: "+getAlcance());
     }
 
     public void usar(Personaje personaje) throws InusableException{
-        //TODO: tirar una excepcion como dios manda
         throw new InusableException("arma");
     }
 }

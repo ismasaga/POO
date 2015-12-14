@@ -7,6 +7,7 @@ import Objetos.Arma;
 import Objetos.Armadura;
 import Objetos.Binocular;
 import Objetos.Botiquin;
+import Juego.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.Random;
  */
 public abstract class Enemigo extends Personaje{
 
-
+    private ConsolaNormal consola= new ConsolaNormal();
     /**
      * Constructor para el parseado de los archivos
      * @param mapa
@@ -48,17 +49,20 @@ public abstract class Enemigo extends Personaje{
 
     public void atacar(Personaje personaje) {
         int coeficienteAtaque; //Esta variable previene que un ataque sume puntos de vida (armadura > ataque)
-        coeficienteAtaque = (getAtaque() - personaje.getArmadura().getDefensa() >= 0) ? getAtaque() - personaje.getArmadura().getDefensa() : 0;
+        if(personaje.getArmadura() != null)
+            coeficienteAtaque = (getAtaque() - personaje.getArmadura().getDefensa() >= 0) ? getAtaque() - personaje.getArmadura().getDefensa() : 0;
+        else
+            coeficienteAtaque = (getAtaque());
         personaje.setVidaActual(personaje.getVidaActual() - coeficienteAtaque);
-        System.out.println(personaje.getNombre() + " atacado con" + coeficienteAtaque + " puntos de daño");
+        consola.imprimir(personaje.getNombre() + " atacado con" + coeficienteAtaque + " puntos de daño");
     }
 
     /**
      * Imprime informacion sobre el enemigo
      */
     public void info() {
-        System.out.println("Enemigo: ");
-        System.out.println("Nombre: " + getNombre() +
+        consola.imprimir("Enemigo: ");
+        consola.imprimir("Nombre: " + getNombre() +
                 "\nPuntos de vida: " + getVidaActual() +
                 "\nPuntos de ataque: " + getAtaque() +
                 "\nPuntos de armadura: " + getArmadura().getDefensa());
@@ -79,7 +83,7 @@ public abstract class Enemigo extends Personaje{
         for (Arma arma : this.getArmas()) {
             if (arma != null) {
                 celda.anadirObjeto(arma);
-                System.out.println("Soltando:");
+                consola.imprimir("Soltando:");
                 arma.info();
             }
             setArmaDer(null);
@@ -88,14 +92,14 @@ public abstract class Enemigo extends Personaje{
         }
         if (getArmadura() != null) {
             celda.anadirObjeto(getArmadura());
-            System.out.println("Soltando:");
+            consola.imprimir("Soltando:");
             getArmadura().info();
             setArmadura(null);
         }
         for (Arma arma : getMochila().getArrayArmas()) {
             if (arma != null) {
                 celda.anadirObjeto(arma);
-                System.out.println("Soltando:");
+                consola.imprimir("Soltando:");
                 arma.info();
             }
         }
@@ -103,7 +107,7 @@ public abstract class Enemigo extends Personaje{
         for (Armadura armadura : getMochila().getArrayArmaduras()) {
             if (armadura != null) {
                 celda.anadirObjeto(armadura);
-                System.out.println("Soltando:");
+                consola.imprimir("Soltando:");
                 armadura.info();
             }
         }
@@ -112,7 +116,7 @@ public abstract class Enemigo extends Personaje{
             if (bin != null) {
                 celda.anadirObjeto(bin);
                 getMochila().getArrayBinoculares().remove(bin);
-                System.out.println("Soltando:");
+                consola.imprimir("Soltando:");
                 bin.info();
             }
         }
@@ -120,7 +124,7 @@ public abstract class Enemigo extends Personaje{
             if (bot != null) {
                 celda.anadirObjeto(bot);
                 getMochila().getArrayBotiquin().remove(bot);
-                System.out.println("Soltando:");
+                consola.imprimir("Soltando:");
                 bot.info();
             }
         }
@@ -133,25 +137,22 @@ public abstract class Enemigo extends Personaje{
      * Se deberia iterar sobre 'all' el mapa aplicando este metodo a cada enemigo
      *
      * @param mapa      Mapa sobre el que mover
-     * @param iE        Fila actual del enemigo
-     * @param jE        Columna actual del enemigo
      * @param personaje Personaje al que atacar
      */
-    public void mover(Mapa mapa, int iE, int jE, Personaje personaje) {
-        /*Random numero = new Random();
+    public void ia(Mapa mapa, Personaje personaje) {
+        Random numero = new Random();
 
         int numeroMovimientos = numero.nextInt(4);
         int direccion;
-        int iPersonaje = mapa.posicionPersonaje(personaje)[0];
-        int jPersonaje = mapa.posicionPersonaje(personaje)[1];
-        int iEnemigo = iE;
-        int jEnemigo = jE;
+        int iPersonaje = personaje.getPunto().x;
+        int jPersonaje = personaje.getPunto().y;
+        int iEnemigo = this.getPunto().x;
+        int jEnemigo = this.getPunto().y;
         for (int i = 0; i < numeroMovimientos; i++) {
             if ((iPersonaje >= iEnemigo - getRangoVision() &&
                     iPersonaje <= iEnemigo + getRangoVision() &&
                     jPersonaje >= jEnemigo - getRangoVision() &&
                     jPersonaje <= jEnemigo + getRangoVision())) {
-
                 atacar(personaje);
                 return;
             } else {
@@ -175,9 +176,10 @@ public abstract class Enemigo extends Personaje{
                             jEnemigo -= 1;
                         break;
                     default:
-                        System.err.println("Incapaz de mover el enemigo" + this.getNombre());
+                        consola.imprimirError("Incapaz de mover el enemigo" + this.getNombre());
                 }
                 mapa.getCelda(iEnemigo, jEnemigo).setEnemigo(this);
+                this.setPunto(new Point(iEnemigo,jEnemigo));
             }
             if ((iPersonaje >= iEnemigo - getRangoVision() &&
                     iPersonaje <= iEnemigo + getRangoVision() &&
@@ -187,6 +189,6 @@ public abstract class Enemigo extends Personaje{
                 atacar(personaje);
                 return;
             }
-        }*/
+        }
     }
 }

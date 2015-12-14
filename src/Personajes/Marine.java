@@ -15,6 +15,7 @@ import java.util.Random;
 public final class Marine extends Jugador {
 
     private Arma armaDosM2;
+    private ConsolaNormal consola = new ConsolaNormal();
     /**
      * Constructor para archivo parseado
      */
@@ -105,13 +106,13 @@ public final class Marine extends Jugador {
      * @throws SegmentationFaultException
      */
     @Override
-    public void equipar(Arma arma, String mano) throws SegmentationFaultException {
+    public void equipar(Arma arma, String mano) throws ManosArmaException {
         if(arma.isDosManos() && mano.equals("izquierda")){ //Tengo que tener en cuenta este caso especial
             if(arma != null) {
                 super.getMochila().quitarArma(arma);
                 armaDosM2 = arma;
             } else {
-                throw new SegmentationFaultException();
+                consola.imprimirError("No se ha podido equipar el arma: segfault"); // No es un error del usuario
             }
         }
         else //Equipo como siempre
@@ -133,9 +134,9 @@ public final class Marine extends Jugador {
 
     //No puede coger explosivos
     @Override
-    public void coger(Objeto objeto) throws SegmentationFaultException, PesoMaximoException, EspacioMaximoException {
+    public void coger(Objeto objeto) throws ExplosivosException , PesoMaximoException, EspacioMaximoException {
         if(objeto.getNombre().equals("explosivos") || objeto.getNombre().equals("bazooka"))
-            throw new SegmentationFaultException();
+            throw new ExplosivosException("El marine no puede equipar explosivos");
         else
             super.coger(objeto);
     }
@@ -196,7 +197,7 @@ public final class Marine extends Jugador {
             } else //Golpe critico
             {
                 ataqueEjecutado = ((int)(correcccionAtaque * 2 * (getAtaque() / celda.getEnemigo().size())) * 20 / enemigo.getArmadura().getDefensa());
-                System.out.println("CR1T 1N Y0U8 F4C3");
+                consola.imprimir("CR1T 1N Y0U8 F4C3");
             }
             if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
             {
@@ -205,7 +206,7 @@ public final class Marine extends Jugador {
             enemigo.setVidaActual(enemigo.getVidaActual() - ataqueEjecutado);
             consola.imprimir("El personaje " + enemigo.getNombre() + " ha sido dañado en " + ataqueEjecutado + "\nVida restante: " + enemigo.getVidaActual());
             if (enemigo.getVidaActual() <= 0) {
-                System.out.println("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
+                consola.imprimir("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
                 enemigosAbatidos.add(enemigo);
             }
         }

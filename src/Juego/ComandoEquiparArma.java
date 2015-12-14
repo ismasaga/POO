@@ -19,7 +19,7 @@ public class ComandoEquiparArma implements Comando{
     }
 
     @Override
-    public void ejecutar() throws SegmentationFaultException, ComandoException{
+    public void ejecutar() throws ManosArmaException , ComandoException{
         for(Arma arma : personaje.getMochila().getArrayArmas()){
             if(arma.getNombre().equals(nombreArma)){
                 personaje.equipar(arma,mano);

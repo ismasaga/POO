@@ -1,5 +1,6 @@
 package Objetos;
 
+import Juego.ConsolaNormal;
 import Personajes.Personaje;
 
 /**
@@ -10,6 +11,7 @@ import Personajes.Personaje;
  */
 public class Botiquin extends Objeto {
     private final int curacion;
+    private ConsolaNormal consola = new ConsolaNormal();
 
     public Botiquin(String nombre, String descripcion, int curacion, float peso, int espacio) {
         setNombre(nombre);
@@ -50,12 +52,12 @@ public class Botiquin extends Objeto {
      * Imprime informacion sobre el binocular
      */
     public void info() {
-        System.out.println("Botiquin:\n");
-        System.out.println("\tPeso: " + getPeso() + "\n");
-        System.out.println("\tEspacio: " + getEspacio() + "\n");
-        System.out.println("\tCuracion: " + getCuracion() + "\n");
-        System.out.println("\tNombre: " + getNombre());
-        System.out.println("\tDescripcion: " + getDescripcion());
+        consola.imprimir("Botiquin:\n");
+        consola.imprimir("\tPeso: " + getPeso() + "\n");
+        consola.imprimir("\tEspacio: " + getEspacio() + "\n");
+        consola.imprimir("\tCuracion: " + getCuracion() + "\n");
+        consola.imprimir("\tNombre: " + getNombre());
+        consola.imprimir("\tDescripcion: " + getDescripcion());
     }
 
 

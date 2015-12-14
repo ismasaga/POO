@@ -7,8 +7,8 @@ import Personajes.Jugador;
  * Esta clase proporciona un medio seguro para obtener el mapa y el personaje de parser.
  */
 public class Juego {
-    Mapa mapa = null;
-    Jugador personaje = null;
+    private Mapa mapa = null;
+    private Jugador personaje = null;
 
     public Mapa getMapa() {
         return mapa;

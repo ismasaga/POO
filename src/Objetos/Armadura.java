@@ -1,10 +1,11 @@
 package Objetos;
-
 import Excepciones.InusableException;
 import Personajes.Personaje;
+import Juego.*;
 
 public class Armadura extends Objeto{
     private int incrVida, incrEnergia, defensa;
+    private Consola consola = new ConsolaNormal();
 
     public Armadura() {
         setNombre("desconocida");
@@ -76,19 +77,18 @@ public class Armadura extends Objeto{
      * Proporciona informacion sobre la armadura
      */
     public void info() {
-        System.out.println("Armadura:");
-        System.out.println("\tNombre: " + getNombre());
-        System.out.println("\tDefensa: " + getDefensa());
-        System.out.println("\tEspacio: " + getEspacio());
-        System.out.println("\tPeso: " + getPeso());
-        System.out.println("\tDefensa: " + getDefensa());
-        System.out.println("\tIncremento de energia: " + getIncrEnergia());
-        System.out.println("\tIncremento de vida: " + getIncrVida());
-        System.out.println("\tDescripción: " + getDescripcion());
+        consola.imprimir("Armadura:");
+        consola.imprimir("\tNombre: " + getNombre());
+        consola.imprimir("\tDefensa: " + getDefensa());
+        consola.imprimir("\tEspacio: " + getEspacio());
+        consola.imprimir("\tPeso: " + getPeso());
+        consola.imprimir("\tDefensa: " + getDefensa());
+        consola.imprimir("\tIncremento de energia: " + getIncrEnergia());
+        consola.imprimir("\tIncremento de vida: " + getIncrVida());
+        consola.imprimir("\tDescripción: " + getDescripcion());
     }
 
     public void usar(Personaje personaje) throws InusableException{
-        //TODO: tirar una excepción como dios manda.
         throw new InusableException("armadura");
     }
 

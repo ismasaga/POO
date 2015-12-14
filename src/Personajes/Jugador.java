@@ -79,7 +79,7 @@ public abstract  class Jugador extends Personaje {
                 celdaJ <= j + getRangoVision()))
             celda = mapa.getCelda(celdaI, celdaJ);
 
-        System.out.println("Got celda: " + celdaI + "," + celdaJ + "!=null " + (celda != null));
+        consola.imprimir("Got celda: " + celdaI + "," + celdaJ + "!=null " + (celda != null));
         if (celda == null) {
             throw new SegmentationFaultException();
         }
@@ -191,7 +191,7 @@ public abstract  class Jugador extends Personaje {
             }
         }
         for (int i = 0; i < arrayEnemigos.size(); i++) {
-            arrayEnemigos.get(i).mover(mapa, arrayPos.get(i)[0], arrayPos.get(i)[1], personaje);
+            arrayEnemigos.get(i).ia(mapa, personaje);
         }
     }
 }
