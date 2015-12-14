@@ -3,7 +3,7 @@ package Personajes;
 import Juego.*;
 import Objetos.*;
 import java.awt.*;
-public class LightFloater extends Floater{
+public final class LightFloater extends Floater{
     public LightFloater(Mapa mapa, Point punto, String nombre, int vidaMaxAct, int energiaMaxAct) {
         super(mapa,punto,nombre,vidaMaxAct,energiaMaxAct);
     }

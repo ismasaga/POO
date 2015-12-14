@@ -12,7 +12,7 @@ import java.util.Random;
  * setMapa() non implementado para evita que se cambie o mapa dun persoaxe unha vez foi creado
  */
 
-public class Personaje {
+public abstract class Personaje {
     private String nombre;
     private int vidaMaxima, vidaActual;
     private int energiaMaxima, energiaActual;

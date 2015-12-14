@@ -163,6 +163,7 @@ public abstract  class Jugador extends Personaje {
      * Este método si comprueba que se sueltan las pertenencias de los enemigos que se matan
      */
     public abstract void atacar(Celda celda) throws InsuficienteEnergiaException;
+    public abstract void atacar(Personaje personaje) throws InsuficienteEnergiaException;
 
 
     public void pasar(Mapa mapa, Personaje personaje) {

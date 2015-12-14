@@ -1,10 +1,7 @@
 package Personajes;
 
 import Excepciones.*;
-import Juego.Celda;
-import Juego.Consola;
-import Juego.ConsolaNormal;
-import Juego.Mapa;
+import Juego.*;
 import Objetos.Arma;
 import Objetos.Objeto;
 
@@ -154,9 +151,9 @@ public final class Marine extends Jugador {
         int ataqueEjecutado;
 
         if (prob > 0.25) { //No es critico
-            ataqueEjecutado = (int)(correcccionAtaque * getAtaque() * 20 / personaje.getArmadura().getDefensa());
+            ataqueEjecutado = (int)(correcccionAtaque * getAtaque() * Constantes.REDUCCION_ARMADURA / personaje.getArmadura().getDefensa());
         } else { //Golpe critico
-            ataqueEjecutado = (int)(correcccionAtaque * 2 * (getAtaque() * 20 / personaje.getArmadura().getDefensa()));
+            ataqueEjecutado = (int)(correcccionAtaque * 2 * (getAtaque() * Constantes.REDUCCION_ARMADURA / personaje.getArmadura().getDefensa()));
             consola.imprimir("CR1T 1N Y0U8 F4C3");
         }
         if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo
@@ -193,10 +190,10 @@ public final class Marine extends Jugador {
             //Ahora hay que dividir el daño del personaje entre todos los enemigos
             if (prob > 0.25) //No es crítico
             {
-                ataqueEjecutado = ((int)(correcccionAtaque * getAtaque() / celda.getEnemigo().size()) * 20 / enemigo.getArmadura().getDefensa());
+                ataqueEjecutado = ((int)(correcccionAtaque * getAtaque() / celda.getEnemigo().size()) * Constantes.REDUCCION_ARMADURA / enemigo.getArmadura().getDefensa());
             } else //Golpe critico
             {
-                ataqueEjecutado = ((int)(correcccionAtaque * 2 * (getAtaque() / celda.getEnemigo().size())) * 20 / enemigo.getArmadura().getDefensa());
+                ataqueEjecutado = ((int)(correcccionAtaque * 2 * (getAtaque() / celda.getEnemigo().size())) * Constantes.REDUCCION_ARMADURA / enemigo.getArmadura().getDefensa());
                 consola.imprimir("CR1T 1N Y0U8 F4C3");
             }
             if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo

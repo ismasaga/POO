@@ -2,10 +2,7 @@ package Personajes;
 
 import Excepciones.InsuficienteEnergiaException;
 import Excepciones.MoverException;
-import Juego.Celda;
-import Juego.Consola;
-import Juego.ConsolaNormal;
-import Juego.Mapa;
+import Juego.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -135,10 +132,10 @@ public final class Zapador extends Jugador {
             //Ahora hay que dividir el daño del personaje entre todos los enemigos
             if (prob > 0.25) //No es crítico
             {
-                ataqueEjecutado = ((int)(correcccionAtaque * getAtaque() / celda.getEnemigo().size()) * 20 / enemigo.getArmadura().getDefensa());
+                ataqueEjecutado = ((int)(correcccionAtaque * getAtaque() / celda.getEnemigo().size()) * Constantes.REDUCCION_ARMADURA / enemigo.getArmadura().getDefensa());
             } else //Golpe critico
             {
-                ataqueEjecutado = ((int)(correcccionAtaque * 2 * (getAtaque() / celda.getEnemigo().size())) * 20 / enemigo.getArmadura().getDefensa());
+                ataqueEjecutado = ((int)(correcccionAtaque * 2 * (getAtaque() / celda.getEnemigo().size())) * Constantes.REDUCCION_ARMADURA / enemigo.getArmadura().getDefensa());
                 consola.imprimir("CR1T 1N Y0U8 F4C3");
             }
             if (ataqueEjecutado < 0) //No queremos sumar vida al enemigo

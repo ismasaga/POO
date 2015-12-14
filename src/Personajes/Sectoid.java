@@ -3,7 +3,7 @@ package Personajes;
 import Juego.*;
 import java.awt.*;
 import Objetos.*;
-public class Sectoid extends Enemigo{
+public final class Sectoid extends Enemigo{
     public Sectoid(Mapa mapa, Point punto, String nombre, int vidaMaxAct, int energiaMaxAct) {
         super(mapa,punto,nombre,vidaMaxAct,energiaMaxAct);
     }
