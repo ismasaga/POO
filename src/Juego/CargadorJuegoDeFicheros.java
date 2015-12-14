@@ -1,30 +1,38 @@
 package Juego;
 
-import Objetos.Arma;
-import Objetos.Armadura;
-import Objetos.Binocular;
-import Objetos.Botiquin;
-import Personajes.*;
+import Objetos.*;
 
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
-/**
- * Clase auxiliar.
- * Lee un archivo y devuelve el personaje y el mapa creado a partir de el.
- */
-public class Parser {
-    public Bundle Parse(String rutaMapa, String rutaNpcs, String rutaObjetos, Consola consola) {
-        String linea;
-        String[] cadeas;
-        BufferedReader buffer;
-        int[] tamano = new int[2];
-        Arma armaMasBuena;
-        Mapa mapa;
-        Jugador personaje = null;
-        Bundle bundle = new Bundle();
+import Personajes.*;
 
+/**
+ * Created by efren on 14/12/15.
+ */
+public class CargadorJuegoDeFicheros implements CargadorJuego{
+    String linea;
+    String[] cadeas;
+    BufferedReader buffer;
+    int[] tamano = new int[2];
+    Arma armaMasBuena;
+    Mapa mapa;
+    Jugador personaje = null;
+    Juego juego = new Juego();
+    Consola consola = new ConsolaNormal();
+    String rutaMapa;
+    String rutaNpcs;
+    String rutaObjetos;
+
+    public CargadorJuegoDeFicheros(String rutaMapa, String rutaNpcs, String rutaObjetos) {
+        this.rutaMapa = rutaMapa;
+        this.rutaNpcs = rutaNpcs;
+        this.rutaObjetos = rutaObjetos;
+    }
+
+    @Override
+    public Juego cargarJuego() {
         //Leo o tamanho que vai ter o mapa
         try {
             buffer = new BufferedReader(new FileReader(new File(rutaMapa)));
@@ -43,14 +51,14 @@ public class Parser {
             } catch (IOException ex) {
                 consola.imprimir("ERROR leyendo el fichero : " + ex);
                 consola.imprimir("Loading defaults");
-                bundle = loadDefault(consola);
-                return bundle;
+                juego = new CargadorJuegoPorDefecto().cargarJuego();
+                return juego;
             }
         } catch (FileNotFoundException ex) {
             consola.imprimir("ERROR abriendo el fichero : " + ex);
             consola.imprimir("Loading defaults");
-            bundle = loadDefault(consola);
-            return bundle;
+            juego = new CargadorJuegoPorDefecto().cargarJuego();
+            return juego;
         }
 
         consola.imprimir("El mapa va a tener : " + tamano[0] + " filas por : " + tamano[1] + " columnas");
@@ -74,14 +82,14 @@ public class Parser {
             } catch (IOException ex) {
                 consola.imprimir("ERROR leyendo el fichero" + ex);
                 consola.imprimir("Loading defaults");
-                bundle = loadDefault(consola);
-                return bundle;
+                juego = new CargadorJuegoPorDefecto().cargarJuego();
+                return juego;
             }
         } catch (FileNotFoundException ex) {
             consola.imprimir("ERROR abriendo el fichero" + ex);
             consola.imprimir("Loading defaults");
-            bundle = loadDefault(consola);
-            return bundle;
+            juego = new CargadorJuegoPorDefecto().cargarJuego();
+            return juego;
         }
 
         /**
@@ -133,14 +141,14 @@ public class Parser {
             } catch (IOException ex) {
                 consola.imprimir("ERROR leyendo el fichero" + ex);
                 consola.imprimir("Loading defaults");
-                bundle = loadDefault(consola);
-                return bundle;
+                juego = new CargadorJuegoPorDefecto().cargarJuego();
+                return juego;
             }
         } catch (FileNotFoundException ex) {
             consola.imprimir("ERROR abriendo el fichero" + ex);
             consola.imprimir("Loading defaults");
-            bundle = loadDefault(consola);
-            return bundle;
+            juego = new CargadorJuegoPorDefecto().cargarJuego();
+            return juego;
         }
 
         //Asegurome de que o persoaxe sempre é creado
@@ -254,78 +262,10 @@ public class Parser {
             System.exit(1);
         }
 
-        bundle.setMapa(mapa);
-        bundle.setPersonaje(personaje);
+        juego.setMapa(mapa);
+        juego.setPersonaje(personaje);
 
-        return bundle;
-    }
-
-    /**
-     * Metodo que carga o xogo por defecto
-     */
-    public Bundle loadDefault (Consola consola) {
-        Mapa mapa = new Mapa(20,20,"Default conlleira");
-
-        Arma armaMala = new Arma("pistolita","pistola pequeña",false,20,1,1);
-        Arma armaBuena = new Arma("pistolón","pistola grande",false,40,2,2);
-        ArrayList<Arma> armas = new ArrayList<>();
-        armas.add(armaBuena);
-        armas.add(armaMala);
-
-        //Arma armaMasBuena = new Arma("bazoka","lanzamisiles 2.0",true,80,1,1);
-        //ArrayList<Arma> armas2 = new ArrayList<>();
-        //armas2.add(armaMasBuena);
-        Armadura armaduraVida = new Armadura("armadura curadora","armadura de vida",10,0,3,5,5);
-        Armadura armaduraEnergy = new Armadura("armadura rapida","armadura de energia",0,10,3,4,4);
-
-        System.out.println(mapa.getDescripcion());
-
-        mapa.getCelda(0,0).anadirObjeto(new Botiquin("botiquin_grande", "botiquin mas grande que tu cabeza", 1, 2, 3));
-        //mapa.getCelda(5,0).setEnemigo(new Enemigo(100, 100, armaMala, null, armaduraEnergy, "desconocido"));
-
-        mapa.getCelda(1,1).anadirObjeto(new Binocular("binoculares","mira a lo lejos",2, 3, 4));
-        mapa.getCelda(6,1).anadirObjeto(new Botiquin("botiquin_grande","botiquin mas grande que tu cabeza", 1, 2, 3));
-
-        //mapa.getCelda(1,2).setEnemigo(new Enemigo(100,100,armaBuena,null,armaduraEnergy,"Fulgensio"));
-        mapa.getCelda(5,2).setTransitable(false);
-
-        mapa.getCelda(3,3).setTransitable(false);
-        //mapa.getCelda(7,3).setEnemigo(new Enemigo(100,100,armas,armaduraVida));
-
-        mapa.getCelda(4,5).anadirObjeto(new Botiquin("botiquin","asf",1, 2, 3));
-        mapa.getCelda(6,5).setTransitable(false);
-
-        mapa.getCelda(1,6).setTransitable(false);
-        mapa.getCelda(7,6).anadirObjeto(new Binocular("binocular","asf",2,3,4));
-
-        //mapa.getCelda(8,7).setEnemigo(new Enemigo(100,100,null,armaBuena,armaduraEnergy,"Enemyger"));
-
-        mapa.getCelda(1,8).anadirObjeto(new Binocular("binocular","asdfx2",2,3,4));
-
-        //mapa.getCelda(3,3).setEnemigo(new Enemigo(100,100,armas,armaduraEnergy));
-
-        Celda celdaActual = mapa.getCelda(5,5);
-        Jugador personaje = null;
-        switch (consola.leer("Que tipo de personaje desea?")) {
-            case "marine":
-                personaje = new Marine(mapa, new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
-                celdaActual.setJugador(personaje);
-                break;
-            case "francotirador":
-                personaje = new Francotirador(mapa, new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
-                celdaActual.setJugador(personaje);
-                break;
-            case "zapador":
-                personaje = new Zapador(mapa, new Point(celdaActual.getPunto()), "Chiquito",1000000,1000000000);
-                celdaActual.setJugador(personaje);
-                break;
-            default:
-                consola.imprimir("Tipo de personaje incorrecto, mire la ayuda para saber mas.");
-        }
-
-        Bundle bundle = new Bundle();
-        bundle.setPersonaje(personaje);
-        bundle.setMapa(mapa);
-        return bundle;
+        return juego;
     }
 }
+

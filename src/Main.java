@@ -1,7 +1,6 @@
 import Excepciones.*;
 import Juego.*;
 import Personajes.Jugador;
-import Personajes.Personaje;
 
 public class Main {
 
@@ -11,11 +10,14 @@ public class Main {
         Mapa mapa;
         Jugador personaje = null;
         ConsolaNormal consola = new ConsolaNormal();
-        Parser parser = new Parser();
-        Bundle bundle = new Bundle();
-        bundle = parser.Parse("src/Juego/mapa.csv", "src/Juego/npcs.csv", "src/Juego/objetos.csv",consola);
-        mapa = bundle.getMapa();
-        personaje = bundle.getPersonaje();
+        Juego juego;
+        String input = consola.leer("Juego por defecto o de ficheros (defecto/ficheros)");
+        if(input.equals("ficheros"))
+            juego = new CargadorJuegoDeFicheros("src/Juego/mapa.csv", "src/Juego/npcs.csv", "src/Juego/objetos.csv").cargarJuego();
+        else
+            juego = new CargadorJuegoPorDefecto().cargarJuego();
+        mapa = juego.getMapa();
+        personaje = juego.getPersonaje();
         /**
          * Colores para terminal
          */
@@ -226,13 +228,13 @@ public class Main {
                         else
                             consola.imprimirError("Comando mal introducido, consulte la ayuda para saber mas.");
                         break;
-                    /*case "cargar":
+                    case "cargar":
                         if (cadeas.length == 2) {
-                            bundle = parser.Parse(cadeas[1] + "/mapa.csv", cadeas[1] + "/npcs.csv", cadeas[1] + "/objetos.csv");
-                            personaje = bundle.getPersonaje();
-                            mapa = bundle.getMapa();
+                            juego = new CargadorJuegoDeFicheros(cadeas[1] + "/mapa.csv", cadeas[1] + "/npcs.csv", cadeas[1] + "/objetos.csv").cargarJuego();
+                            personaje = juego.getPersonaje();
+                            mapa = juego.getMapa();
                         }
-                        break;*/
+                        break;
                     default:
                         consola.imprimirError("La opción seleccionada no existe, seleccione ayuda para saber más");
                 }
