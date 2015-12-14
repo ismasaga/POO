@@ -93,7 +93,12 @@ public class Main {
                         break;
                     case "mover":
                         try {
-                            new ComandoMover(mapa, personaje, cadeas[1].charAt(0)).ejecutar();
+                            if(cadeas.length == 2)
+                                new ComandoMover(mapa, personaje, cadeas[1].charAt(0)).ejecutar();
+                            else if(cadeas.length == 3)
+                                new ComandoRepetido(new ComandoMover(mapa, personaje, cadeas[1].charAt(0)),Integer.parseInt(cadeas[2])).ejecutar();
+                            else
+                                consola.imprimirError("Comando mover mal introducido, mire la ayuda para saber mas");
                         } catch (ComandoException e) {
                             consola.imprimirError("Error de comando : "+e.getMessage());
                         } catch (ArrayIndexOutOfBoundsException e) {
@@ -103,10 +108,11 @@ public class Main {
                             consola.imprimirError("Error moviendo : "+e.getMessage());
                         } catch (InsuficienteEnergiaException e) {
                             consola.imprimirError("Error de energia : "+e.getMessage());
+                        } catch(SegmentationFaultException | FueraDeRangoException | EspacioMaximoException | PesoMaximoException e) {
+                            consola.imprimir(e.getMessage());
                         }
                         break;
                     case "mirar":
-                        //Obtiene informacion de la propia casilla
                         try {
                             new ComandoMirar(mapa, personaje, sel).ejecutar();
                         }catch(SegmentationFaultException | FueraDeRangoException | ComandoException ex) {
@@ -115,20 +121,29 @@ public class Main {
                         break;
                     case "atacar":
                         try {
-                            new ComandoAtacar(mapa, personaje, sel).ejecutar();
-                        }catch (ComandoException | InsuficienteEnergiaException e) {
+                            ComandoRepetido cR;
+                            ComandoCompuesto c;
+                            if(cadeas.length >= 4 && cadeas[2].length() > 2) { //Se o segundo parémetro é o nome dun inimigo
+                                c = new ComandoCompuesto();
+                                for (int i = 2; i < cadeas.length;i++)
+                                    c.addComando(new ComandoAtacar(mapa,personaje,cadeas[0]+" "+cadeas[1]+" "+cadeas[i]));
+                                c.ejecutar();
+                            } else if(cadeas.length > 4) { //Se o segundo parametro e unha coordenada pero hay mais dun nome de inimigo
+                                c = new ComandoCompuesto();
+                                for (int i = 3; i < cadeas.length; i++)
+                                    c.addComando(new ComandoAtacar(mapa, personaje, cadeas[0] + " " + cadeas[1] + " " + cadeas[2] + " " + cadeas[i]));
+                                if(cadeas[cadeas.length-1].length() == 1) { // Se termina en numero e un ComandoRepetido
+                                    cR = new ComandoRepetido(c, Integer.parseInt(cadeas[cadeas.length - 1]));
+                                    cR.ejecutar();
+                                } else
+                                    c.ejecutar();
+                            } else
+                                new ComandoAtacar(mapa, personaje, sel).ejecutar();
+                        }catch (ComandoException | InsuficienteEnergiaException | MoverException | EspacioMaximoException e) {
+                            consola.imprimir(e.getMessage());
+                        } catch (SegmentationFaultException | FueraDeRangoException | PesoMaximoException e) {
                             consola.imprimir(e.getMessage());
                         }
-                        /*
-                        if(cadeas.length == 3 && cadeas[1].length() == 1 && cadeas[2].length() == 1)
-                            personaje.atacar(mapa, Integer.parseInt(cadeas[1]), Integer.parseInt(cadeas[2]),null);
-                        else if(cadeas.length == 4  && cadeas[1].length() == 1 && cadeas[2].length() == 1)
-                            personaje.atacar(mapa, Integer.parseInt(cadeas[1]), Integer.parseInt(cadeas[2]), cadeas[3]);
-                            */
-                        /*
-                        else
-                            System.out.println("Formato de comando incorrecto, seleccione ayuda para saber mas");
-                            */
                         break;
                     case "pasar":
                         personaje.pasar(mapa, personaje);

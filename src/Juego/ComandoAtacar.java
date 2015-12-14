@@ -80,7 +80,7 @@ public class ComandoAtacar implements Comando {
 
     @Override
     public void ejecutar() throws ComandoException, InsuficienteEnergiaException {
-        Consola consola = new ConsolaNormal();
+        ConsolaNormal consola = new ConsolaNormal();
         int i = personaje.getPunto().x;
         int j = personaje.getPunto().y;
         int componenteI = 0;
@@ -165,16 +165,19 @@ public class ComandoAtacar implements Comando {
             (personaje).atacar(celdaObtenida);
         }
         else {
-            for (Enemigo enemigo : celdaObtenida.getEnemigo()) {
-                if (enemigo.getNombre().equals(nombre)) {
-                    personaje.atacar(enemigo);
-                    if (enemigo.getVidaActual() <= 0) {
-                        consola.imprimir("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
-                        enemigo.soltarObjetos(celdaObtenida);
+            if(celdaObtenida.getEnemigo().isEmpty())
+                consola.imprimirError("No existen enemigos en esta celda");
+            else
+                for (Enemigo enemigo : celdaObtenida.getEnemigo()) {
+                    if (enemigo.getNombre().equals(nombre)) {
+                        personaje.atacar(enemigo);
+                        if (enemigo.getVidaActual() <= 0) {
+                            consola.imprimir("El enemigo " + enemigo.getNombre() + " ha sido abatido.");
+                            enemigo.soltarObjetos(celdaObtenida);
+                        }
+                        return;
                     }
-                    return;
                 }
-            }
         }
     }
 }

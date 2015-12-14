@@ -1,19 +1,34 @@
 package Juego;
 
 import Excepciones.*;
-import Personajes.*;
-
-import java.awt.*;
 import java.util.ArrayList;
 
-public class ComandoCompuesto implements Comando{
+public class ComandoCompuesto implements Comando {
 
     private ArrayList<Comando> arrayComandos = new ArrayList<>();
+    ConsolaNormal consola = new ConsolaNormal();
 
     @Override
     public void ejecutar() throws ComandoException, MoverException, InsuficienteEnergiaException, SegmentationFaultException, FueraDeRangoException, EspacioMaximoException, PesoMaximoException {
         for(Comando comando : arrayComandos){
-
+            try {
+                comando.ejecutar();
+            } catch (ComandoException e) {
+                consola.imprimirError("Error de comando : "+e.getMessage());
+            } catch (ArrayIndexOutOfBoundsException e) {
+                consola.imprimirError("Error introduciendo el comando, mire la ayuda");
+                e.printStackTrace();
+            } catch (MoverException e) {
+                consola.imprimirError("Error moviendo : "+e.getMessage());
+            } catch (InsuficienteEnergiaException e) {
+                consola.imprimirError("Error de energia : "+e.getMessage());
+            } catch(SegmentationFaultException | FueraDeRangoException ex) {
+                consola.imprimir(ex.getMessage());
+            } catch (PesoMaximoException | EspacioMaximoException e){
+                consola.imprimir(e.getMessage());
+            } catch (ObjetoException e) {
+                consola.imprimirError("Error de objeto : "+e.getMessage());
+            }
         }
     }
 
