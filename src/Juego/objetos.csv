@@ -11,6 +11,8 @@
 1,0;.;arma;pistola_2;una pistola básica con mirilla;30;4;1;1
 1,0;.;arma;escopeta_1;una escopeta recortada;60;2;2;3
 1,0;.;arma;escopeta_2;una escopeta recortada;60;2;2;3
+1,0;.;arma;explosivos;bombas a gogó;60;2;2;3
+1,0;.;torito;torito_bravo;redbull de da aaalas;30
 
 # armadura: celda, portador, tipo, nombre, descripcion, defensa, +salud, +energia, peso
 1,3;.;armadura;chaleco_1;un chaleco básico;50;10;10;4

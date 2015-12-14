@@ -48,9 +48,9 @@ public class Torito extends Objeto{
     {
         Consola consola = new ConsolaNormal();
         consola.imprimir("Nombre: " + getNombre());
-        consola.imprimir("Descripcion: " + getDescripcion());
-        consola.imprimir("Espacio: " + getEspacio());
-        consola.imprimir("Peso: " + getPeso());
-        consola.imprimir("Incremento de energia: " + getIncrementoEnergia());
+        consola.imprimir("\tDescripcion: " + getDescripcion());
+        consola.imprimir("\tEspacio: " + getEspacio());
+        consola.imprimir("\tPeso: " + getPeso());
+        consola.imprimir("\tIncremento de energia: " + getIncrementoEnergia());
     }
 }

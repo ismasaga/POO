@@ -191,6 +191,9 @@ public class CargadorJuegoDeFicheros implements CargadorJuego{
                                     case "mochila":
                                         consola.imprimir("Non podes deixar unha mochila nunha casilla(Por ahora)");
                                         break;
+                                    case "torito":
+                                        mapa.getCelda(tamano[0], tamano[1]).anadirObjeto(new Torito(cadeas[3],cadeas[4], Integer.parseInt(cadeas[5])));
+                                        break;
                                     default:
                                         consola.imprimir("ERROR, objeto desconocido(Por ahora) para una casilla");
                                 }

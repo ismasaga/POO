@@ -614,5 +614,11 @@ public abstract class Personaje {
             else
                 consola.imprimir("No hay armaduras en la mochila.");
         }
+        for (Torito torito : getMochila().getArrayTorito()) {
+            if(torito != null)
+                torito.info();
+            else
+                consola.imprimir("No hay toritos en la mochila");
+        }
     }
 }
